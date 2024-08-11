@@ -29,7 +29,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public UserResponse register(UserRegisterRequest request){
+    public UserResponse register(UserRegisterRequest request) {
         duplicateValidationUserEmail(request.getEmail());
 
         var response = userRepository.save(request.toEntity());
@@ -37,25 +37,22 @@ public class UserService {
         return response.toResponseDto();
     }
 
-    @Async
+
     @Transactional(readOnly = true)
-    public void duplicateValidationUserEmail(String email){
+    public void duplicateValidationUserEmail(String email) {
         userRepository.findByEmail(new Email(email))
                 .ifPresent(member -> {
                     throw new AlreadyExistUserEmailException(ErrorMessage.ALREADY_EXIST_MEMBER_EMAIL_EXCEPTION, "이미 존재하는 이메일 정보입니다");
                 });
     }
 
-    @Async
+
     @Transactional(readOnly = true)
-    public CompletableFuture<UserResponse> read(Long id){
-        UserResponse userResponse = userRepository.findById(id)
+    public UserResponse read(Long id) {
+        return userRepository.findById(id)
                 .orElseThrow(() -> new InvalidIdToFindUserException(ErrorMessage.USER_NOT_FOUND_ERROR, "유저를 찾을 수 없습니다"))
                 .toResponseDto();
-        return CompletableFuture.completedFuture(userResponse);
     }
-
-
 
 
     @Transactional
@@ -68,8 +65,9 @@ public class UserService {
         return user.toResponseDto();
     }
 
+    @Async
     public void loginCheckException(UserDetail detail) {
-        if(detail.getRoleType() == RoleType.USER) {
+        if (detail.getRoleType() == RoleType.USER) {
             throw new LoginTokenNullException(ErrorMessage.NOT_LOGIN_USER_EXCEPTION, "로그인 정보가 없습니다");
         }
     }
@@ -80,12 +78,11 @@ public class UserService {
                 .orElseThrow(() -> new InvalidLoginInfoException(ErrorMessage.INVALID_LOGIN_USER_INFORMATION_EXCEPTION, "잘못된 유저 로그인 정보입니다"));
     }
 
-    @Async
-    public CompletableFuture<List<UserResponse>> readAllUser() {
-        List<UserResponse> users = userRepository.findAll().stream()
+    @Transactional(readOnly = true)
+    public List<UserResponse> readAllUser() {
+        return userRepository.findAll().stream()
                 .map(User::toResponseDto)
                 .collect(Collectors.toList());
-        return CompletableFuture.completedFuture(users);
     }
 
 }
