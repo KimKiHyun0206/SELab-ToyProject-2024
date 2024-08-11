@@ -3,6 +3,7 @@ package com.example.project.user.service;
 import com.example.project.auth.domain.UserDetail;
 import com.example.project.error.dto.ErrorMessage;
 import com.example.project.error.exception.user.AlreadyExistUserEmailException;
+import com.example.project.error.exception.user.InvalidIdToFindUserException;
 import com.example.project.error.exception.user.InvalidLoginInfoException;
 import com.example.project.error.exception.user.LoginTokenNullException;
 import com.example.project.user.domain.User;
@@ -13,6 +14,7 @@ import com.example.project.user.dto.request.UserRegisterRequest;
 import com.example.project.user.dto.request.UserUpdateRequest;
 import com.example.project.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +36,7 @@ public class UserService {
         return response.toResponseDto();
     }
 
+    @Async
     @Transactional(readOnly = true)
     public void duplicateValidationUserEmail(String email){
         userRepository.findByEmail(new Email(email))
@@ -42,9 +45,13 @@ public class UserService {
                 });
     }
 
-    @Transactional
+    @Async
+    @Transactional(readOnly = true)
     public UserResponse read(Long id){
-        return userRepository.findById(id).get().toResponseDto();
+        return userRepository.findById(id).orElseThrow(
+                        () -> new InvalidIdToFindUserException(ErrorMessage.USER_NOT_FOUND_ERROR, " 유저를 찾을 수 없습니다")
+                )
+                .toResponseDto();
     }
 
 
@@ -70,6 +77,7 @@ public class UserService {
                 .orElseThrow(() -> new InvalidLoginInfoException(ErrorMessage.INVALID_LOGIN_USER_INFORMATION_EXCEPTION, "잘못된 유저 로그인 정보입니다"));
     }
 
+    @Async
     public List<UserResponse> readAllUser() {
         return userRepository.findAll().stream()
                 .map(User::toResponseDto)
