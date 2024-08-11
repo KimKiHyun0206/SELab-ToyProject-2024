@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,7 +47,7 @@ public class UserService {
 
 
     @Transactional(readOnly = true)
-    public UserResponse read(Long id) {
+    public UserResponse find(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new InvalidIdToFindUserException(ErrorMessage.USER_NOT_FOUND_ERROR, "유저를 찾을 수 없습니다"))
                 .toResponseDto();
