@@ -60,7 +60,6 @@ public class UserService {
         loginCheckException(detail);
         var user = findByIdFromLogin(detail.getId());
         user.updateUser(request);
-        userRepository.save(user);
 
         return user.toResponseDto();
     }
