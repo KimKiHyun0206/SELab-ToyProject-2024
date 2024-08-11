@@ -27,6 +27,10 @@ server:
     accept-count: 100 # 작업큐의 사이즈
     connection-timeout: 20000 # timeout 판단 기준 시간, 20초
   port: 8080 # 서버를 띄울 포트번호
+  servlet:
+    session:
+      timeout: 1m #테스트 편의성을 위해 1분으로 설정
+
 
 jwt:
   token:
