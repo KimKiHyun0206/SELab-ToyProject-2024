@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,12 +48,14 @@ public class UserService {
 
     @Async
     @Transactional(readOnly = true)
-    public UserResponse read(Long id){
-        return userRepository.findById(id).orElseThrow(
-                        () -> new InvalidIdToFindUserException(ErrorMessage.USER_NOT_FOUND_ERROR, " 유저를 찾을 수 없습니다")
-                )
+    public CompletableFuture<UserResponse> read(Long id){
+        UserResponse userResponse = userRepository.findById(id)
+                .orElseThrow(() -> new InvalidIdToFindUserException(ErrorMessage.USER_NOT_FOUND_ERROR, "유저를 찾을 수 없습니다"))
                 .toResponseDto();
+        return CompletableFuture.completedFuture(userResponse);
     }
+
+
 
 
     @Transactional
@@ -78,9 +81,11 @@ public class UserService {
     }
 
     @Async
-    public List<UserResponse> readAllUser() {
-        return userRepository.findAll().stream()
+    public CompletableFuture<List<UserResponse>> readAllUser() {
+        List<UserResponse> users = userRepository.findAll().stream()
                 .map(User::toResponseDto)
                 .collect(Collectors.toList());
+        return CompletableFuture.completedFuture(users);
     }
+
 }
