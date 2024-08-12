@@ -24,6 +24,7 @@ import java.util.concurrent.ExecutionException;
 public class UserController {
     private final LoginService loginService;
     private final UserService userService;
+    private final LoginAuthService userAuthService;
     private final LoginAuthService loginAuthService;
 
     @GetMapping("/login")
@@ -38,17 +39,19 @@ public class UserController {
     public String login(
             @RequestBody LoginRequest loginRequest,
             Model model,
-            @CookieValue("DigitalLoginCookie") String cookieValue,
+            @CookieValue(value = "DigitalLoginCookie", required = false) String cookieValue,
             HttpServletRequest request,
             HttpServletResponse response
     ) {
         if (cookieValue == null) {    //쿠키가 없는 경우
             try {
                 var userResponse = loginService.login(loginRequest);
-                Cookie cookie = loginAuthService.cookieIssuance(loginRequest);//성공할 시 쿠키 발급
+                Cookie cookie = userAuthService.cookieIssuance(loginRequest); // 성공 시 쿠키 발급
                 response.addCookie(cookie);
-                loginAuthService.sessionRegistration(request, userResponse);         //성공할 시 세션 발급
-                return "/"; //성공할 경우 쿠키를 가지고 메인 페이지로 돌아감
+                userAuthService.sessionRegistration(request, userResponse);   // 성공 시 세션 발급
+                log.info("Login successful");
+                return "redirect:/"; // 성공 시 메인 페이지로 리다이렉트
+
             } catch (InvalidLoginUserIdException e) {
                 log.info(e.getMessage());
                 model.addAttribute("IdError", "입력한 ID " + loginRequest.getUserId() + "가 존재하지 않습니다");
@@ -60,11 +63,15 @@ public class UserController {
                 return "/non-authentication/user/login";
             }
         } else { //쿠키가 있는 경우
-            var userResponse = loginAuthService.checkSession(request, cookieValue);
+            var userResponse = userAuthService.checkSession(request, cookieValue);
+            log.info("request: " + request);
+            log.info("cookieValue: " + cookieValue);
             if (userResponse == null) { //만약 세션과 쿠키가 일치하지 않을 경우
+                log.info("Login failed");
                 return "/non-authentication/user/login";
             }
-            return "/"; //성공할 경우 main 페이지로
+            log.info("Login session successful");
+            return "redirect:/"; //성공할 경우 main 페이지로
         }
     }
 
