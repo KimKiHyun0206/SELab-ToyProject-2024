@@ -14,7 +14,7 @@ import java.util.Base64;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class UserAuthService {
     private final UserService userService;
 
     /**
