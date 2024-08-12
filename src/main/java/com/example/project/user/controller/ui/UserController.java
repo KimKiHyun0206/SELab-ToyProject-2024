@@ -49,7 +49,6 @@ public class UserController {
                 response.addCookie(cookie);
                 loginAuthService.sessionRegistration(request, userResponse);         //성공할 시 세션 발급
                 return "/"; //성공할 경우 쿠키를 가지고 메인 페이지로 돌아감
-
             } catch (InvalidLoginUserIdException e) {
                 log.info(e.getMessage());
                 model.addAttribute("IdError", "입력한 ID " + loginRequest.getUserId() + "가 존재하지 않습니다");
