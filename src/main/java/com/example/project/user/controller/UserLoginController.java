@@ -66,9 +66,10 @@ public class UserLoginController {
             if (userResponse == null) { //만약 세션과 쿠키가 일치하지 않을 경우
                 log.info("Login failed");
                 response.sendRedirect("http://localhost:8080/user/login");
+            }else {
+                log.info("Login session successful");
+                response.sendRedirect("http://localhost:8080/"); //성공할 경우 main 페이지로
             }
-            log.info("Login session successful");
-            response.sendRedirect("http://localhost:8080/"); //성공할 경우 main 페이지로
         }
     }
 
