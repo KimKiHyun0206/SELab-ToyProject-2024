@@ -62,6 +62,7 @@ public class UserController {
                 return "/non-authentication/user/login";
             }
             Cookie cookie = loginAuthService.cookieIssuance(loginRequest);//성공할 시 쿠키 발급
+            response.addCookie(cookie);
             return "/"; //성공할 경우 main 페이지로
         }
     }
