@@ -8,10 +8,12 @@ import com.example.project.user.dto.UserResponse;
 import com.example.project.user.dto.login.LoginRequest;
 import com.example.project.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LoginService {
@@ -26,7 +28,8 @@ public class LoginService {
                     throw new InvalidLoginUserIdException(ErrorMessage.INVALID_ID_TO_LOGIN, "ID로 유저를 찾을 수 없습니다");
                 }
         );
-
+        log.info("입력된 password {}",passwordEncoder.encode(request.getPassword()));
+        log.info("데이터베이스에 저장된 password {}",user.getPassword());
         if (passwordEncoder.matches(request.getPassword(), user.getPassword())){
             return user.toResponseDto();
         }else throw new InvalidLoginPasswordException(ErrorMessage.INVALID_PASSWORD_TO_LOGIN,"PASSWORD가 일치하지 않습니다");
