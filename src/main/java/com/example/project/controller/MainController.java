@@ -4,6 +4,7 @@ import com.example.project.dto.LoginForm;
 import com.example.project.dto.SignupForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -33,8 +34,9 @@ public class MainController {
         return "authentication/solution/solution_list";
     }
 
-    @RequestMapping("/my-page")
-    public String myPage(){
+    @RequestMapping("/my-page/{id}")
+    public String myPage(@PathVariable String id, Model model){
+        model.addAttribute("id",id);
         return "authentication/user/my_page";
     }
 }

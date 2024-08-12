@@ -1,10 +1,10 @@
 package com.example.project.controller;
 
-import ch.qos.logback.core.model.Model;
 import com.example.project.dto.LoginForm;
 import com.example.project.dto.SignupForm;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,4 +31,6 @@ public class ApiController {
 
         response.sendRedirect("http://localhost:8080");
     }
+
+
 }
