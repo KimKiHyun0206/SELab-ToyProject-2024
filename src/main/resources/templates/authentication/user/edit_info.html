@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Info</title>
+</head>
+<body>
+<form th:action="@{/api/user/info/edit/${UserInfo.id}}" th:object="${UpdateRequest}" method="post">
+
+    <p>UserID</p>
+    <input type="text" th:field="${UpdateRequest.userId}" th:placeholder="${UserInfo.userId}" id="userId" required>
+
+    <p>Password</p>
+    <input type="text" th:field="${UpdateRequest.userId}" th:placeholder="${UserInfo.password}" id="password"
+           required>
+
+    <p>Name</p>
+    <input type="text" th:field="${UpdateRequest.userId}" th:placeholder="${UserInfo.name}" id="name" required>
+
+
+    <p>Email</p>
+    <input type="text" th:field="${UpdateRequest.userId}" th:placeholder="${UserInfo.email}" id="email" required>
+    <br>
+    <input type="submit" value="회원가입">
+</form>
+
+</body>
+</html>

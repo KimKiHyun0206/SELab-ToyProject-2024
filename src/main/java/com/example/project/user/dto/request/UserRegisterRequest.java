@@ -1,19 +1,21 @@
 package com.example.project.user.dto.request;
 
+import com.example.project.error.exception.user.InvalidPasswordMatchException;
 import com.example.project.restrictions.RegisterRequest;
 import com.example.project.user.domain.User;
 import com.example.project.user.domain.vo.RoleType;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 public class UserRegisterRequest implements RegisterRequest<User> {
     @NotNull
     private String userId;
     @NotNull
     private String password;
+
+    @NotNull
+    private String repeatPassword;
     @NotNull
     private String name;
     @NotNull
@@ -29,5 +31,9 @@ public class UserRegisterRequest implements RegisterRequest<User> {
                 .point(0L)
                 .roleType(RoleType.USER)
                 .build();
+    }
+
+    private void matchingPassword(){
+        if(!this.password.equals(this.repeatPassword)) throw new InvalidPasswordMatchException()
     }
 }

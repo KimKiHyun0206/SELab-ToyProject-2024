@@ -1,0 +1,39 @@
+package com.example.project.user.controller;
+
+import com.example.project.user.dto.UserResponse;
+import com.example.project.user.dto.login.LoginRequest;
+import com.example.project.user.dto.request.UserRegisterRequest;
+import com.example.project.user.service.LoginAuthService;
+import com.example.project.user.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
+
+@Slf4j
+@RestController
+@RequestMapping("/api/user/register")
+@RequiredArgsConstructor
+public class UserRegisterController {
+    private final UserService userService;
+    private final LoginAuthService loginAuthService;
+
+    @PostMapping
+    public void register(
+            @RequestBody UserRegisterRequest userRegisterRequest,
+            HttpServletResponse response,
+            HttpServletRequest request
+    ) throws IOException {
+        UserResponse register = userService.register(userRegisterRequest);
+        loginAuthService.cookieIssuance(new LoginRequest(register.getUserId(), register.getPassword()));
+        loginAuthService.sessionRegistration(request, register);
+
+        response.sendRedirect("localhost:8080/");
+    }
+}
