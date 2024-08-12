@@ -61,6 +61,7 @@ public class UserController {
             if (userResponse == null) { //만약 세션과 쿠키가 일치하지 않을 경우
                 return "/non-authentication/user/login";
             }
+            Cookie cookie = loginAuthService.cookieIssuance(loginRequest);//성공할 시 쿠키 발급
             return "/"; //성공할 경우 main 페이지로
         }
     }
