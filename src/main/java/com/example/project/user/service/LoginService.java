@@ -28,8 +28,10 @@ public class LoginService {
                     throw new InvalidLoginUserIdException(ErrorMessage.INVALID_ID_TO_LOGIN, "ID로 유저를 찾을 수 없습니다");
                 }
         );
+
         log.info("입력된 password {}",passwordEncoder.encode(request.getPassword()));
         log.info("데이터베이스에 저장된 password {}",user.getPassword());
+
         if (passwordEncoder.matches(request.getPassword(), user.getPassword())){
             return user.toResponseDto();
         }else throw new InvalidLoginPasswordException(ErrorMessage.INVALID_PASSWORD_TO_LOGIN,"PASSWORD가 일치하지 않습니다");

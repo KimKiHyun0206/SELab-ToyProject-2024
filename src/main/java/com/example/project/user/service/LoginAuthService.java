@@ -32,7 +32,6 @@ public class LoginAuthService {
         return null;
     }
 
-    @Async
     public void sessionRegistration(HttpServletRequest request, UserResponse response) {
         HttpSession session = request.getSession(true);
         session.setAttribute(Base64.getEncoder().encodeToString(response.getUserId().getBytes()), response.getId());
