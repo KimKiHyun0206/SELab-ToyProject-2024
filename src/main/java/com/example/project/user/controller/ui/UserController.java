@@ -49,10 +49,14 @@ public class UserController {
                 response.addCookie(cookie);
                 loginAuthService.sessionRegistration(request, userResponse);         //성공할 시 세션 발급
                 return "/"; //성공할 경우 쿠키를 가지고 메인 페이지로 돌아감
+
             } catch (InvalidLoginUserIdException e) {
+                log.info(e.getMessage());
                 model.addAttribute("IdError", "입력한 ID " + loginRequest.getUserId() + "가 존재하지 않습니다");
                 return "/non-authentication/user/login";
+
             } catch (InvalidLoginPasswordException e) {
+                log.info(e.getMessage());
                 model.addAttribute("PasswordError", "입력한 PASSWORD " + loginRequest.getPassword() + "가 존재하지 않습니다");
                 return "/non-authentication/user/login";
             }
@@ -61,8 +65,6 @@ public class UserController {
             if (userResponse == null) { //만약 세션과 쿠키가 일치하지 않을 경우
                 return "/non-authentication/user/login";
             }
-            Cookie cookie = loginAuthService.cookieIssuance(loginRequest);//성공할 시 쿠키 발급
-            response.addCookie(cookie);
             return "/"; //성공할 경우 main 페이지로
         }
     }
