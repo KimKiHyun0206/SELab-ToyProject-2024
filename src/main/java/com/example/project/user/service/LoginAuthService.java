@@ -22,7 +22,7 @@ public class LoginAuthService {
      */
 
     public UserResponse checkSession(HttpServletRequest request, String cookieValue) {
-        HttpSession session = request.getSession(false);    // Session이 있으면 가져오고 없으면 null return
+        HttpSession session = request.getSession(true);    // Session이 있으면 가져오고 없으면 null return
         Long attribute = (Long) session.getAttribute(
                 Base64.getEncoder().encodeToString(cookieValue.getBytes())
         );
