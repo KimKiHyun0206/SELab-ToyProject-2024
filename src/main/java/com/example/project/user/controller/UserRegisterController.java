@@ -9,10 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -26,14 +24,16 @@ public class UserRegisterController {
 
     @PostMapping
     public void register(
-            @RequestBody UserRegisterRequest userRegisterRequest,
+            UserRegisterRequest userRegisterRequest,
             HttpServletResponse response,
             HttpServletRequest request
     ) throws IOException {
+        log.info("User Register Request {}", userRegisterRequest.getUserId());
+
         UserResponse register = userService.register(userRegisterRequest);
         loginAuthService.cookieIssuance(new LoginRequest(register.getUserId(), register.getPassword()));
         loginAuthService.sessionRegistration(request, register);
 
-        response.sendRedirect("localhost:8080/");
+        response.sendRedirect("http://localhost:8080/");
     }
 }

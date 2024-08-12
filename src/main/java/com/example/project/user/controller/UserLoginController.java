@@ -20,7 +20,8 @@ import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
-@RestController(value = "/user")
+@RestController
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserLoginController {
     private final LoginService loginService;
@@ -30,12 +31,15 @@ public class UserLoginController {
 
     @PostMapping("/login")
     public void login(
-            @RequestBody LoginRequest loginRequest,
+            LoginRequest loginRequest,
             Model model,
             @CookieValue(value = "DigitalLoginCookie", required = false) String cookieValue,
             HttpServletRequest request,
             HttpServletResponse response
     ) throws IOException {
+        log.info("id : {}, password : {}",loginRequest.getUserId(), loginRequest.getPassword());
+
+
         if (cookieValue == null) {    //쿠키가 없는 경우
             try {
                 var userResponse = loginService.login(loginRequest);
@@ -43,17 +47,17 @@ public class UserLoginController {
                 response.addCookie(cookie);
                 userAuthService.sessionRegistration(request, userResponse);   // 성공 시 세션 발급
                 log.info("Login successful");
-                response.sendRedirect("/localhost:8080"); // 성공 시 메인 페이지로 리다이렉트
+                response.sendRedirect("http://localhost:8080/"); // 성공 시 메인 페이지로 리다이렉트
 
             } catch (InvalidLoginUserIdException e) {
                 log.info(e.getMessage());
                 model.addAttribute("IdError", "입력한 ID " + loginRequest.getUserId() + "가 존재하지 않습니다");
-                response.sendRedirect("/localhost:8080/user/login");
+                response.sendRedirect("http://localhost:8080/user/login");
 
             } catch (InvalidLoginPasswordException e) {
                 log.info(e.getMessage());
                 model.addAttribute("PasswordError", "입력한 PASSWORD " + loginRequest.getPassword() + "가 존재하지 않습니다");
-                response.sendRedirect("/localhost:8080/user/login");
+                response.sendRedirect("http://localhost:8080/user/login");
             }
         } else { //쿠키가 있는 경우
             var userResponse = userAuthService.checkSession(request, cookieValue);
@@ -61,10 +65,10 @@ public class UserLoginController {
             log.info("cookieValue: " + cookieValue);
             if (userResponse == null) { //만약 세션과 쿠키가 일치하지 않을 경우
                 log.info("Login failed");
-                response.sendRedirect("/localhost:8080/user/login");
+                response.sendRedirect("http://localhost:8080/user/login");
             }
             log.info("Login session successful");
-            response.sendRedirect("/localhost:8080"); //성공할 경우 main 페이지로
+            response.sendRedirect("http://localhost:8080/"); //성공할 경우 main 페이지로
         }
     }
 

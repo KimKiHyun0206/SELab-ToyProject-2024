@@ -37,7 +37,7 @@ public class UserController {
             @CookieValue(value = "DigitalLoginCookie", required = false) String cookieValue,
             HttpServletRequest request
     ) {
-        if (cookieValue == null) return "/";
+        if (cookieValue == null) return "";
 
         UserResponse userResponse = loginAuthService.checkSession(request, cookieValue);
         model.addAttribute("UserInfo", userResponse);
@@ -50,7 +50,7 @@ public class UserController {
             @CookieValue(value = "DigitalLoginCookie", required = false) String cookieValue,
             HttpServletRequest request
     ) {
-        if (cookieValue == null) return "/";
+        if (cookieValue == null) return "";
 
         UserResponse userResponse = loginAuthService.checkSession(request, cookieValue);
         model.addAttribute("UserInfo", userResponse);

@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>회원가입</h1>
-<form th:action="@{/signup}" th:object="${request}" method="post">
+<form th:action="@{/api/user/register}" th:object="${request}" method="post">
     <input type="text" th:field="*{userId}" placeholder="아이디 입력" id="userId" required>
     <br>
     <input type="password" th:field="*{password}" placeholder="비밀번호 입력" id="password" required>

@@ -1,5 +1,6 @@
 package com.example.project.user.dto.request;
 
+import com.example.project.error.dto.ErrorMessage;
 import com.example.project.error.exception.user.InvalidPasswordMatchException;
 import com.example.project.restrictions.RegisterRequest;
 import com.example.project.user.domain.User;
@@ -13,7 +14,6 @@ public class UserRegisterRequest implements RegisterRequest<User> {
     private String userId;
     @NotNull
     private String password;
-
     @NotNull
     private String repeatPassword;
     @NotNull
@@ -34,6 +34,6 @@ public class UserRegisterRequest implements RegisterRequest<User> {
     }
 
     private void matchingPassword(){
-        if(!this.password.equals(this.repeatPassword)) throw new InvalidPasswordMatchException()
+        if(!this.password.equals(this.repeatPassword)) throw new InvalidPasswordMatchException(ErrorMessage.INVALID_PASSWORD_MATCH_TO_REGISTER_EXCEPTION, "회원가입을 하기 위한 비밀번호가 일치하지 않습니다");
     }
 }

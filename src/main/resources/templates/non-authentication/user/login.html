@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1>로그인</h1>
-<form class="login" th:action="@{/login}" th:object="${LoginRequest}" method="post" id="loginForm">
+<form class="login" th:action="@{/api/user/login}" th:object="${LoginRequest}" method="post" id="loginForm">
     <input type="text" th:field="*{userId}" placeholder="아이디" id="userId" required>
     <p th:text="${IdError}"></p>
     <input type="password" th:field="*{password}" placeholder="비밀번호" id="password" required>
