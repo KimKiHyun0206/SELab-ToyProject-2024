@@ -1,26 +1,40 @@
 package com.example.project.controller;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.extern.slf4j.Slf4j;
+import com.example.project.dto.LoginForm;
+import com.example.project.dto.SignupForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-@Slf4j
 @Controller
 public class MainController {
 
-    @GetMapping("/main")
-    public String mainPage(Model model, HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
+    @RequestMapping
+    public String main(){
+        return "main";
+    }
 
-        model.addAttribute("numberOfSolution",1);
-        model.addAttribute("ableToSolve", 2);
-        model.addAttribute("ableToGrading",2);
+    @RequestMapping("/signup")
+    public String signup(Model model){
+        model.addAttribute("signupForm", new SignupForm());
+        return "non-authentication/user/signup";
+    }
 
-        return "login/before/main";
+    @RequestMapping("/login")
+    public String login(Model model){
+        model.addAttribute("loginForm", new LoginForm());
+        return "non-authentication/user/login";
     }
 
 
+    @RequestMapping("/solution-list")
+    public String solutionList(){
+        return "authentication/solution/solution_list";
+    }
+
+    @RequestMapping("/my-page")
+    public String myPage(){
+        return "authentication/user/my_page";
+    }
 }
