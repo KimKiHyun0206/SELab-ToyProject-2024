@@ -3,7 +3,7 @@ package com.example.project.solution.domain;
 import com.example.project.common.BaseEntity;
 import com.example.project.restrictions.Domain;
 import com.example.project.solution.domain.vo.Difficulty;
-import com.example.project.solution.dto.SolutionResponse;
+import com.example.project.solution.dto.response.SolutionResponse;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

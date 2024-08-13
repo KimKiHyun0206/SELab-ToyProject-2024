@@ -1,8 +1,7 @@
 package com.example.project.solution.service;
 
 import com.example.project.solution.domain.SolutionRecord;
-import com.example.project.solution.dto.SolutionRecordResponse;
-import com.example.project.solution.dto.SolutionResponse;
+import com.example.project.solution.dto.response.SolutionRecordResponse;
 import com.example.project.solution.dto.request.record.SolutionRecordRegisterRequest;
 import com.example.project.solution.repository.SolutionRecordRepository;
 import lombok.RequiredArgsConstructor;

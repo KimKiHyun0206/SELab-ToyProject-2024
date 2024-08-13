@@ -1,6 +1,6 @@
 package com.example.project.solution.service;
 
-import com.example.project.solution.dto.SolutionResponse;
+import com.example.project.solution.dto.response.SolutionResponse;
 import com.example.project.solution.dto.request.user.SolutionFindRequest;
 import com.example.project.solution.domain.Solution;
 import com.example.project.error.exception.solution.SolutionException;

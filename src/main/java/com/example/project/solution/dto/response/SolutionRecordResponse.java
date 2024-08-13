@@ -1,4 +1,4 @@
-package com.example.project.solution.dto;
+package com.example.project.solution.dto.response;
 
 import com.example.project.restrictions.ResponseDto;
 import com.example.project.solution.domain.SolutionRecord;

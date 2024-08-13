@@ -2,7 +2,7 @@ package com.example.project.solution.domain;
 
 import com.example.project.common.BaseEntity;
 import com.example.project.restrictions.Domain;
-import com.example.project.solution.dto.SolutionRecordResponse;
+import com.example.project.solution.dto.response.SolutionRecordResponse;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

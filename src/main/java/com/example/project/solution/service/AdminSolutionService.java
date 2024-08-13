@@ -1,6 +1,6 @@
 package com.example.project.solution.service;
 
-import com.example.project.solution.dto.SolutionResponse;
+import com.example.project.solution.dto.response.SolutionResponse;
 import com.example.project.solution.dto.request.admin.SolutionDeleteRequest;
 import com.example.project.solution.dto.request.admin.SolutionRegisterRequest;
 import com.example.project.solution.dto.request.admin.update.SolutionContextUpdateRequest;

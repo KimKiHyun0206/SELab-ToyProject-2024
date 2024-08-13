@@ -2,7 +2,7 @@ package com.example.project.solution.controller;
 
 import com.example.project.common.dto.ResponseDto;
 import com.example.project.common.dto.ResponseMessage;
-import com.example.project.solution.dto.SolutionResponse;
+import com.example.project.solution.dto.response.SolutionResponse;
 import com.example.project.solution.dto.request.admin.SolutionDeleteRequest;
 import com.example.project.solution.dto.request.admin.SolutionRegisterRequest;
 import com.example.project.solution.dto.request.admin.update.SolutionContextUpdateRequest;
