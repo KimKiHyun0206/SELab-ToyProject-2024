@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>문제 리스트</title>
 </head>
 <body>
 
+<table>
+    <tr th:each=" solution : ${solutionList}">
+        <td><a th:href="@{/solution/solve/(id=${solution.id})}" th:text="${solution.title}">solutionId</a></td>
+        <td th:text="${solution.difficulty}">Solution Difficulty</td>
+        <td th:text="${solution.solved}">푼 사람 수</td>
+    </tr>
+</table>
 </body>
 </html>

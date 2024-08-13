@@ -40,12 +40,11 @@ public class UserSolutionController {
     }
 
     /**
-     * @param request : Solution에 대한 정보를 찾는 요청을 하는 dto
      * @return SolutionResponse : 찾은 문제에 대한 정보를 가진 dto
      * */
-    @GetMapping
-    public ResponseEntity<?> findSolution(@RequestBody SolutionFindRequest request){
-        var response = service.read(request);
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findSolution(@PathVariable Long id){
+        var response = service.read(id);
 
         return ResponseDto.toResponseEntity(ResponseMessage.READ_SUCCESS_SOLUTION, response);
     }

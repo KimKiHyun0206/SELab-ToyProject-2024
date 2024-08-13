@@ -3,6 +3,7 @@ package com.example.project.solution.domain;
 import com.example.project.common.BaseEntity;
 import com.example.project.restrictions.Domain;
 import com.example.project.solution.domain.vo.Difficulty;
+import com.example.project.solution.dto.response.SolutionListResponse;
 import com.example.project.solution.dto.response.SolutionResponse;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -70,6 +71,15 @@ public class Solution extends BaseEntity implements Domain<SolutionResponse> {
                 .description(description)
                 .inExample(inExample)
                 .outExample(outExample)
+                .solved(solved)
+                .build();
+    }
+
+    public SolutionListResponse toListResponseDto(){
+        return SolutionListResponse.builder()
+                .id(id)
+                .difficulty(difficulty)
+                .title(title)
                 .solved(solved)
                 .build();
     }

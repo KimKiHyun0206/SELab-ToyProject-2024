@@ -1,5 +1,6 @@
 package com.example.project.solution.service;
 
+import com.example.project.solution.dto.response.SolutionListResponse;
 import com.example.project.solution.dto.response.SolutionResponse;
 import com.example.project.solution.dto.request.user.SolutionFindRequest;
 import com.example.project.solution.domain.Solution;
@@ -22,15 +23,26 @@ public class UserSolutionService {
     @Transactional(readOnly = true)
     public List<SolutionResponse> readAll(Pageable pageable) {
         return solutionRepository
-                .findAll(pageable).stream()
-                .map(Solution::toResponseDto).collect(Collectors.toList());
+                .findAll(pageable)
+                .stream()
+                .map(Solution::toResponseDto)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public SolutionResponse read(SolutionFindRequest request) {
-        Solution solution = solutionRepository.findById(request.getSolutionId()).orElseThrow(SolutionException::new);
+    public SolutionResponse read(Long id) {
+        Solution solution = solutionRepository.findById(id).orElseThrow(SolutionException::new);
 
         return solution.toResponseDto();
+    }
+
+    @Transactional(readOnly = true)
+    public List<SolutionListResponse> getSolutionList(Pageable pageable){
+        return solutionRepository
+                .findAll(pageable)
+                .stream()
+                .map(Solution::toListResponseDto)
+                .collect(Collectors.toList());
     }
 
    /* @Transactional(readOnly = true)
