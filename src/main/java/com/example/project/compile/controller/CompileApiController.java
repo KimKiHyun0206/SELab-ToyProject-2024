@@ -12,12 +12,12 @@ import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/compile")
+@RequestMapping("/api")
 public class CompileApiController {
 
     private final CompileService compileService;
 
-    @PostMapping
+    @PostMapping("/compile")
     public ResponseEntity<?> compileCode(@RequestBody CompileRequest request) {
         try {
             String result = compileService.compileAndRun(request.getLanguage(), request.getCode());
