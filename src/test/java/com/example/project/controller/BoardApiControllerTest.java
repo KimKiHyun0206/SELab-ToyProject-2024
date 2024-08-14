@@ -27,12 +27,12 @@ public class BoardApiControllerTest {
     @Test
     public void testRegister() throws Exception {
         long startTime = System.currentTimeMillis();
-        for (int i = 0; i < 100; i++) {
+        for (long i = 1; i <= 100; i++) {
             BoardRegisterRequest boardRegisterRequest = new BoardRegisterRequest();
             boardRegisterRequest.setTitle("Test Title " + i);
             boardRegisterRequest.setContext("Test Context " + i);
-            boardRegisterRequest.setUserId((long) i);
-            boardRegisterRequest.setSolutionId((long) i);
+            boardRegisterRequest.setUserId(i);
+            boardRegisterRequest.setSolutionId(i);
 
             String boardJson = objectMapper.writeValueAsString(boardRegisterRequest);
 
@@ -41,14 +41,18 @@ public class BoardApiControllerTest {
                             .content(boardJson))
                     .andExpect(status().isCreated());
         }
+
         long endTime = System.currentTimeMillis();
         System.out.println("Time taken for 100 register tests: " + (endTime - startTime) + "ms");
     }
 
     @Test
     public void testRead() throws Exception {
+
+        testRegister();
+
         long startTime = System.currentTimeMillis();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 1; i <= 100; i++) {
             BoardReadRequest boardReadRequest = new BoardReadRequest();
             boardReadRequest.setBoardId((long) i);
 
@@ -65,8 +69,11 @@ public class BoardApiControllerTest {
 
     @Test
     public void testUpdate() throws Exception {
+
+        testRegister();
+
         long startTime = System.currentTimeMillis();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 1; i <= 100; i++) {
             BoardUpdateRequest boardUpdateRequest = new BoardUpdateRequest();
             boardUpdateRequest.setId((long) i);
             boardUpdateRequest.setUserId((long) i);
@@ -84,10 +91,11 @@ public class BoardApiControllerTest {
         System.out.println("Time taken for 100 update tests: " + (endTime - startTime) + "ms");
     }
 
+
     @Test
     public void testDelete() throws Exception {
         long startTime = System.currentTimeMillis();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 1; i <= 100; i++) {
             BoardDeleteRequest boardDeleteRequest = new BoardDeleteRequest();
             boardDeleteRequest.setBoardId((long) i);
             boardDeleteRequest.setUserId((long) i);
