@@ -73,10 +73,10 @@ public class BoardApiControllerTest {
         testRegister();
 
         long startTime = System.currentTimeMillis();
-        for (int i = 1; i <= 100; i++) {
+        for (long i = 1; i <= 100; i++) {
             BoardUpdateRequest boardUpdateRequest = new BoardUpdateRequest();
-            boardUpdateRequest.setId((long) i);
-            boardUpdateRequest.setUserId((long) i);
+            boardUpdateRequest.setId(i);
+            boardUpdateRequest.setUserId(i);
             boardUpdateRequest.setTitle("Updated Title " + i);
             boardUpdateRequest.setContext("Updated Context " + i);
 
@@ -95,10 +95,10 @@ public class BoardApiControllerTest {
     @Test
     public void testDelete() throws Exception {
         long startTime = System.currentTimeMillis();
-        for (int i = 1; i <= 100; i++) {
+        for (long i = 1; i <= 100; i++) {
             BoardDeleteRequest boardDeleteRequest = new BoardDeleteRequest();
-            boardDeleteRequest.setBoardId((long) i);
-            boardDeleteRequest.setUserId((long) i);
+            boardDeleteRequest.setBoardId(i);
+            boardDeleteRequest.setUserId(i);
 
             String deleteJson = objectMapper.writeValueAsString(boardDeleteRequest);
 
