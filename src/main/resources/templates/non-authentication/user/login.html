@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>로그인</title>
+</head>
+<body>
+<h1>로그인</h1>
+<form class="login" th:action="@{/login}" th:object="${LoginRequest}" method="post" id="loginForm">
+    <input type="text" th:field="*{userId}" placeholder="아이디" id="userId" required>
+    <p th:text="${IdError}"></p>
+    <input type="password" th:field="*{password}" placeholder="비밀번호" id="password" required>
+    <p th:text="${PasswordError}"></p>
+    <input type="submit" value="로그인">
+</form>
+</body>
+</html>

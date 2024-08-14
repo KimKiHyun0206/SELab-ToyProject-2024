@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지</title>
+</head>
+<body>
+<div>
+    <table th:object="${UserInfo}">
+        <tr>
+            <th>ID</th>
+            <th th:text="${UserInfo.id}">Null</th>
+        </tr>
+        <tr>
+            <th>UserID</th>
+            <th th:text="${UserInfo.userId}">Null</th>
+        </tr>
+        <tr>
+            <th>Password</th>
+            <th th:text="${UserInfo.password}">Null</th>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <th th:text="${UserInfo.name}">Null</th>
+        </tr>
+        <tr>
+            <th>Point</th>
+            <th th:text="${UserInfo.point}">Null</th>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <th th:text="${UserInfo.email}">Null</th>
+        </tr>
+        <tr>
+            <th>RoleType</th>
+            <th th:text="${UserInfo.roleType}">Null</th>
+        </tr>
+    </table>
+    <button th:action="@{/edit/${UserInfo.id}}" th:object="${UserInfo}" method="get">유저 정보 수정하기</button>
+</div>
+</body>
+</html>
