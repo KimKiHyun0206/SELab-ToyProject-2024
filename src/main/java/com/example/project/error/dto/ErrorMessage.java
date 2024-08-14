@@ -52,8 +52,17 @@ public enum ErrorMessage {
 
     //COMMENT
     ID_NOT_MATCH_TO_DELETE_COMMENT(HttpStatus.BAD_REQUEST, "작성자와 요청자의 ID가 일치하지 않아 삭제하지 못했습니다"),
-    NOT_EXIST_COMMENT_INFO_EXCEPTION(HttpStatus.BAD_REQUEST, "요청한 Comment를 찾을 수 없습니다")
+    NOT_EXIST_COMMENT_INFO_EXCEPTION(HttpStatus.BAD_REQUEST, "요청한 Comment를 찾을 수 없습니다"),
 
+    //Compile
+    UNSUPPORTED_LANGUAGE(HttpStatus.BAD_REQUEST, "지원하지 않는 언어입니다."),
+    CODE_DIRECTORY_CREATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "코드 디렉토리 생성에 실패했습니다."),
+    CODE_WRITE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "코드 파일 작성에 실패했습니다."),
+    COMPILATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "컴파일에 실패했습니다."),
+    EXECUTION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "코드 실행에 실패했습니다."),
+    JAVA_CLASS_EXTRACTION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "Java 클래스 이름 추출에 실패했습니다."),
+    JAVA_FILE_RENAMING_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "Java 파일 이름 변경에 실패했습니다."),
+    GENERAL_COMPILE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "컴파일 과정에서 일반적인 오류가 발생했습니다.")
 
 
     ;
