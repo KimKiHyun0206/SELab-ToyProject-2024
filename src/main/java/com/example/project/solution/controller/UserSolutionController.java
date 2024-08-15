@@ -3,7 +3,6 @@ package com.example.project.solution.controller;
 import com.example.project.common.dto.ResponseDto;
 import com.example.project.common.dto.ResponseMessage;
 import com.example.project.solution.dto.request.user.SolutionCompileRequest;
-import com.example.project.solution.dto.request.user.SolutionFindRequest;
 import com.example.project.solution.service.UserSolutionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
