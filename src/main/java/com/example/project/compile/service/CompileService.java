@@ -34,18 +34,13 @@ public class CompileService {
 
     private String executeCode(String language, Path filePath, Path codePath) throws IOException, InterruptedException {
         try {
-            switch (language.toLowerCase()) {
-                case "c":
-                    return compileAndRun(filePath, "gcc", codePath.resolve("output").toString(), "");
-                case "c++":
-                    return compileAndRun(filePath, "g++", codePath.resolve("output").toString(), "");
-                case "java":
-                    return compileJava(filePath);
-                case "python":
-                    return compilePython(filePath);
-                default:
-                    throw new IllegalArgumentException(ErrorMessage.UNSUPPORTED_LANGUAGE.getMessage());
-            }
+            return switch (language.toLowerCase()) {
+                case "c" -> compileAndRun(filePath, "gcc", codePath.resolve("output").toString(), "");
+                case "c++" -> compileAndRun(filePath, "g++", codePath.resolve("output").toString(), "");
+                case "java" -> compileJava(filePath);
+                case "python" -> compilePython(filePath);
+                default -> throw new IllegalArgumentException(ErrorMessage.UNSUPPORTED_LANGUAGE.getMessage());
+            };
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(ErrorMessage.UNSUPPORTED_LANGUAGE.getMessage(), e);
         } catch (IOException | InterruptedException e) {
@@ -143,17 +138,12 @@ public class CompileService {
     }
 
     private String getExtension(String language) {
-        switch (language.toLowerCase()) {
-            case "c":
-                return ".c";
-            case "c++":
-                return ".cpp";
-            case "java":
-                return ".java";
-            case "python":
-                return ".py";
-            default:
-                throw new IllegalArgumentException(ErrorMessage.UNSUPPORTED_LANGUAGE.getMessage());
-        }
+        return switch (language.toLowerCase()) {
+            case "c" -> ".c";
+            case "c++" -> ".cpp";
+            case "java" -> ".java";
+            case "python" -> ".py";
+            default -> throw new IllegalArgumentException(ErrorMessage.UNSUPPORTED_LANGUAGE.getMessage());
+        };
     }
 }
