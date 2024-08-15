@@ -1,21 +1,27 @@
 package com.example.project.controller;
 
+import com.example.project.comment.controller.CommentController;
 import com.example.project.comment.dto.CommentRegisterRequest;
+import com.example.project.comment.dto.CommentResponse;
+import com.example.project.comment.service.CommentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Collections;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.hamcrest.Matchers.is;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(CommentController.class)
 public class CommentControllerTest {
 
     @Autowired
@@ -24,12 +30,21 @@ public class CommentControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @MockBean
+    private CommentService commentService;
+
     @Test
     void testCommentControllerPerformance() throws Exception {
         CommentRegisterRequest registerRequest = new CommentRegisterRequest();
         registerRequest.setBoardId(1L);
         registerRequest.setUserId(1L);
         registerRequest.setComment(".");
+
+        CommentResponse commentResponse = new CommentResponse(1L, 1L, 1L, ".");
+
+        when(commentService.register(any(CommentRegisterRequest.class))).thenReturn(commentResponse);
+        when(commentService.get(any(Long.class))).thenReturn(commentResponse);
+        when(commentService.getAll(any(Long.class))).thenReturn(Collections.singletonList(commentResponse));
 
         long startTime = System.currentTimeMillis();
 
