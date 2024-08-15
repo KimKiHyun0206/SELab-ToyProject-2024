@@ -29,7 +29,7 @@ public class CommentControllerTest {
         CommentRegisterRequest registerRequest = new CommentRegisterRequest();
         registerRequest.setBoardId(1L);
         registerRequest.setUserId(1L);
-        registerRequest.setComment("테스트 댓글");
+        registerRequest.setComment(".");
 
         long startTime = System.currentTimeMillis();
 
