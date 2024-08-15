@@ -8,7 +8,7 @@
 
 <table>
     <tr th:each=" solution : ${solutionList}">
-        <td><a th:href="@{/solution/solve/(id=${solution.id})}" th:text="${solution.title}">solutionId</a></td>
+        <td><a th:href="@{/solution/solve/{id}(id=${solution.id})}" th:text="${solution.title}">solutionId</a></td>
         <td th:text="${solution.difficulty}">Solution Difficulty</td>
         <td th:text="${solution.solved}">푼 사람 수</td>
     </tr>
