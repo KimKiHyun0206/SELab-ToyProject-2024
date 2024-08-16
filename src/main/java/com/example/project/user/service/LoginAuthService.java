@@ -67,4 +67,9 @@ public class LoginAuthService {
         return cookie;
     }
 
+    public void deleteSession(HttpServletRequest request, String cookieValue){
+        HttpSession session = request.getSession(false); // 기존 세션 가져오기
+        session.removeAttribute(cookieValue);
+    }
+
 }
