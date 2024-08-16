@@ -1,8 +1,6 @@
 package com.example.project.user.service;
 
 import com.example.project.user.dto.UserResponse;
-import com.example.project.user.dto.login.LoginRequest;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +11,9 @@ import java.util.Base64;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class LoginSessionService {
+public class SessionService {
     private final UserService userService;
+    private final EncodeService encodeService;
 
     public UserResponse checkSession(HttpServletRequest request, String cookieValue) {
         HttpSession session = request.getSession(false); // 기존 세션 가져오기
@@ -24,15 +23,14 @@ public class LoginSessionService {
         }
 
         // 쿠키 값도 Base64로 디코딩하여 세션 키와 비교
-        String sessionKey = cookieValue;  // 쿠키 값 사용
-        log.info("Checking session with key: {}", sessionKey);  // 키 로그
+        log.info("Checking session with key: {}", cookieValue);  // 키 로그
 
-        Long attribute = (Long) session.getAttribute(sessionKey); // 세션에서 속성 조회
+        Long attribute = (Long) session.getAttribute(cookieValue); // 세션에서 속성 조회
         if (attribute != null) {
             log.info("Session found, user ID: {}", attribute);  // 세션에 저장된 사용자 ID 로그
             return userService.find(attribute);
         } else {
-            log.info("No matching session found for key: {}", sessionKey);  // 세션이 없을 경우 로그
+            log.info("No matching session found for key: {}", cookieValue);  // 세션이 없을 경우 로그
             return null;
         }
     }
@@ -41,7 +39,8 @@ public class LoginSessionService {
         HttpSession session = request.getSession(true);
 
         // 사용자 ID를 Base64로 인코딩하여 세션 키로 사용
-        String sessionKey = Base64.getEncoder().encodeToString(response.getUserId().getBytes());
+        String sessionKey = encodeService.userIdEncode(response.getUserId());
+
         session.setAttribute(sessionKey, response.getId()); // 인코딩된 사용자 ID를 키로 사용하여 ID를 세션에 저장
         log.info("Registering session with key: {}", sessionKey);
     }
