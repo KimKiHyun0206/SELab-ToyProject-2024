@@ -36,7 +36,6 @@ public class CompileService {
         try {
             return switch (language.toLowerCase()) {
                 case "c" -> compileAndRun(filePath, "gcc", codePath.resolve("output").toString(), "");
-                case "c++" -> compileAndRun(filePath, "g++", codePath.resolve("output").toString(), "");
                 case "java" -> compileJava(filePath);
                 case "python" -> compilePython(filePath);
                 default -> throw new IllegalArgumentException(ErrorMessage.UNSUPPORTED_LANGUAGE.getMessage());
@@ -140,7 +139,6 @@ public class CompileService {
     private String getExtension(String language) {
         return switch (language.toLowerCase()) {
             case "c" -> ".c";
-            case "c++" -> ".cpp";
             case "java" -> ".java";
             case "python" -> ".py";
             default -> throw new IllegalArgumentException(ErrorMessage.UNSUPPORTED_LANGUAGE.getMessage());
