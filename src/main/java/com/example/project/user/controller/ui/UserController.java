@@ -85,14 +85,8 @@ public class UserController {
     ) {
         if (cookieValue != null) {
             loginAuthService.deleteSession(request, cookieValue);
-
-            Cookie cookie = new Cookie("DigitalLoginCookie", null);
-            cookie.setMaxAge(0);
-            cookie.setPath("/");
-            response.addCookie(cookie);
         }
-
-        return "redirect:/";
+        return "/non-authentication/main";
     }
 
 }
