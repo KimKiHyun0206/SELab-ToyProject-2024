@@ -3,7 +3,7 @@ package com.example.project.board.controller.ui;
 import com.example.project.board.dto.BoardResponse;
 import com.example.project.board.service.BoardService;
 import com.example.project.user.dto.UserResponse;
-import com.example.project.user.service.LoginSessionService;
+import com.example.project.user.service.SessionService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,7 +20,7 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
-    private final LoginSessionService loginSessionService;
+    private final SessionService sessionService;
 
 
     //TODO Board 조회 가능한 페이지 만들기
@@ -31,7 +31,7 @@ public class BoardController {
             Model model,
             HttpServletRequest request
     ) {
-        UserResponse userResponse = loginSessionService.checkSession(request, cookieValue);
+        UserResponse userResponse = sessionService.checkSession(request, cookieValue);
 
 
         List<BoardResponse> boardResponses = boardService.readAllBySolutionId(id);

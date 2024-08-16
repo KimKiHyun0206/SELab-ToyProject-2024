@@ -6,8 +6,8 @@ import com.example.project.error.exception.user.InvalidLoginPasswordException;
 import com.example.project.user.dto.UserResponse;
 import com.example.project.user.dto.login.LoginRequest;
 import com.example.project.user.dto.request.UserUpdateRequest;
-import com.example.project.user.service.LoginCookieService;
-import com.example.project.user.service.LoginSessionService;
+import com.example.project.user.service.CookieService;
+import com.example.project.user.service.SessionService;
 import com.example.project.user.service.LoginService;
 import com.example.project.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,8 +27,8 @@ import java.util.concurrent.ExecutionException;
 public class UserLoginController {
     private final LoginService loginService;
     private final UserService userService;
-    private final LoginSessionService loginSessionService;
-    private final LoginCookieService loginCookieService;
+    private final SessionService sessionService;
+    private final CookieService cookieService;
 
 
     @PostMapping("/login")
@@ -48,8 +48,8 @@ public class UserLoginController {
             else userResponse = cookieLogin(loginRequest, cookieValue, request);
 
 
-            loginSessionService.sessionRegistration(request, userResponse);
-            response.addCookie(loginCookieService.cookieIssuance(loginRequest));
+            sessionService.sessionRegistration(request, userResponse);
+            response.addCookie(cookieService.cookieIssuance(loginRequest));
             response.sendRedirect("http://localhost:8080/");
 
         } catch (InvalidLoginUserIdException e) {
@@ -123,7 +123,7 @@ public class UserLoginController {
     }
 
     private UserResponse cookieLogin(LoginRequest loginRequest, String cookieValue, HttpServletRequest request) throws InvalidLoginUserIdException, InvalidLoginPasswordException {
-        var userResponse = loginSessionService.checkSession(request, cookieValue);
+        var userResponse = sessionService.checkSession(request, cookieValue);
 
         if (userResponse == null) {
             return loginService.login(loginRequest);

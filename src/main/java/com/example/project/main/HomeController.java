@@ -1,10 +1,8 @@
 package com.example.project.main;
 
 import com.example.project.user.dto.UserResponse;
-import com.example.project.user.service.LoginSessionService;
-import com.example.project.user.service.LoginService;
+import com.example.project.user.service.SessionService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
-    private final LoginSessionService loginSessionService;
+    private final SessionService sessionService;
 
     @RequestMapping
     public String main(
@@ -25,7 +23,7 @@ public class HomeController {
         if (cookieValue == null) {
             return "non-authentication/main";
         } else{
-            UserResponse userResponse = loginSessionService.checkSession(request, cookieValue);
+            UserResponse userResponse = sessionService.checkSession(request, cookieValue);
             model.addAttribute("user",userResponse.getName().getName());
             return "authentication/main";
         }

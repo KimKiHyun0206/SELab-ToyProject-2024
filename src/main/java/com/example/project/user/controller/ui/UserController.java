@@ -4,7 +4,7 @@ import com.example.project.user.dto.UserResponse;
 import com.example.project.user.dto.login.LoginRequest;
 import com.example.project.user.dto.request.UserRegisterRequest;
 import com.example.project.user.dto.request.UserUpdateRequest;
-import com.example.project.user.service.LoginSessionService;
+import com.example.project.user.service.SessionService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final LoginSessionService loginSessionService;
+    private final SessionService sessionService;
 
     @RequestMapping("/login")
     public String login(Model model) {
@@ -35,7 +35,7 @@ public class UserController {
     ) {
         if (cookieValue == null) return "";
 
-        UserResponse userResponse = loginSessionService.checkSession(request, cookieValue);
+        UserResponse userResponse = sessionService.checkSession(request, cookieValue);
         model.addAttribute("UserInfo", userResponse);
         return "/authentication/user/info";
     }
@@ -48,7 +48,7 @@ public class UserController {
     ) {
         if (cookieValue == null) return "";
 
-        UserResponse userResponse = loginSessionService.checkSession(request, cookieValue);
+        UserResponse userResponse = sessionService.checkSession(request, cookieValue);
         model.addAttribute("UserInfo", userResponse);
         model.addAttribute("UpdateRequest", new UserUpdateRequest());
 
@@ -68,7 +68,7 @@ public class UserController {
             HttpServletResponse response
     ) {
         if (cookieValue != null) {
-            loginSessionService.deleteSession(request, cookieValue);
+            sessionService.deleteSession(request, cookieValue);
         }
         return "/non-authentication/main";
     }

@@ -3,7 +3,7 @@ package com.example.project.solution.controller.ui;
 import com.example.project.solution.dto.response.SolutionListResponse;
 import com.example.project.solution.service.UserSolutionService;
 import com.example.project.user.dto.UserResponse;
-import com.example.project.user.service.LoginSessionService;
+import com.example.project.user.service.SessionService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ import java.util.List;
 public class SolutionController {
 
     private final UserSolutionService userSolutionService;
-    private final LoginSessionService loginSessionService;
+    private final SessionService sessionService;
 
     @RequestMapping("/list")
     public String solutionList(
@@ -52,7 +52,7 @@ public class SolutionController {
         model.addAttribute("inExample", response.getInExample());
         model.addAttribute("outExample", response.getOutExample());
 
-        UserResponse userResponse = loginSessionService.checkSession(request, cookieValue);
+        UserResponse userResponse = sessionService.checkSession(request, cookieValue);
         if (userResponse != null) {
             return "authentication/solution/solve";
         }

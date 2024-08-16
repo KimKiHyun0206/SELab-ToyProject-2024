@@ -3,7 +3,8 @@ package com.example.project.user.controller;
 import com.example.project.user.dto.UserResponse;
 import com.example.project.user.dto.login.LoginRequest;
 import com.example.project.user.dto.request.UserRegisterRequest;
-import com.example.project.user.service.LoginSessionService;
+import com.example.project.user.service.CookieService;
+import com.example.project.user.service.SessionService;
 import com.example.project.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,7 +20,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class UserRegisterController {
     private final UserService userService;
-    private final LoginSessionService loginSessionService;
+    private final SessionService sessionService;
+    private final CookieService cookieService;
 
     @PostMapping
     public void register(
@@ -30,8 +32,8 @@ public class UserRegisterController {
         log.info("User Register Request {}", userRegisterRequest.getUserId());
 
         UserResponse register = userService.register(userRegisterRequest);
-        loginSessionService.cookieIssuance(new LoginRequest(register.getUserId(), register.getPassword()));
-        loginSessionService.sessionRegistration(request, register);
+        cookieService.cookieIssuance(new LoginRequest(register.getUserId(), register.getPassword()));
+        sessionService.sessionRegistration(request, register);
 
         response.sendRedirect("http://localhost:8080/");
     }
