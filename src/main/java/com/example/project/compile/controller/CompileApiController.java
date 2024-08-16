@@ -2,7 +2,7 @@ package com.example.project.compile.controller;
 
 import com.example.project.common.dto.ResponseDto;
 import com.example.project.common.dto.ResponseMessage;
-import com.example.project.compile.dto.CompileRequest;
+import com.example.project.solution.dto.request.user.SolutionCompileRequest;
 import com.example.project.compile.service.CompileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class CompileApiController {
     private final CompileService compileService;
 
     @PostMapping
-    public ResponseEntity<?> compileCode(@RequestBody CompileRequest request) {
+    public ResponseEntity<?> compileCode(@RequestBody SolutionCompileRequest request) {
         try {
             String result = compileService.compileAndRun(request.getLanguage(), request.getCode());
             return ResponseDto.toResponseEntity(ResponseMessage.COMPILE_SUCCESS, result);
