@@ -4,11 +4,9 @@ import com.example.project.user.dto.UserResponse;
 import com.example.project.user.dto.login.LoginRequest;
 import com.example.project.user.dto.request.UserRegisterRequest;
 import com.example.project.user.dto.request.UserUpdateRequest;
-import com.example.project.user.service.LoginAuthService;
-import jakarta.servlet.http.Cookie;
+import com.example.project.user.service.LoginSessionService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final LoginAuthService loginAuthService;
+    private final LoginSessionService loginSessionService;
 
 
     /**
@@ -44,7 +42,7 @@ public class UserController {
     ) {
         if (cookieValue == null) return "";
 
-        UserResponse userResponse = loginAuthService.checkSession(request, cookieValue);
+        UserResponse userResponse = loginSessionService.checkSession(request, cookieValue);
         model.addAttribute("UserInfo", userResponse);
         return "/authentication/user/info";
     }
@@ -57,7 +55,7 @@ public class UserController {
     ) {
         if (cookieValue == null) return "";
 
-        UserResponse userResponse = loginAuthService.checkSession(request, cookieValue);
+        UserResponse userResponse = loginSessionService.checkSession(request, cookieValue);
         model.addAttribute("UserInfo", userResponse);
         model.addAttribute("UpdateRequest", new UserUpdateRequest());
 
@@ -84,7 +82,7 @@ public class UserController {
             HttpServletResponse response
     ) {
         if (cookieValue != null) {
-            loginAuthService.deleteSession(request, cookieValue);
+            loginSessionService.deleteSession(request, cookieValue);
         }
         return "/non-authentication/main";
     }

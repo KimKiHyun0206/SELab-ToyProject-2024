@@ -1,10 +1,9 @@
 package com.example.project.user.controller;
 
 import com.example.project.auth.domain.UserDetail;
-import com.example.project.user.domain.User;
 import com.example.project.user.dto.UserResponse;
 import com.example.project.user.dto.request.UserUpdateRequest;
-import com.example.project.user.service.LoginAuthService;
+import com.example.project.user.service.LoginSessionService;
 import com.example.project.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,7 +18,7 @@ import java.io.IOException;
 public class UserInfoController {
 
     private final UserService userService;
-    private final LoginAuthService loginAuthService;
+    private final LoginSessionService loginSessionService;
 
     @PostMapping("/edit/{id}")
     public void editUser(
@@ -29,7 +28,7 @@ public class UserInfoController {
             HttpServletRequest request,
             HttpServletResponse response
     ) throws IOException {
-        UserResponse userResponse = loginAuthService.checkSession(request, cookieValue);
+        UserResponse userResponse = loginSessionService.checkSession(request, cookieValue);
         if (id.equals(userResponse.getId())) {
             UserResponse updateResponse = userService.updateUser(new UserDetail(userResponse.toEntity()), updateRequest);
         }

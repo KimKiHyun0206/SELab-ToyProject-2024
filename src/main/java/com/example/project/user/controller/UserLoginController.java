@@ -6,10 +6,10 @@ import com.example.project.error.exception.user.InvalidLoginPasswordException;
 import com.example.project.user.dto.UserResponse;
 import com.example.project.user.dto.login.LoginRequest;
 import com.example.project.user.dto.request.UserUpdateRequest;
-import com.example.project.user.service.LoginAuthService;
+import com.example.project.user.service.LoginCookieService;
+import com.example.project.user.service.LoginSessionService;
 import com.example.project.user.service.LoginService;
 import com.example.project.user.service.UserService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,8 @@ import java.util.concurrent.ExecutionException;
 public class UserLoginController {
     private final LoginService loginService;
     private final UserService userService;
-    private final LoginAuthService userAuthService;
+    private final LoginSessionService loginSessionService;
+    private final LoginCookieService loginCookieService;
 
 
     @PostMapping("/login")
@@ -38,16 +39,42 @@ public class UserLoginController {
             HttpServletRequest request,
             HttpServletResponse response
     ) throws IOException {
-        log.info("id : {}, password : {}", loginRequest.getUserId(), loginRequest.getPassword());
+        log.info("Login Try -> id : {}, password : {}", loginRequest.getUserId(), loginRequest.getPassword());
+
+        try {
+            UserResponse userResponse;
+
+            if (cookieValue == null) userResponse = noCookieLogin(loginRequest);
+            else userResponse = cookieLogin(loginRequest, cookieValue, request);
 
 
-        if (cookieValue == null) {    //쿠키가 없는 경우
+            loginSessionService.sessionRegistration(request, userResponse);
+            response.addCookie(loginCookieService.cookieIssuance(loginRequest));
+            response.sendRedirect("http://localhost:8080/");
+
+        } catch (InvalidLoginUserIdException e) {
+            log.info(e.getMessage());
+            model.addAttribute("IdError", "입력한 ID " + loginRequest.getUserId() + "가 존재하지 않습니다");
+            response.sendRedirect("http://localhost:8080/user/login");
+
+        } catch (InvalidLoginPasswordException e) {
+            log.info(e.getMessage());
+            model.addAttribute("PasswordError", "입력한 PASSWORD " + loginRequest.getPassword() + "가 존재하지 않습니다");
+            response.sendRedirect("http://localhost:8080/user/login");
+        }
+
+        /*if (cookieValue == null) {    //쿠키가 없는 경우
+            log.info("No Cookie Login");
             try {
                 var userResponse = loginService.login(loginRequest);
                 Cookie cookie = userAuthService.cookieIssuance(loginRequest); // 성공 시 쿠키 발급
-                response.addCookie(cookie);
+
+
                 userAuthService.sessionRegistration(request, userResponse);   // 성공 시 세션 발급
                 log.info("Login successful");
+
+
+                response.addCookie(cookie);
                 response.sendRedirect("http://localhost:8080/"); // 성공 시 메인 페이지로 리다이렉트
 
             } catch (InvalidLoginUserIdException e) {
@@ -61,28 +88,48 @@ public class UserLoginController {
                 response.sendRedirect("http://localhost:8080/user/login");
             }
         } else { //쿠키가 있는 경우
+            log.info("Cookie Login Try {}", cookieValue);
             var userResponse = userAuthService.checkSession(request, cookieValue);
-            log.info("request: " + request);
-            log.info("cookieValue: " + cookieValue);
+
 
             if (userResponse == null) { //만약 세션과 쿠키가 일치하지 않을 경우
-                log.info("Login failed");
+                log.info("쿠키와 세션이 일치하지 않습니다 {}", cookieValue);
 
-                UserResponse loginedUserResponse = loginService.login(loginRequest);
+                var noCookieUserResponse = loginService.login(loginRequest);
 
-                if (loginedUserResponse != null) {
-                    Cookie cookie = userAuthService.cookieIssuance(loginRequest); // 성공 시 쿠키 발급
-                    userAuthService.sessionRegistration(request, loginedUserResponse);
+                if (noCookieUserResponse != null) { //로그인에 성공할시
+                    log.info("Login Success {}", noCookieUserResponse.getUserId());
+
+                    Cookie cookie = userAuthService.cookieIssuance(loginRequest);
+                    userAuthService.sessionRegistration(request, noCookieUserResponse);
+
                     response.addCookie(cookie);
                     response.sendRedirect("http://localhost:8080/");
+
                 } else response.sendRedirect("http://localhost:8080/user/login");
 
-            } else {
-                log.info("Login session successful");
+            } else {    //쿠키와 세션이 일치할 경우
+                log.info("Cookie Login Success {}", userResponse.getUserId());
                 userAuthService.sessionRegistration(request, userResponse);   // 성공 시 세션 발급
                 response.sendRedirect("http://localhost:8080/"); //성공할 경우 main 페이지로
             }
+        }*/
+    }
+
+    private UserResponse noCookieLogin(
+            LoginRequest loginRequest
+    ) throws InvalidLoginUserIdException, InvalidLoginPasswordException {
+        return loginService.login(loginRequest);
+    }
+
+    private UserResponse cookieLogin(LoginRequest loginRequest, String cookieValue, HttpServletRequest request) throws InvalidLoginUserIdException, InvalidLoginPasswordException {
+        var userResponse = loginSessionService.checkSession(request, cookieValue);
+
+        if (userResponse == null) {
+            return loginService.login(loginRequest);
         }
+
+        return userResponse;
     }
 
 

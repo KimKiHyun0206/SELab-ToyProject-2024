@@ -13,12 +13,8 @@ import java.util.Base64;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class LoginAuthService {
+public class LoginSessionService {
     private final UserService userService;
-
-    /**
-     * Session에 등록될 객체
-     */
 
     public UserResponse checkSession(HttpServletRequest request, String cookieValue) {
         HttpSession session = request.getSession(false); // 기존 세션 가져오기
@@ -41,7 +37,6 @@ public class LoginAuthService {
         }
     }
 
-
     public void sessionRegistration(HttpServletRequest request, UserResponse response) {
         HttpSession session = request.getSession(true);
 
@@ -50,23 +45,6 @@ public class LoginAuthService {
         session.setAttribute(sessionKey, response.getId()); // 인코딩된 사용자 ID를 키로 사용하여 ID를 세션에 저장
         log.info("Registering session with key: {}", sessionKey);
     }
-
-
-
-
-    public Cookie cookieIssuance(LoginRequest request) {
-        // 사용자 ID를 Base64로 인코딩하여 쿠키 값으로 사용
-        String encodedUserId = Base64.getEncoder().encodeToString(request.getUserId().getBytes());
-
-        Cookie cookie = new Cookie("DigitalLoginCookie", encodedUserId); // 인코딩된 사용자 ID 사용
-        cookie.setMaxAge(60 * 60); // 쿠키를 1시간 동안 저장
-        cookie.setSecure(true); // HTTPS에서만 전송되도록 설정
-        cookie.setHttpOnly(true); // 클라이언트 측 스크립트에서 접근하지 못하도록 설정
-        cookie.setPath("/"); // 애플리케이션 전체에서 쿠키 사용 가능
-
-        return cookie;
-    }
-
     public void deleteSession(HttpServletRequest request, String cookieValue){
         HttpSession session = request.getSession(false); // 기존 세션 가져오기
         session.removeAttribute(cookieValue);

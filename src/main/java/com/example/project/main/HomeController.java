@@ -1,7 +1,7 @@
 package com.example.project.main;
 
 import com.example.project.user.dto.UserResponse;
-import com.example.project.user.service.LoginAuthService;
+import com.example.project.user.service.LoginSessionService;
 import com.example.project.user.service.LoginService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 
     private final LoginService loginService;
-    private final LoginAuthService loginAuthService;
+    private final LoginSessionService loginSessionService;
 
     @RequestMapping
     public String main(
@@ -28,7 +28,7 @@ public class HomeController {
         if (cookieValue == null) {
             return "non-authentication/main";
         } else{
-            UserResponse userResponse = loginAuthService.checkSession(request, cookieValue);
+            UserResponse userResponse = loginSessionService.checkSession(request, cookieValue);
             model.addAttribute("user",userResponse.getName().getName());
             return "authentication/main";
         }

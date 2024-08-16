@@ -1,10 +1,9 @@
 package com.example.project.solution.controller.ui;
 
 import com.example.project.solution.dto.response.SolutionListResponse;
-import com.example.project.solution.dto.response.SolutionResponse;
 import com.example.project.solution.service.UserSolutionService;
 import com.example.project.user.dto.UserResponse;
-import com.example.project.user.service.LoginAuthService;
+import com.example.project.user.service.LoginSessionService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +12,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -26,7 +24,7 @@ import java.util.List;
 public class SolutionController {
 
     private final UserSolutionService userSolutionService;
-    private final LoginAuthService loginAuthService;
+    private final LoginSessionService loginSessionService;
 
     @RequestMapping("/list")
     public String solutionList(
@@ -54,7 +52,7 @@ public class SolutionController {
         model.addAttribute("inExample", response.getInExample());
         model.addAttribute("outExample", response.getOutExample());
 
-        UserResponse userResponse = loginAuthService.checkSession(request, cookieValue);
+        UserResponse userResponse = loginSessionService.checkSession(request, cookieValue);
         if (userResponse != null) {
             return "authentication/solution/solve";
         }
