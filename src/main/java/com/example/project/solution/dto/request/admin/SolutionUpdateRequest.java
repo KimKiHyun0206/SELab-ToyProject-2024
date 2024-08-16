@@ -1,11 +1,11 @@
-package com.example.project.solution.dto.request.admin.update;
+package com.example.project.solution.dto.request.admin;
 
 import com.example.project.solution.domain.vo.Difficulty;
 import lombok.Data;
 
 @Data
 public class SolutionUpdateRequest {
-    private String adminId;
+    private Long adminId;
     private Long solutionId;
     private Difficulty difficulty;
     private String title;
