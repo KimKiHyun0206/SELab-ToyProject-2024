@@ -32,7 +32,7 @@ public class UserRegisterController {
         log.info("User Register Request {}", userRegisterRequest.getUserId());
 
         UserResponse register = userService.register(userRegisterRequest);
-        cookieService.cookieIssuance(new LoginRequest(register.getUserId(), register.getPassword()));
+        cookieService.authCookieIssue(new LoginRequest(register.getUserId(), register.getPassword()));
         sessionService.sessionRegistration(request, register);
 
         response.sendRedirect("http://localhost:8080/");
