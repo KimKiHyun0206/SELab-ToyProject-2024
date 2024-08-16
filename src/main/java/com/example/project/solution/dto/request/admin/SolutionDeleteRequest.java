@@ -4,6 +4,8 @@ import lombok.Data;
 
 @Data
 public class SolutionDeleteRequest {
-    private String adminId;
+    private Long adminId;
+    private String id;
+    private String password;
     private Long solutionId;
 }
