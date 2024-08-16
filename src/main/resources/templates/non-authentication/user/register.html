@@ -1,23 +1,55 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>회원가입</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 - 코딩 테스트 웹사이트</title>
+    <link rel="stylesheet" href="/css/register.css">
 </head>
 <body>
-<h1>회원가입</h1>
-<form th:action="@{/api/user/register}" th:object="${request}" method="post">
-    <input type="text" th:field="*{userId}" placeholder="아이디 입력" id="userId" required>
-    <br>
-    <input type="password" th:field="*{password}" placeholder="비밀번호 입력" id="password" required>
-    <br>
-    <input type="password" th:field="*{repeatPassword}" placeholder="비밀번호 확인 입력" id="repeatPassword" required>
-    <br>
-    <input type="text" th:field="*{name}" placeholder="이름입력" id="userName" required>
-    <br>
-    <input type="email" th:field="*{email}" placeholder="이메일 입력" id="email" required>
-    <br>
-    <input type="submit" value="회원가입">
-</form>
+
+<header>
+    <nav>
+        <ul>
+            <li><a th:href="@{/}">홈</a></li>
+            <li><a th:href="@{/user/login}">로그인</a></li>
+            <li><a th:href="@{/user/register}" class="active">회원가입</a></li>
+            <li><a th:href="@{/user/solution}">문제</a></li>
+            <li><a th:href="@{/user/ranking}">랭킹</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section class="register-form">
+        <h1>회원가입</h1>
+        <form th:action="@{/api/user/register}" th:object="${request}" method="post" id="registerForm">
+            <div class="form-group">
+                <input type="text" th:field="*{userId}" placeholder="아이디 입력" id="userId" required>
+            </div>
+            <div class="form-group">
+                <input type="password" th:field="*{password}" placeholder="비밀번호 입력" id="password" required>
+            </div>
+            <div class="form-group">
+                <input type="password" th:field="*{repeatPassword}" placeholder="비밀번호 확인 입력" id="repeatPassword" required>
+            </div>
+            <div class="form-group">
+                <input type="text" th:field="*{name}" placeholder="이름 입력" id="userName" required>
+            </div>
+            <div class="form-group">
+                <input type="email" th:field="*{email}" placeholder="이메일 입력" id="email" required>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="회원가입" class="btn">
+            </div>
+        </form>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2024 코딩 테스트 웹사이트.</p>
+</footer>
+
+<script src="/js/register.js"></script>
 </body>
 </html>

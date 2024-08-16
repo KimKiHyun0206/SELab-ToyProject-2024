@@ -1,17 +1,67 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>문제 리스트</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<table>-->
+<!--    <tr th:each=" solution : ${solutionList}">-->
+<!--        <td><a th:href="@{/solution/solve/{id}(id=${solution.id})}" th:text="${solution.title}">solutionId</a></td>-->
+<!--        <td th:text="${solution.difficulty}">Solution Difficulty</td>-->
+<!--        <td th:text="${solution.solved}">푼 사람 수</td>-->
+<!--    </tr>-->
+<!--</table>-->
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>문제 리스트</title>
+    <link rel="stylesheet" href="/css/nonSolutionList.css">
 </head>
 <body>
+<header>
+    <nav>
+        <ul>
+            <li><a th:href="@{/}">홈</a></li>
+            <li><a th:href="@{/user/login}">로그인</a></li>
+            <li><a th:href="@{/user/register}">회원가입</a></li>
+            <li><a th:href="@{/user/solution}">문제</a></li>
+            <li><a th:href="@{/user/ranking}">랭킹</a></li>
+        </ul>
+    </nav>
+</header>
 
-<table>
-    <tr th:each=" solution : ${solutionList}">
-        <td><a th:href="@{/solution/solve/{id}(id=${solution.id})}" th:text="${solution.title}">solutionId</a></td>
-        <td th:text="${solution.difficulty}">Solution Difficulty</td>
-        <td th:text="${solution.solved}">푼 사람 수</td>
-    </tr>
-</table>
+<main>
+    <section class="problem-list">
+        <h1>문제 리스트</h1>
+        <table>
+            <thead>
+            <tr>
+                <th>문제 제목</th>
+                <th>난이도</th>
+                <th>푼 사람 수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="solution : ${solutionList}">
+                <td><a th:href="@{/solution/solve/{id}(id=${solution.id})}" th:text="${solution.title}">문제 제목</a></td>
+                <td th:text="${solution.difficulty}">난이도</td>
+                <td th:text="${solution.solved}">푼 사람 수</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2024 코딩 테스트 웹사이트.</p>
+</footer>
+
+<script src="/js/nonSolutionList.js"></script>
 </body>
 </html>
