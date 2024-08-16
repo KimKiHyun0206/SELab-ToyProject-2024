@@ -84,20 +84,15 @@ public class UserController {
             HttpServletResponse response
     ) {
         if (cookieValue != null) {
-            HttpSession session = request.getSession(false);
-            if (session != null) {
-                session.removeAttribute(cookieValue); // 세션에서 해당 속성 제거
-                session.invalidate(); // 세션 무효화 (전체 세션 종료)
-            }
+            loginAuthService.deleteSession(request, cookieValue);
 
-            // 쿠키 삭제: 만료 시간을 0으로 설정하여 브라우저에서 제거
             Cookie cookie = new Cookie("DigitalLoginCookie", null);
-            cookie.setMaxAge(0); // 쿠키 만료 시간 0으로 설정 (즉시 만료)
-            cookie.setPath("/"); // 쿠키 경로 설정 (해당 경로에서만 제거됨)
-            response.addCookie(cookie); // 응답에 추가하여 브라우저에서 삭제
+            cookie.setMaxAge(0);
+            cookie.setPath("/");
+            response.addCookie(cookie);
         }
 
-        // 로그아웃 후 로그인 페이지로 리다이렉트
         return "redirect:/";
     }
+
 }
