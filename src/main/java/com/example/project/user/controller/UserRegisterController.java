@@ -24,7 +24,7 @@ public class UserRegisterController {
 
     @PostMapping
     public void register(
-            UserRegisterRequest userRegisterRequest,
+            @RequestBody UserRegisterRequest userRegisterRequest,
             HttpServletResponse response,
             HttpServletRequest request
     ) throws IOException {

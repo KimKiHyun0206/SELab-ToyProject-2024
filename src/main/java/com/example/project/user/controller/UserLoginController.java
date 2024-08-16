@@ -3,6 +3,7 @@ package com.example.project.user.controller;
 import com.example.project.auth.domain.UserDetail;
 import com.example.project.error.exception.user.InvalidLoginUserIdException;
 import com.example.project.error.exception.user.InvalidLoginPasswordException;
+import com.example.project.user.dto.UserResponse;
 import com.example.project.user.dto.login.LoginRequest;
 import com.example.project.user.dto.request.UserUpdateRequest;
 import com.example.project.user.service.LoginAuthService;
@@ -37,7 +38,7 @@ public class UserLoginController {
             HttpServletRequest request,
             HttpServletResponse response
     ) throws IOException {
-        log.info("id : {}, password : {}",loginRequest.getUserId(), loginRequest.getPassword());
+        log.info("id : {}, password : {}", loginRequest.getUserId(), loginRequest.getPassword());
 
 
         if (cookieValue == null) {    //쿠키가 없는 경우
@@ -63,11 +64,22 @@ public class UserLoginController {
             var userResponse = userAuthService.checkSession(request, cookieValue);
             log.info("request: " + request);
             log.info("cookieValue: " + cookieValue);
+
             if (userResponse == null) { //만약 세션과 쿠키가 일치하지 않을 경우
                 log.info("Login failed");
-                response.sendRedirect("http://localhost:8080/user/login");
-            }else {
+
+                UserResponse loginedUserResponse = loginService.login(loginRequest);
+
+                if (loginedUserResponse != null) {
+                    Cookie cookie = userAuthService.cookieIssuance(loginRequest); // 성공 시 쿠키 발급
+                    userAuthService.sessionRegistration(request, loginedUserResponse);
+                    response.addCookie(cookie);
+                    response.sendRedirect("http://localhost:8080/");
+                } else response.sendRedirect("http://localhost:8080/user/login");
+
+            } else {
                 log.info("Login session successful");
+                userAuthService.sessionRegistration(request, userResponse);   // 성공 시 세션 발급
                 response.sendRedirect("http://localhost:8080/"); //성공할 경우 main 페이지로
             }
         }
