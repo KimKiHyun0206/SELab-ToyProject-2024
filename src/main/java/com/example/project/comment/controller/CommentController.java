@@ -1,5 +1,6 @@
 package com.example.project.comment.controller;
 
+import com.example.project.comment.dto.CommentDeleteRequest;
 import com.example.project.comment.dto.CommentRegisterRequest;
 import com.example.project.comment.dto.CommentResponse;
 import com.example.project.comment.service.CommentService;
@@ -27,5 +28,10 @@ public class CommentController {
     @PostMapping
     public CommentResponse register(@RequestBody CommentRegisterRequest request){
         return  commentService.register(request);
+    }
+
+    @DeleteMapping
+    public void delete(@RequestBody CommentDeleteRequest request){
+        commentService.delete(request);
     }
 }
