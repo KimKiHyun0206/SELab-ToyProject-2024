@@ -14,16 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
-
-    private final LoginService loginService;
     private final LoginSessionService loginSessionService;
 
     @RequestMapping
     public String main(
             @CookieValue(value = "DigitalLoginCookie", required = false) String cookieValue,
             Model model,
-            HttpServletRequest request,
-            HttpServletResponse response
+            HttpServletRequest request
     ) {
         if (cookieValue == null) {
             return "non-authentication/main";
