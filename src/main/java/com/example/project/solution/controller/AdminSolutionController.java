@@ -7,6 +7,7 @@ import com.example.project.solution.dto.request.admin.SolutionDeleteRequest;
 import com.example.project.solution.dto.request.admin.SolutionRegisterRequest;
 import com.example.project.solution.dto.request.admin.SolutionUpdateRequest;
 import com.example.project.solution.service.AdminSolutionService;
+import com.example.project.user.domain.vo.RoleType;
 import com.example.project.user.dto.UserResponse;
 import com.example.project.user.dto.login.LoginRequest;
 import com.example.project.user.service.LoginService;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/api/solution/admin")
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/api/solutions/admin")
 @RequiredArgsConstructor
 public class AdminSolutionController {
 
@@ -33,11 +34,15 @@ public class AdminSolutionController {
     public ResponseEntity<?> update(@RequestBody SolutionUpdateRequest request) {
         UserResponse login = loginService.login(new LoginRequest(request.getId(), request.getPassword()));
 
-        var response = service.updateAll(request);
+        if(login.getRoleType() == RoleType.ADMIN){
+            var response = service.updateAll(request);
 
 
-        log.info("Admin {} -> Solution {} Update", request.getAdminId(), request.getSolutionId());
-        return ResponseDto.toResponseEntity(ResponseMessage.UPDATE_SUCCESS_SOLUTION, response);
+            log.info("Admin {} -> Solution {} Update", request.getAdminId(), request.getSolutionId());
+            return ResponseDto.toResponseEntity(ResponseMessage.UPDATE_SUCCESS_SOLUTION, response);
+        }
+
+        return null;
     }
 
     /**
@@ -48,20 +53,25 @@ public class AdminSolutionController {
     public ResponseEntity<?> delete(@RequestBody SolutionDeleteRequest request) {
         UserResponse login = loginService.login(new LoginRequest(request.getId(), request.getPassword()));
 
+        if (login.getRoleType() == RoleType.ADMIN){
+            SolutionResponse response = service.delete(request);
+            if (response != null) {
+                return ResponseDto.toResponseEntity(ResponseMessage.DELETE_SUCCESS_SOLUTION, response);
+            }
 
-        SolutionResponse response = service.delete(request);
-        if (response != null) {
-            return ResponseDto.toResponseEntity(ResponseMessage.DELETE_SUCCESS_SOLUTION, response);
+            log.info("Admin {} -> Solution {} Delete", request.getAdminId(), request.getSolutionId());
+            return ResponseDto.toResponseEntity(ResponseMessage.DELETE_FAIL_SOLUTION, null);
         }
 
-        log.info("Admin {} -> Solution {} Delete", request.getAdminId(), request.getSolutionId());
-        return ResponseDto.toResponseEntity(ResponseMessage.DELETE_FAIL_SOLUTION, null);
+        log.info("Solution Delete : Request Id is Not Admin");
+        return null;
     }
 
     /**
      * @param request : Solution 을 등록할 수 있는 정보를 가진 dto
      * @return SolutionResponse : 등록된 Solution 에 대한 정보를 가지는 dto
      */
+    //TODO Admin 인 것을 확인하는 부분 추가해야함
     @GetMapping
     public ResponseEntity<?> register(@RequestBody SolutionRegisterRequest request) {
         UserResponse login = loginService.login(new LoginRequest(request.getId(), request.getPassword()));

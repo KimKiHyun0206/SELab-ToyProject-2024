@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/api/board")
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/api/boards")
 @RequiredArgsConstructor
 public class BoardApiController {
 

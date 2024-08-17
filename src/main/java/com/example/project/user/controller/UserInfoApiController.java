@@ -15,7 +15,7 @@ import java.io.IOException;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/user/info")
+@RequestMapping("/api/users/info")
 @RequiredArgsConstructor
 public class UserInfoApiController {
 

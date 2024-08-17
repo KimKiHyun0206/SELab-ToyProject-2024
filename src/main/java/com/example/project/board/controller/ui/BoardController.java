@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/board")
+@RequestMapping(value = "/boards")
 @RequiredArgsConstructor
 public class BoardController {
 

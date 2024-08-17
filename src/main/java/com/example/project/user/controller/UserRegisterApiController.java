@@ -16,7 +16,7 @@ import java.io.IOException;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/user/register")
+@RequestMapping("/api/users/register")
 @RequiredArgsConstructor
 public class UserRegisterApiController {
     private final UserService userService;
