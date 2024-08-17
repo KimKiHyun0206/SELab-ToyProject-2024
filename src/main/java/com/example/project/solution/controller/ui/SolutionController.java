@@ -52,7 +52,7 @@ public class SolutionController {
         model.addAttribute("inExample", response.getInExample());
         model.addAttribute("outExample", response.getOutExample());
 
-        UserResponse userResponse = sessionService.checkSession(request, cookieValue);
+        UserResponse userResponse = sessionService.getUser(request, cookieValue);
         if (userResponse != null) {
             return "authentication/solution/solve";
         }

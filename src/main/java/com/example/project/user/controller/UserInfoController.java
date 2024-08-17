@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @RestController
@@ -32,7 +31,7 @@ public class UserInfoController {
             HttpServletRequest request,
             HttpServletResponse response
     ) throws IOException {
-        UserResponse userResponse = sessionService.checkSession(request, cookieValue);
+        UserResponse userResponse = sessionService.getUser(request, cookieValue);
         if (id.equals(userResponse.getId())) {
             UserResponse updateResponse = userService.updateUser(new UserDetail(userResponse.toEntity()), updateRequest);
         }

@@ -23,7 +23,7 @@ public class HomeController {
         if (cookieValue == null) {
             return "non-authentication/main";
         } else{
-            UserResponse userResponse = sessionService.checkSession(request, cookieValue);
+            UserResponse userResponse = sessionService.getUser(request, cookieValue);
             model.addAttribute("user",userResponse.getName().getName());
             return "authentication/main";
         }

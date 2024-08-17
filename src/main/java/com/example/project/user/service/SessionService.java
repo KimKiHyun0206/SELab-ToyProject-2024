@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import java.util.Base64;
 
 @Slf4j
 @Service
@@ -15,7 +14,7 @@ public class SessionService {
     private final UserService userService;
     private final EncodeService encodeService;
 
-    public UserResponse checkSession(HttpServletRequest request, String cookieValue) {
+    public UserResponse getUser(HttpServletRequest request, String cookieValue) {
         HttpSession session = request.getSession(false); // 기존 세션 가져오기
         if (session == null) {
             log.info("No session found for the request.");

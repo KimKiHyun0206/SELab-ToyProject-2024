@@ -1,16 +1,13 @@
 package com.example.project.user.controller;
 
-import com.example.project.auth.domain.UserDetail;
 import com.example.project.error.exception.user.InvalidLoginUserIdException;
 import com.example.project.error.exception.user.InvalidLoginPasswordException;
 import com.example.project.user.dto.UserResponse;
 import com.example.project.user.dto.login.LoginRequest;
-import com.example.project.user.dto.request.UserUpdateRequest;
 import com.example.project.user.service.CookieService;
 import com.example.project.user.service.SessionService;
 import com.example.project.user.service.LoginService;
 import com.example.project.user.service.UserService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @RestController
@@ -73,7 +69,7 @@ public class UserLoginController {
     }
 
     private UserResponse cookieLogin(LoginRequest loginRequest, String cookieValue, HttpServletRequest request) throws InvalidLoginUserIdException, InvalidLoginPasswordException {
-        var userResponse = sessionService.checkSession(request, cookieValue);
+        var userResponse = sessionService.getUser(request, cookieValue);
 
         if (userResponse == null) {
             return loginService.login(loginRequest);

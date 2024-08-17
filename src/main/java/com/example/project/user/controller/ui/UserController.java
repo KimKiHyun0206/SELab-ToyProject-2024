@@ -35,7 +35,7 @@ public class UserController {
     ) {
         if (cookieValue == null) return "";
 
-        UserResponse userResponse = sessionService.checkSession(request, cookieValue);
+        UserResponse userResponse = sessionService.getUser(request, cookieValue);
         model.addAttribute("UserInfo", userResponse);
         return "/authentication/user/info";
     }
@@ -48,7 +48,7 @@ public class UserController {
     ) {
         if (cookieValue == null) return "";
 
-        UserResponse userResponse = sessionService.checkSession(request, cookieValue);
+        UserResponse userResponse = sessionService.getUser(request, cookieValue);
         model.addAttribute("UserInfo", userResponse);
         model.addAttribute("UpdateRequest", new UserUpdateRequest());
 

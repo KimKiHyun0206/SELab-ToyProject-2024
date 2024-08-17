@@ -31,7 +31,7 @@ public class BoardController {
             Model model,
             HttpServletRequest request
     ) {
-        UserResponse userResponse = sessionService.checkSession(request, cookieValue);
+        UserResponse userResponse = sessionService.getUser(request, cookieValue);
 
 
         List<BoardResponse> boardResponses = boardService.readAllBySolutionId(id);
