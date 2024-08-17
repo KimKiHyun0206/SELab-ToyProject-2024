@@ -4,7 +4,7 @@ import com.example.project.error.dto.ErrorMessage;
 import lombok.Getter;
 
 @Getter
-public class ViewException extends RuntimeException{
+public class ViewException extends RuntimeException {
     private final ErrorMessage errorMessage;
 
     public ViewException(ErrorMessage message) {
