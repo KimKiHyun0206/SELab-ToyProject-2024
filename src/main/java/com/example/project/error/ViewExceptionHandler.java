@@ -3,18 +3,15 @@ package com.example.project.error;
 import com.example.project.error.dto.ErrorMessage;
 import com.example.project.error.dto.ErrorResponseDto;
 import com.example.project.error.exception.BusinessException;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
-@RestControllerAdvice
-@RequiredArgsConstructor
-public class GlobalExceptionHandler {
-
+@ControllerAdvice
+public class ViewExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<ErrorResponseDto> handleBusinessException(BusinessException e) {
         var errorMessage = e.getErrorMessage();

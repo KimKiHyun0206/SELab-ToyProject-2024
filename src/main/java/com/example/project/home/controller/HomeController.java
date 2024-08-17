@@ -1,4 +1,4 @@
-package com.example.project.view;
+package com.example.project.home.controller;
 
 import com.example.project.user.dto.UserResponse;
 import com.example.project.user.service.SessionService;
