@@ -5,17 +5,18 @@ import com.example.project.solution.dto.SolutionResponse;
 import com.example.project.solution.dto.request.admin.SolutionDeleteRequest;
 import com.example.project.solution.service.AdminSolutionService;
 import com.example.project.solution.service.UserSolutionService;
-import org.junit.jupiter.api.BeforeEach;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(SolutionController.class)
 public class SolutionControllerTest {
@@ -23,51 +24,66 @@ public class SolutionControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @MockBean
     private AdminSolutionService adminSolutionService;
 
     @MockBean
     private UserSolutionService userSolutionService;
 
-    @BeforeEach
-    public void setUp() {
-        given(userSolutionService.read(any())).willReturn(
-                SolutionResponse.builder()
-                        .id(1L)
-                        .title("Sample Title")
-                        .description("Sample Description")
-                        .build()
-        );
+    @Test
+    public void testReadSolution() throws Exception {
+        String solutionId = "1";
+        SolutionResponse mockResponse = SolutionResponse.builder()
+                .id(1L)
+                .title("Sample Title")
+                .description("Sample Description")
+                .build();
 
-        given(adminSolutionService.delete(any(SolutionDeleteRequest.class))).willReturn(
-                SolutionResponse.builder()
-                        .id(1L)
-                        .title("Deleted Title")
-                        .description("Deleted Description")
-                        .build()
-        );
+        given(userSolutionService.read(any())).willReturn(mockResponse);
+
+        mockMvc.perform(get("/api/solution")
+                        .param("solutionId", solutionId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.title").value("Sample Title"))
+                .andExpect(jsonPath("$.description").value("Sample Description"));
     }
 
     @Test
-    public void testSolutionControllerPerformance() throws Exception {
-        int iterations = 100;
-        long totalTime = 0;
+    public void testDeleteSolution() throws Exception {
+        String adminId = "admin123";
+        Long solutionId = 1L;
+        SolutionDeleteRequest deleteRequest = new SolutionDeleteRequest();
+        deleteRequest.setAdminId(adminId);
+        deleteRequest.setSolutionId(solutionId);
 
-        for (int i = 0; i < iterations; i++) {
-            long startTime = System.currentTimeMillis();
+        SolutionResponse mockResponse = SolutionResponse.builder()
+                .id(solutionId)
+                .title("Deleted Title")
+                .description("Deleted Description")
+                .build();
 
-            mockMvc.perform(MockMvcRequestBuilders.get("/api/solution")
-                            .param("solutionId", "1"))
-                    .andExpect(MockMvcResultMatchers.status().isOk());
+        given(adminSolutionService.delete(any(SolutionDeleteRequest.class))).willReturn(mockResponse);
 
-            long endTime = System.currentTimeMillis();
-            long executionTime = endTime - startTime;
-            totalTime += executionTime;
+        mockMvc.perform(delete("/api/admin/solution")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(deleteRequest)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(solutionId))
+                .andExpect(jsonPath("$.title").value("Deleted Title"))
+                .andExpect(jsonPath("$.description").value("Deleted Description"));
+    }
 
-            System.out.println("반복 " + (i + 1) + " 실행 시간: " + executionTime + "ms");
-        }
+    @Test
+    public void testReadSolutionNotFound() throws Exception {
+        String nonExistentId = "999";
+        given(userSolutionService.read(any())).willThrow(new RuntimeException("Solution not found"));
 
-        double averageTime = (double) totalTime / iterations;
-        System.out.println("평균 실행 시간: " + averageTime + "ms");
+        mockMvc.perform(get("/api/solution")
+                        .param("solutionId", nonExistentId))
+                .andExpect(status().isNotFound());
     }
 }
