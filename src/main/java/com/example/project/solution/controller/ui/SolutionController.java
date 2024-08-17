@@ -30,10 +30,17 @@ public class SolutionController {
     public String solutionList(
             @PageableDefault(size = 10) Pageable pageable,
             Model model,
-            HttpServletRequest request
+            HttpServletRequest request,
+            @CookieValue(value = "DigitalLoginCookie", required = false) String cookieValue
     ) {
         List<SolutionListResponse> solutionList = userSolutionService.getSolutionList(pageable);
         model.addAttribute("solutionList", solutionList);
+
+        if(cookieValue != null){
+            UserResponse user = sessionService.getUser(request, cookieValue);
+            model.addAttribute("User", user);
+            return "authentication/solution/solution_list";
+        }
 
         return "non-authentication/solution/solution_list";
 
