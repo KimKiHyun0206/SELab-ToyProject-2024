@@ -1,4 +1,4 @@
-package com.example.project.main;
+package com.example.project.view;
 
 import com.example.project.user.dto.UserResponse;
 import com.example.project.user.service.SessionService;
@@ -15,7 +15,7 @@ public class HomeController {
     private final SessionService sessionService;
 
     @RequestMapping
-    public String main(
+    public String home(
             @CookieValue(value = "DigitalLoginCookie", required = false) String cookieValue,
             Model model,
             HttpServletRequest request
@@ -28,4 +28,10 @@ public class HomeController {
             return "authentication/main";
         }
     }
+
+    @RequestMapping(value = "/ranking")
+    public String ranking(){
+        return null;
+    }
+
 }
