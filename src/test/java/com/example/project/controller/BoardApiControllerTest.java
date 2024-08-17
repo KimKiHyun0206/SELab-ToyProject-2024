@@ -1,16 +1,22 @@
 package com.example.project.controller;
 
+import com.example.project.board.dto.BoardResponse;
 import com.example.project.board.dto.request.BoardDeleteRequest;
-import com.example.project.board.dto.request.BoardReadRequest;
 import com.example.project.board.dto.request.BoardRegisterRequest;
 import com.example.project.board.dto.request.BoardUpdateRequest;
+import com.example.project.board.service.BoardService;
+import com.example.project.board.repository.BoardRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -24,90 +30,86 @@ public class BoardApiControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Test
-    public void testRegister() throws Exception {
-        long startTime = System.currentTimeMillis();
-        for (long i = 1; i <= 100; i++) {
-            BoardRegisterRequest boardRegisterRequest = new BoardRegisterRequest();
-            boardRegisterRequest.setTitle("Test Title " + i);
-            boardRegisterRequest.setContext("Test Context " + i);
-            boardRegisterRequest.setUserId(i);
-            boardRegisterRequest.setSolutionId(i);
+    @Autowired
+    private BoardService boardService;
 
-            String boardJson = objectMapper.writeValueAsString(boardRegisterRequest);
+    @Autowired
+    private BoardRepository boardRepository;
+
+    @BeforeEach
+    public void setup() {
+        boardRepository.deleteAll();
+
+        BoardRegisterRequest initialBoard = new BoardRegisterRequest();
+        initialBoard.setTitle("Initial Board");
+        initialBoard.setContext("Initial Context");
+        initialBoard.setUserId(1L);
+        initialBoard.setSolutionId(1L);
+
+        BoardResponse response = boardService.register(initialBoard);
+
+        Assertions.assertNotNull(response, "초기 게시글 등록 실패");
+        Assertions.assertEquals("Initial Board", response.getTitle(), "초기 게시글 제목 불일치");
+    }
+
+    @Test
+    public void testRegisterReadUpdateDelete() throws Exception {
+        long startTime = System.currentTimeMillis();
+
+        for (int i = 1; i <= 100; i++) {
+            BoardRegisterRequest registerRequest = new BoardRegisterRequest();
+            registerRequest.setTitle("Test Title " + i);
+            registerRequest.setContext("Test Context " + i);
+            registerRequest.setUserId((long) i);
+            registerRequest.setSolutionId((long) i);
+
+            String registerJson = objectMapper.writeValueAsString(registerRequest);
 
             mockMvc.perform(post("/api/board")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(boardJson))
-                    .andExpect(status().isCreated());
-        }
+                            .content(registerJson))
+                    .andExpect(status().isCreated())
+                    .andExpect(jsonPath("$.title", is("Test Title " + i)))
+                    .andExpect(jsonPath("$.context", is("Test Context " + i)));
 
-        long endTime = System.currentTimeMillis();
-        System.out.println("Time taken for 100 register tests: " + (endTime - startTime) + "ms");
-    }
+            mockMvc.perform(get("/api/board/" + (i + 1)) // i + 1 because we have an initial board
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.title", is("Test Title " + i)))
+                    .andExpect(jsonPath("$.context", is("Test Context " + i)));
 
-    @Test
-    public void testRead() throws Exception {
+            BoardUpdateRequest updateRequest = new BoardUpdateRequest();
+            updateRequest.setId((long) (i + 1));
+            updateRequest.setUserId((long) i);
+            updateRequest.setTitle("Updated Title " + i);
+            updateRequest.setContext("Updated Context " + i);
 
-        testRegister();
-
-        long startTime = System.currentTimeMillis();
-        for (int i = 1; i <= 100; i++) {
-            BoardReadRequest boardReadRequest = new BoardReadRequest();
-            boardReadRequest.setBoardId((long) i);
-
-            String boardJson = objectMapper.writeValueAsString(boardReadRequest);
-
-            mockMvc.perform(get("/api/board")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(boardJson))
-                    .andExpect(status().isOk());
-        }
-        long endTime = System.currentTimeMillis();
-        System.out.println("Time taken for 100 read tests: " + (endTime - startTime) + "ms");
-    }
-
-    @Test
-    public void testUpdate() throws Exception {
-
-        testRegister();
-
-        long startTime = System.currentTimeMillis();
-        for (long i = 1; i <= 100; i++) {
-            BoardUpdateRequest boardUpdateRequest = new BoardUpdateRequest();
-            boardUpdateRequest.setId(i);
-            boardUpdateRequest.setUserId(i);
-            boardUpdateRequest.setTitle("Updated Title " + i);
-            boardUpdateRequest.setContext("Updated Context " + i);
-
-            String updateJson = objectMapper.writeValueAsString(boardUpdateRequest);
+            String updateJson = objectMapper.writeValueAsString(updateRequest);
 
             mockMvc.perform(put("/api/board")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(updateJson))
-                    .andExpect(status().isOk());
-        }
-        long endTime = System.currentTimeMillis();
-        System.out.println("Time taken for 100 update tests: " + (endTime - startTime) + "ms");
-    }
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.title", is("Updated Title " + i)))
+                    .andExpect(jsonPath("$.context", is("Updated Context " + i)));
 
+            BoardDeleteRequest deleteRequest = new BoardDeleteRequest();
+            deleteRequest.setBoardId((long) (i + 1));
+            deleteRequest.setUserId((long) i);
 
-    @Test
-    public void testDelete() throws Exception {
-        long startTime = System.currentTimeMillis();
-        for (long i = 1; i <= 100; i++) {
-            BoardDeleteRequest boardDeleteRequest = new BoardDeleteRequest();
-            boardDeleteRequest.setBoardId(i);
-            boardDeleteRequest.setUserId(i);
-
-            String deleteJson = objectMapper.writeValueAsString(boardDeleteRequest);
+            String deleteJson = objectMapper.writeValueAsString(deleteRequest);
 
             mockMvc.perform(delete("/api/board")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(deleteJson))
                     .andExpect(status().isOk());
+
+            mockMvc.perform(get("/api/board/" + (i + 1))
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isNotFound());
         }
+
         long endTime = System.currentTimeMillis();
-        System.out.println("Time taken for 100 delete tests: " + (endTime - startTime) + "ms");
+        System.out.println("시간 : " + (endTime - startTime) + "ms");
     }
 }
