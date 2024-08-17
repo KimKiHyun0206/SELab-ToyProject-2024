@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
-@RestControllerAdvice   //REST API 통신에서 발생하는 에러 메시지를 통신에서 제공한다 -> TODO ControllerAdvice를 만들기
+@RestControllerAdvice
 public class BusinessExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
