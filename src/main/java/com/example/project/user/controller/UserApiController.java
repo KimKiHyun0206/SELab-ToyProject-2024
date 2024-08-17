@@ -1,7 +1,5 @@
 package com.example.project.user.controller;
 
-import com.example.project.auth.annotation.AuthMember;
-import com.example.project.auth.domain.UserDetail;
 import com.example.project.common.dto.ResponseDto;
 import com.example.project.common.dto.ResponseMessage;
 import com.example.project.user.dto.request.UserRegisterRequest;
@@ -48,9 +46,8 @@ public class UserApiController {
      * @return UserResponse : User 정보 ResponseDto
      * */
     @PatchMapping("/edit")
-    public ResponseEntity<?> editMember(@AuthMember UserDetail detail
-            , @RequestBody @Valid UserUpdateRequest request) {
-        var response = memberService.updateUser(detail, request);
+    public ResponseEntity<?> editMember(@RequestBody @Valid UserUpdateRequest request) {
+        var response = memberService.updateUser(request);
 
         return ResponseDto.toResponseEntity(ResponseMessage.SUCCESS_UPDATE_USER, response);
     }

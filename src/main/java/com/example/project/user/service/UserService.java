@@ -1,6 +1,5 @@
 package com.example.project.user.service;
 
-import com.example.project.auth.domain.UserDetail;
 import com.example.project.error.dto.ErrorMessage;
 import com.example.project.error.exception.user.AlreadyExistUserEmailException;
 import com.example.project.error.exception.user.InvalidIdToFindUserException;
@@ -19,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -55,20 +55,16 @@ public class UserService {
 
 
     @Transactional
-    public UserResponse updateUser(UserDetail detail, UserUpdateRequest request) {
-        loginCheckException(detail);
-        var user = findByIdFromLogin(detail.getId());
+    public UserResponse updateUser(UserUpdateRequest request) {
+        User user = userRepository
+                .findByUserId(request.getUserId())
+                .orElseThrow(() -> new InvalidIdToFindUserException(ErrorMessage.USER_NOT_FOUND_ERROR, "유저를 찾을 수 없습니다"));
+
         user.updateUser(request);
 
         return user.toResponseDto();
     }
 
-    @Async
-    public void loginCheckException(UserDetail detail) {
-        if (detail.getRoleType() == RoleType.USER) {
-            throw new LoginTokenNullException(ErrorMessage.NOT_LOGIN_USER_EXCEPTION, "로그인 정보가 없습니다");
-        }
-    }
 
     @Transactional(readOnly = true)
     public User findByIdFromLogin(Long id) {

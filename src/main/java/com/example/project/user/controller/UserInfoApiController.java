@@ -1,6 +1,5 @@
 package com.example.project.user.controller;
 
-import com.example.project.auth.domain.UserDetail;
 import com.example.project.user.dto.UserResponse;
 import com.example.project.user.dto.request.UserUpdateRequest;
 import com.example.project.user.service.SessionService;
@@ -33,7 +32,7 @@ public class UserInfoApiController {
     ) throws IOException {
         UserResponse userResponse = sessionService.getUser(request, cookieValue);
         if (id.equals(userResponse.getId())) {
-            userService.updateUser(new UserDetail(userResponse.toEntity()), updateRequest);
+            userService.updateUser(updateRequest);
         }
         response.sendRedirect("/localhost:8080/user/info");
     }
