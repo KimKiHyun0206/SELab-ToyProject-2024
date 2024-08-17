@@ -18,7 +18,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api/user/info")
 @RequiredArgsConstructor
-public class UserInfoController {
+public class UserInfoApiController {
 
     private final UserService userService;
     private final SessionService sessionService;
@@ -33,25 +33,36 @@ public class UserInfoController {
     ) throws IOException {
         UserResponse userResponse = sessionService.getUser(request, cookieValue);
         if (id.equals(userResponse.getId())) {
-            UserResponse updateResponse = userService.updateUser(new UserDetail(userResponse.toEntity()), updateRequest);
+            userService.updateUser(new UserDetail(userResponse.toEntity()), updateRequest);
         }
         response.sendRedirect("/localhost:8080/user/info");
     }
 
     //TODO 토큰 인증으로 마이페이지 접속할 수 있도록 추가하기
     @GetMapping("/my-page/{id}")
-    public void myPage(Model model, @PathVariable Long id) {
+    public void myPage(
+            Model model,
+            @PathVariable Long id,
+            HttpServletResponse response
+
+    ) throws IOException {
         var userResponse = userService.find(id);
         log.info("[ SYSTEM ] MyPage user 조회 성공했습니다 {}", id);
         model.addAttribute("UserInfo", userResponse);
+        response.sendRedirect("/localhost:8080/user/info");
     }
 
     //TODO 토큰 인증으로 유저 정보 수정 가능하도록 만들기
     @GetMapping("/edit/{id}")
-    public void editInfo(Model model, @PathVariable Long id) {
+    public void editInfo(
+            Model model,
+            @PathVariable Long id,
+            HttpServletResponse response
+    ) throws IOException {
         var userResponse = userService.find(id);
         log.info("[ SYSTEM ] Edit user 조회 성공했습니다 {}", id);
         model.addAttribute("UserResponse", userResponse);
         model.addAttribute("UpdateRequest", new UserUpdateRequest());
+        response.sendRedirect("/localhost:8080/user/info");
     }
 }
