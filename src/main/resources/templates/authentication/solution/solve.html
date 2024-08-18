@@ -1,69 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--  <meta charset="UTF-8">-->
-<!--  <title>문제 풀기</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--<span th:text="${title}"></span>-->
-<!--<span th:text="${description}"></span>-->
-<!--<span th:text="${inExample}"></span>-->
-<!--<span th:text="${outExample}"></span>-->
-<!--<a th:action="@{/api/complie}" th:method="post"></a>-->
-<!--</body>-->
-<!--</html>-->
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--  <meta charset="UTF-8">-->
-<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--  <title>문제 풀기</title>-->
-<!--  <link rel="stylesheet" href="solve.css">-->
-<!--</head>-->
-<!--<body>-->
-<!--<header>-->
-<!--  <nav>-->
-<!--    <ul>-->
-<!--      <li><a th:href="@{/}">홈</a></li>-->
-<!--      <li><a th:href="@{/user/solution}">문제</a></li>-->
-<!--      <li><a th:href="@{/user/ranking}">랭킹</a></li>-->
-<!--      <li><a th:href="@{/user/my-page}">마이페이지</a></li>-->
-<!--      <li><a th:href="@{/logout}">로그아웃</a></li>-->
-<!--    </ul>-->
-<!--  </nav>-->
-<!--</header>-->
-
-<!--<main>-->
-<!--  <div class="container">-->
-<!--    <section class="problem-description">-->
-<!--      <h2>문제 설명</h2>-->
-<!--      <p><span th:text="${title}"></span></p>-->
-<!--      <p><span th:text="${description}"></span></p>-->
-<!--      <h3>입력 예제</h3>-->
-<!--      <pre><span th:text="${inExample}"></span></pre>-->
-<!--      <h3>출력 예제</h3>-->
-<!--      <pre><span th:text="${outExample}"></span></pre>-->
-<!--    </section>-->
-
-<!--    <section class="solution-area">-->
-<!--      <h2>문제 해결</h2>-->
-<!--      <form id="solutionForm" th:action="@{/api/compile}" method="post">-->
-<!--        <label for="code">작성한 코드:</label>-->
-<!--        <textarea id="code" name="code" rows="10" cols="50" placeholder="여기에 코드를 작성하세요..."></textarea>-->
-<!--        <button type="submit">컴파일 및 제출</button>-->
-<!--      </form>-->
-<!--      <div id="result">-->
-<!--        <h3>결과:</h3>-->
-<!--        <pre id="resultOutput"></pre>-->
-<!--      </div>-->
-<!--    </section>-->
-<!--  </div>-->
-
-
-<!--  <script src="solve.js.js"></script>-->
-<!--</main>-->
-<!--</body>-->
-<!--</html>-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,9 +11,9 @@
   <nav>
     <ul>
       <li><a href="/">홈</a></li>
-      <li><a href="/user/solution">문제</a></li>
-      <li><a href="/user/ranking">랭킹</a></li>
-      <li><a href="/user/my-page">마이페이지</a></li>
+      <li><a href="/users/solutions/list">문제</a></li>
+      <li><a href="/users/ranking">랭킹</a></li>
+      <li><a href="/users/info">마이페이지</a></li>
       <li><a href="/logout">로그아웃</a></li>
     </ul>
   </nav>

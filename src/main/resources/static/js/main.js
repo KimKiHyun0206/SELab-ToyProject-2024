@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const confirmStart = confirm('시작할려면 로그인을 해야합니다. 로그인 화면으로 이동하시겠습니까?');
         if (confirmStart) {
             // 사용자가 확인하면 해당 URL로 이동
-            window.location.href = '/user/login'
+            window.location.href = '/users/login'
         }
     });
 
@@ -40,31 +40,31 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // 로그인 버튼 클릭 시 로그인 페이지로 이동
-    const loginButton = document.querySelector('a[th\\:href="@{/user/login}"]');
+    const loginButton = document.querySelector('a[th\\:href="@{/users/login}"]');
     loginButton.addEventListener('click', function(event) {
         event.preventDefault(); // 기본 동작 방지
         window.location.href = '/user/login'; // 로그인 페이지로 이동
     });
 
     // 회원가입 버튼 클릭 시 회원가입 페이지로 이동
-    const registerButton = document.querySelector('a[th\\:href="@{/user/register}"]');
+    const registerButton = document.querySelector('a[th\\:href="@{/users/register}"]');
     registerButton.addEventListener('click', function(event) {
         event.preventDefault(); // 기본 동작 방지
-        window.location.href = '/user/register'; // 회원가입 페이지로 이동
+        window.location.href = '/users/register'; // 회원가입 페이지로 이동
     });
 
     // 문제 버튼 클릭 시 문제 페이지로 이동
-    const solutionButton = document.querySelector('a[th\\:href="@{/user/solution/list}"]');
+    const solutionButton = document.querySelector('a[th\\:href="@{/users/solutions/list}"]');
     solutionButton.addEventListener('click', function(event) {
         event.preventDefault(); // 기본 동작 방지
-        window.location.href = '/user/solution/list'; // 문제 페이지로 이동
+        window.location.href = '/users/solution/list'; // 문제 페이지로 이동
     });
 
     // 랭킹 버튼 클릭 시 랭킹 페이지로 이동
-    const rankingButton = document.querySelector('a[th\\:href="@{/user/ranking}"]');
+    const rankingButton = document.querySelector('a[th\\:href="@{/users/ranking}"]');
     rankingButton.addEventListener('click', function(event) {
         event.preventDefault(); // 기본 동작 방지
-        window.location.href = '/user/ranking'; // 랭킹 페이지로 이동
+        window.location.href = '/users/ranking'; // 랭킹 페이지로 이동
     });
 });
 

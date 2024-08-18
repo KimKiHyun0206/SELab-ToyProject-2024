@@ -39,10 +39,10 @@
     <nav>
         <ul>
             <li><a th:href="@{/}">홈</a></li>
-            <li><a th:href="@{/user/solution/list}">문제</a></li>
-            <li><a th:href="@{/user/ranking}">랭킹</a></li>
-            <li><a th:href="@{/user/my-page}">마이페이지</a></li>
-            <li><a th:href="@{/user/logout}">로그아웃</a></li>
+            <li><a th:href="@{/users/solutions/list}">문제</a></li>
+            <li><a th:href="@{/users/ranking}">랭킹</a></li>
+            <li><a th:href="@{/users/my-page}">마이페이지</a></li>
+            <li><a th:href="@{/users/logout}">로그아웃</a></li>
         </ul>
     </nav>
 </header>
@@ -50,7 +50,7 @@
 <main>
     <section class="edit-info">
         <h1>정보 수정</h1>
-        <form th:action="@{/api/user/info/edit/${UserInfo.id}}" th:object="${UpdateRequest}" method="post">
+        <form th:action="@{/api/users/info/edit/${UserInfo.id}}" th:object="${UpdateRequest}" method="post">
             <div class="form-group">
                 <label for="userId">UserID</label>
                 <input type="text" th:field="${UpdateRequest.userId}" th:placeholder="${UserInfo.userId}" id="userId" required>

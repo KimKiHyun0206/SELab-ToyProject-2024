@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault(); // 기본 동작 막기
 
         // 문제 페이지로 바로 이동
-        window.location.href = '/user/solution/list';
+        window.location.href = '/users/solutions/list';
     });
 
     // 간단한 애니메이션 예시: Hero 섹션의 제목에 페이드 인 애니메이션 적용
@@ -35,35 +35,35 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // 문제 버튼 클릭 시 문제 페이지로 이동
-    const solutionButton = document.querySelector('a[th\\:href="@{/user/solution/list}"]');
+    const solutionButton = document.querySelector('a[th\\:href="@{/users/solution/list}"]');
     solutionButton.addEventListener('click', function(event) {
         event.preventDefault(); // 기본 동작 방지
-        window.location.href = '/user/solution/list'; // 문제 페이지로 이동
+        window.location.href = '/users/solutions/list'; // 문제 페이지로 이동
     });
 
     // 랭킹 버튼 클릭 시 랭킹 페이지로 이동
-    const rankingButton = document.querySelector('a[th\\:href="@{/user/ranking}"]');
+    const rankingButton = document.querySelector('a[th\\:href="@{/users/ranking}"]');
     rankingButton.addEventListener('click', function(event) {
         event.preventDefault(); // 기본 동작 방지
-        window.location.href = '/user/ranking'; // 랭킹 페이지로 이동
+        window.location.href = '/users/ranking'; // 랭킹 페이지로 이동
     });
 
     // 마이페이지 버튼 클릭 시 마이페이지로 이동
-    const myPageButton = document.querySelector('a[th\\:href="@{/user/info}"]');
+    const myPageButton = document.querySelector('a[th\\:href="@{/users/info}"]');
     myPageButton.addEventListener('click', function(event) {
         event.preventDefault(); // 기본 동작 방지
-        window.location.href = '/user/info'; // 마이페이지로 이동
+        window.location.href = '/users/info'; // 마이페이지로 이동
     });
 
     // 로그아웃 버튼 클릭 시 로그아웃 요청
-    const logoutButton = document.querySelector('a[th\\:href="@{/user/logout}"]');
+    const logoutButton = document.querySelector('a[th\\:href="@{/users/logout}"]');
     logoutButton.addEventListener('click', function(event) {
         event.preventDefault(); // 기본 동작 방지
 
         // 로그아웃 확인 메시지
         const confirmLogout = confirm('정말 로그아웃 하시겠습니까?');
         if (confirmLogout) {
-            window.location.href = '/user/logout'; // 로그아웃 요청
+            window.location.href = '/users/logout'; // 로그아웃 요청
         }
     });
 });

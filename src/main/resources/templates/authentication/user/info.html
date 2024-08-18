@@ -11,10 +11,10 @@
     <nav>
         <ul>
             <li><a th:href="@{/}">홈</a></li>
-            <li><a th:href="@{/user/solution/list}">문제</a></li>
-            <li><a th:href="@{/user/ranking}">랭킹</a></li>
-            <li><a th:href="@{/user/my-page}">마이페이지</a></li>
-            <li><a th:href="@{/user/logout}">로그아웃</a></li>
+            <li><a th:href="@{/users/solutions/list}">문제</a></li>
+            <li><a th:href="@{/users/ranking}">랭킹</a></li>
+            <li><a th:href="@{/users/info}">마이페이지</a></li>
+            <li><a th:href="@{/users/logout}">로그아웃</a></li>
         </ul>
     </nav>
 </header>
@@ -52,7 +52,7 @@
                 <td th:text="${UserInfo.roleType}">Null</td>
             </tr>
         </table>
-        <form th:action="@{/user/edit-info/${UserInfo.id}}" method="get">
+        <form th:action="@{/users/edit-info/${UserInfo.id}}" method="get">
             <button type="submit">유저 정보 수정하기</button>
         </form>
     </section>

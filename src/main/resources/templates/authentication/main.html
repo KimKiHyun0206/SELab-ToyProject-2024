@@ -11,10 +11,10 @@
     <nav>
         <ul>
             <li><a th:href="@{/}">홈</a></li>
-            <li><a th:href="@{/user/solution/list}">문제</a></li>
-            <li><a th:href="@{/user/ranking}">랭킹</a></li>
-            <li><a th:href="@{/user/info}">마이페이지</a></li>
-            <li><a th:href="@{/user/logout}">로그아웃</a></li>
+            <li><a th:href="@{/users/solutions/list}">문제</a></li>
+            <li><a th:href="@{/users/ranking}">랭킹</a></li>
+            <li><a th:href="@{/users/info}">마이페이지</a></li>
+            <li><a th:href="@{/users/logout}">로그아웃</a></li>
         </ul>
     </nav>
 </header>
@@ -23,7 +23,7 @@
     <section class="hero">
         <h1>환영합니다, <span th:text="${user}">사용자</span>님!</h1>
         <p>다양한 코딩 테스트 문제를 풀고, 실력을 향상시키세요.</p>
-        <a th:href="@{/user/solution/list}" class="btn">문제 풀기 시작하기</a>
+        <a th:href="@{/users/solutions/list}" class="btn">문제 풀기 시작하기</a>
     </section>
 
     <section class="features">

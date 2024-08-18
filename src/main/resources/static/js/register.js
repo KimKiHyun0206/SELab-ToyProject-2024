@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     email: email
                 };
 
-                fetch('/api/user/register', {
+                fetch('/api/users/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
