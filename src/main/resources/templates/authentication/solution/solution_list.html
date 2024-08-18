@@ -2,9 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문제 리스트</title>
+    <link rel="stylesheet" href="/css/solutionList.css">
 </head>
 <body>
+<header>
+    <nav>
+        <ul>
+            <li><a href="/">홈</a></li>
+            <li><a href="/user/solution">문제</a></li>
+            <li><a href="/user/ranking">랭킹</a></li>
+            <li><a href="/user/my-page">마이페이지</a></li>
+            <li><a href="/logout">로그아웃</a></li>
+        </ul>
+    </nav>
+</header>
 
+<main>
+    <h1>문제 리스트</h1>
+    <table id="problemTable">
+        <thead>
+        <tr>
+            <th>문제 제목</th>
+            <th>난이도</th>
+            <th>푼 사람 수</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 문제 목록은 JavaScript를 통해 동적으로 생성됩니다. -->
+        </tbody>
+    </table>
+</main>
+
+<footer>
+    <p>&copy; 2024 코딩 테스트 웹사이트.</p>
+</footer>
+
+<script src="/js/solutionList.js"></script>
 </body>
 </html>

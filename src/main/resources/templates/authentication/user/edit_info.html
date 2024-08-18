@@ -1,28 +1,81 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Edit Info</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<form th:action="@{/api/user/info/edit/${UserInfo.id}}" th:object="${UpdateRequest}" method="post">-->
+
+<!--    <p>UserID</p>-->
+<!--    <input type="text" th:field="${UpdateRequest.userId}" th:placeholder="${UserInfo.userId}" id="userId" required>-->
+
+<!--    <p>Password</p>-->
+<!--    <input type="text" th:field="${UpdateRequest.userId}" th:placeholder="${UserInfo.password}" id="password"-->
+<!--           required>-->
+
+<!--    <p>Name</p>-->
+<!--    <input type="text" th:field="${UpdateRequest.userId}" th:placeholder="${UserInfo.name}" id="name" required>-->
+
+
+<!--    <p>Email</p>-->
+<!--    <input type="text" th:field="${UpdateRequest.userId}" th:placeholder="${UserInfo.email}" id="email" required>-->
+<!--    <br>-->
+<!--    <input type="submit" value="회원가입">-->
+<!--</form>-->
+
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Info</title>
+    <link rel="stylesheet" href="/css/editInfo.css"> <!-- CSS 파일 링크 -->
 </head>
 <body>
-<form th:action="@{/api/user/info/edit/${UserInfo.id}}" th:object="${UpdateRequest}" method="post">
+<header>
+    <nav>
+        <ul>
+            <li><a th:href="@{/}">홈</a></li>
+            <li><a th:href="@{/user/solution/list}">문제</a></li>
+            <li><a th:href="@{/user/ranking}">랭킹</a></li>
+            <li><a th:href="@{/user/my-page}">마이페이지</a></li>
+            <li><a th:href="@{/user/logout}">로그아웃</a></li>
+        </ul>
+    </nav>
+</header>
 
-    <p>UserID</p>
-    <input type="text" th:field="${UpdateRequest.userId}" th:placeholder="${UserInfo.userId}" id="userId" required>
+<main>
+    <section class="edit-info">
+        <h1>정보 수정</h1>
+        <form th:action="@{/api/user/info/edit/${UserInfo.id}}" th:object="${UpdateRequest}" method="post">
+            <div class="form-group">
+                <label for="userId">UserID</label>
+                <input type="text" th:field="${UpdateRequest.userId}" th:placeholder="${UserInfo.userId}" id="userId" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" th:field="${UpdateRequest.password}" th:placeholder="${UserInfo.password}" id="password" required>
+            </div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" th:field="${UpdateRequest.name}" th:placeholder="${UserInfo.name}" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" th:field="${UpdateRequest.email}" th:placeholder="${UserInfo.email}" id="email" required>
+            </div>
+            <input type="submit" value="정보 수정">
+        </form>
+    </section>
+</main>
 
-    <p>Password</p>
-    <input type="text" th:field="${UpdateRequest.userId}" th:placeholder="${UserInfo.password}" id="password"
-           required>
+<footer>
+    <p>&copy; 2024 코딩 테스트 웹사이트.</p>
+</footer>
 
-    <p>Name</p>
-    <input type="text" th:field="${UpdateRequest.userId}" th:placeholder="${UserInfo.name}" id="name" required>
-
-
-    <p>Email</p>
-    <input type="text" th:field="${UpdateRequest.userId}" th:placeholder="${UserInfo.email}" id="email" required>
-    <br>
-    <input type="submit" value="회원가입">
-</form>
-
+<script src="/js/editInfo.js"></script> <!-- JS 파일 링크 -->
 </body>
 </html>
