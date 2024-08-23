@@ -78,10 +78,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             alert(`회원가입 실패: ${data.message}`); // 서버에서 반환한 오류 메시지 표시
                         }
                     })
-                    .catch(error => {
-                        console.error('서버 오류:', error);
-                        alert('서버 오류가 발생했습니다. 나중에 다시 시도해주세요.');
-                    });
+                    // .catch(error => {
+                    //     console.error('서버 오류:', error);
+                    //     alert('서버 오류가 발생했습니다. 나중에 다시 시도해주세요.');
+                    // });
             }
         });
 
