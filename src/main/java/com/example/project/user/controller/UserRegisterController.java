@@ -6,6 +6,7 @@ import com.example.project.user.dto.request.UserRegisterRequest;
 import com.example.project.user.service.CookieService;
 import com.example.project.user.service.SessionService;
 import com.example.project.user.service.UserService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api/users/register")
 @RequiredArgsConstructor
-public class UserRegisterApiController {
+public class UserRegisterController {
     private final UserService userService;
     private final SessionService sessionService;
     private final CookieService cookieService;
@@ -32,9 +33,13 @@ public class UserRegisterApiController {
         log.info("User Register Request {}", userRegisterRequest.getUserId());
 
         UserResponse register = userService.register(userRegisterRequest);
-        cookieService.authCookieIssue(new LoginRequest(register.getUserId(), register.getPassword()));
+        log.info("registered user {}", register.getId());
+        Cookie cookie = cookieService.authCookieIssue(register.getUserId(), register.getPassword());
+        log.info("cookie issue {}", cookie.getValue());
+
         sessionService.sessionRegistration(request, register);
 
+        response.addCookie(cookie);
         response.sendRedirect("http://localhost:8080/");
     }
 }
