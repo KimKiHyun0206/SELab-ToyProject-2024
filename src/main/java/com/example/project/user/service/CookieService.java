@@ -13,6 +13,16 @@ public class CookieService {
     public Cookie authCookieIssue(LoginRequest request) {
         String encodedUserId = encodeService.userIdEncode(request.getUserId());
 
+        return getCookie(encodedUserId);
+    }
+
+    public Cookie authCookieIssue(String id, String password){
+        String encodedUserId = encodeService.userIdEncode(id);
+
+        return getCookie(encodedUserId);
+    }
+
+    private Cookie getCookie(String encodedUserId) {
         Cookie cookie = new Cookie("DigitalLoginCookie", encodedUserId); // 인코딩된 사용자 ID 사용
         cookie.setDomain("localhost");
         cookie.setMaxAge(60 * 60); // 쿠키를 1시간 동안 저장
