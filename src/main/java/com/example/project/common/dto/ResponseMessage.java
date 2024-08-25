@@ -29,10 +29,9 @@ public enum ResponseMessage {
     DELETE_SUCCESS_BOARD(HttpStatus.OK,"해당 Board 삭제 성공 했습니다."),
     //UPLOAD_IMAGE_SUCCESS(HttpStatus.CREATED, "이미지 업로드 성공"),
 
-    /**
-     *
-     * */
+    //SOLUTION
     CREATE_SUCCESS_SOLUTION(HttpStatus.CREATED,"문제 생성 성공 했습니다."),
+    CREATE_FAIL_SOLUTION(HttpStatus.BAD_REQUEST,"문제 생성 실패했습니다"),
     UPDATE_SUCCESS_SOLUTION(HttpStatus.OK,"문제 수정 성공 했습니다."),
     READ_SUCCESS_SOLUTION(HttpStatus.OK, "Solution 조회 성공했습니다"),
     READ_ALL_SUCCESS_SOLUTION(HttpStatus.OK,"전체 문제 읽기 성공 했습니다."),
