@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Data
 public class SolutionUpdateRequest {
-    private Long adminId;
     private String id;
     private String password;
     private Long solutionId;
