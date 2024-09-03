@@ -17,7 +17,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api/users/info")
 @RequiredArgsConstructor
-public class UserInfoApiController {
+public class UserInfoController {
 
     private final UserService userService;
     private final SessionService sessionService;
@@ -30,7 +30,9 @@ public class UserInfoApiController {
             HttpServletRequest request,
             HttpServletResponse response
     ) throws IOException {
-        UserResponse userResponse = sessionService.getUser(request, cookieValue);
+        log.info("editUser {}", id);
+        var userResponse = sessionService.getUser(request, cookieValue);
+        log.info("userResponse id {}", userResponse.getId());
         if (id.equals(userResponse.getId())) {
             userService.updateUser(updateRequest);
         }
@@ -45,8 +47,9 @@ public class UserInfoApiController {
             HttpServletResponse response
 
     ) throws IOException {
+        log.info("myPage {}", id);
         var userResponse = userService.find(id);
-        log.info("[ SYSTEM ] MyPage user 조회 성공했습니다 {}", id);
+        log.info("userResponse id {}", userResponse.getId());
         model.addAttribute("UserInfo", userResponse);
         response.sendRedirect("/localhost:8080/user/info");
     }
@@ -58,8 +61,9 @@ public class UserInfoApiController {
             @PathVariable Long id,
             HttpServletResponse response
     ) throws IOException {
+        log.info("editInfo {}", id);
         var userResponse = userService.find(id);
-        log.info("[ SYSTEM ] Edit user 조회 성공했습니다 {}", id);
+        log.info("userResponse id {}", userResponse.getId());
         model.addAttribute("UserResponse", userResponse);
         model.addAttribute("UpdateRequest", new UserUpdateRequest());
         response.sendRedirect("/localhost:8080/user/info");

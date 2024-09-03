@@ -32,13 +32,12 @@ public class AdminSolutionController {
      */
     @PatchMapping
     public ResponseEntity<?> update(@RequestBody SolutionUpdateRequest request) {
-        UserResponse login = loginService.login(new LoginRequest(request.getId(), request.getPassword()));
+        boolean isAdmin = loginService.isAdminLogin(request.getId(), request.getPassword());
 
-        if(login.getRoleType() == RoleType.ADMIN){
+        if (isAdmin) {
             var response = service.updateAll(request);
 
-
-            log.info("Admin {} -> Solution {} Update", request.getAdminId(), request.getSolutionId());
+            log.info("Admin {} -> Solution {} Update", request.getId(), request.getSolutionId());
             return ResponseDto.toResponseEntity(ResponseMessage.UPDATE_SUCCESS_SOLUTION, response);
         }
 
@@ -51,15 +50,15 @@ public class AdminSolutionController {
      */
     @DeleteMapping
     public ResponseEntity<?> delete(@RequestBody SolutionDeleteRequest request) {
-        UserResponse login = loginService.login(new LoginRequest(request.getId(), request.getPassword()));
+        boolean isAdmin = loginService.isAdminLogin(request.getId(), request.getPassword());
 
-        if (login.getRoleType() == RoleType.ADMIN){
+        if (isAdmin) {
             SolutionResponse response = service.delete(request);
             if (response != null) {
                 return ResponseDto.toResponseEntity(ResponseMessage.DELETE_SUCCESS_SOLUTION, response);
             }
 
-            log.info("Admin {} -> Solution {} Delete", request.getAdminId(), request.getSolutionId());
+            log.info("Admin {} -> Solution {} Delete", request.getId(), request.getSolutionId());
             return ResponseDto.toResponseEntity(ResponseMessage.DELETE_FAIL_SOLUTION, null);
         }
 
@@ -71,15 +70,18 @@ public class AdminSolutionController {
      * @param request : Solution 을 등록할 수 있는 정보를 가진 dto
      * @return SolutionResponse : 등록된 Solution 에 대한 정보를 가지는 dto
      */
-    //TODO Admin 인 것을 확인하는 부분 추가해야함
     @GetMapping
     public ResponseEntity<?> register(@RequestBody SolutionRegisterRequest request) {
-        UserResponse login = loginService.login(new LoginRequest(request.getId(), request.getPassword()));
-        var response = service.register(request);
+        boolean isAdmin = loginService.isAdminLogin(request.getId(), request.getPassword());
 
+        if (isAdmin) {
+            var response = service.register(request);
+            log.info("Admin {} -> Solution {} Register", request.getId(), response.getId());
+            return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_SOLUTION, response);
+        }
+        log.info("Not Admin Request {}", request.getId());
 
-        log.info("Admin {} -> Solution {} Register", request.getAdminId(), response.getId());
-        return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_SOLUTION, response);
+        return ResponseDto.toResponseEntity(ResponseMessage.CREATE_FAIL_SOLUTION, null);
     }
 
 }

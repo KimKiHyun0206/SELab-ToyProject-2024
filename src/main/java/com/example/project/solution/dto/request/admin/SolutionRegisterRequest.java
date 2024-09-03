@@ -7,7 +7,6 @@ import lombok.Data;
 
 @Data
 public class SolutionRegisterRequest implements RegisterRequest<Solution> {
-    private Long adminId;
     private String id;
     private String password;
     private Difficulty difficulty;

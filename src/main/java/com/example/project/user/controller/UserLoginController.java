@@ -21,7 +21,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
-public class UserLoginApiController {
+public class UserLoginController {
     private final LoginService loginService;
     private final UserService userService;
     private final SessionService sessionService;
@@ -65,14 +65,14 @@ public class UserLoginApiController {
     private UserResponse noCookieLogin(
             LoginRequest loginRequest
     ) throws InvalidLoginUserIdException, InvalidLoginPasswordException {
-        return loginService.login(loginRequest);
+        return loginService.login(loginRequest.getUserId(), loginRequest.getPassword());
     }
 
     private UserResponse cookieLogin(LoginRequest loginRequest, String cookieValue, HttpServletRequest request) throws InvalidLoginUserIdException, InvalidLoginPasswordException {
         var userResponse = sessionService.getUser(request, cookieValue);
 
         if (userResponse == null) {
-            return loginService.login(loginRequest);
+            return loginService.login(loginRequest.getUserId(), loginRequest.getPassword());
         }
 
         return userResponse;
