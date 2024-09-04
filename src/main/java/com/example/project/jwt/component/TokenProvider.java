@@ -1,25 +1,22 @@
 package com.example.project.jwt.component;
 
-import com.example.project.jwt.util.AuthenticationUser;
-import com.example.project.user.domain.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -72,7 +69,7 @@ public class TokenProvider implements InitializingBean {
             .map(SimpleGrantedAuthority::new)
             .collect(Collectors.toList());
 
-      AuthenticationUser principal = new AuthenticationUser(claims.getSubject(), "", authorities);
+      User principal = new User(claims.getSubject(), "", authorities);
 
       return new UsernamePasswordAuthenticationToken(principal, token, authorities);
    }

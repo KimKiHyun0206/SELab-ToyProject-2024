@@ -3,6 +3,7 @@ package com.example.project.user.service;
 import com.example.project.user.domain.User;
 import com.example.project.user.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
@@ -28,7 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
    }
 
    private org.springframework.security.core.userdetails.User createUser(String username, User user) {
-      if (!user.isActivated()) {
+      if (!user.getActivated()) {
          throw new RuntimeException(username + " -> 활성화되어 있지 않습니다.");
       }
 
@@ -36,7 +38,7 @@ public class CustomUserDetailsService implements UserDetailsService {
               .map(authority -> new SimpleGrantedAuthority(authority.getAuthorityName()))
               .collect(Collectors.toList());
 
-      return new org.springframework.security.core.userdetails.User(user.getUsername(),
+      return new org.springframework.security.core.userdetails.User(user.getName().getName(),
               user.getPassword(),
               grantedAuthorities);
    }

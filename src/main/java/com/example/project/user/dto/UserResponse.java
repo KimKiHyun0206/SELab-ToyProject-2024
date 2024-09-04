@@ -41,7 +41,9 @@ public class UserResponse implements ResponseDto<User> {
                 this.name,
                 this.point,
                 this.email,
-                this.roleType
+                this.roleType,
+                true,
+                null
         );
     }
 }

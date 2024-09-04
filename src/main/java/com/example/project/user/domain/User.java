@@ -24,7 +24,7 @@ import java.util.Set;
 public class User extends BaseEntity implements Domain<UserResponse> {
 
     @Id
-    @Column
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -51,23 +51,26 @@ public class User extends BaseEntity implements Domain<UserResponse> {
     private RoleType roleType;
 
     @Column
-    private boolean activated;
+    private Boolean activated;
 
     @ManyToMany
     @JoinTable(
             name = "user_authority",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
+            joinColumns = {@JoinColumn(name = "id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
     private Set<Authority> authorities;
 
+
     @Builder
-    public User(String email, String userId, String password, String name,Long point, RoleType roleType) {
+    public User(String email, String userId, String password, String name, Long point, RoleType roleType, Boolean activated, Set<Authority> authorities) {
         this.userId = userId;
         this.email = new Email(email);
         this.password = password;
         this.name = new Name(name);
         this.point = point;
         this.roleType = roleType;
+        this.activated = activated;
+        this.authorities = authorities;
     }
 
     @Override
