@@ -32,16 +32,12 @@ public class AdminSolutionController {
      */
     @PatchMapping
     public ResponseEntity<?> update(@RequestBody SolutionUpdateRequest request) {
-        boolean isAdmin = loginService.isAdminLogin(request.getId(), request.getPassword());
 
-        if (isAdmin) {
-            var response = service.updateAll(request);
+        var response = service.updateAll(request);
 
-            log.info("Admin {} -> Solution {} Update", request.getId(), request.getSolutionId());
-            return ResponseDto.toResponseEntity(ResponseMessage.UPDATE_SUCCESS_SOLUTION, response);
-        }
+        log.info("Admin  -> Solution {} Update", request.getSolutionId());
+        return ResponseDto.toResponseEntity(ResponseMessage.UPDATE_SUCCESS_SOLUTION, response);
 
-        return null;
     }
 
     /**
@@ -50,20 +46,15 @@ public class AdminSolutionController {
      */
     @DeleteMapping
     public ResponseEntity<?> delete(@RequestBody SolutionDeleteRequest request) {
-        boolean isAdmin = loginService.isAdminLogin(request.getId(), request.getPassword());
 
-        if (isAdmin) {
-            SolutionResponse response = service.delete(request);
-            if (response != null) {
-                return ResponseDto.toResponseEntity(ResponseMessage.DELETE_SUCCESS_SOLUTION, response);
-            }
-
-            log.info("Admin {} -> Solution {} Delete", request.getId(), request.getSolutionId());
-            return ResponseDto.toResponseEntity(ResponseMessage.DELETE_FAIL_SOLUTION, null);
+        SolutionResponse response = service.delete(request);
+        if (response != null) {
+            return ResponseDto.toResponseEntity(ResponseMessage.DELETE_SUCCESS_SOLUTION, response);
         }
 
-        log.info("Solution Delete : Request Id is Not Admin");
-        return null;
+        log.info("Admin  -> Solution {} Delete", request.getSolutionId());
+        return ResponseDto.toResponseEntity(ResponseMessage.DELETE_FAIL_SOLUTION, null);
+
     }
 
     /**
@@ -72,16 +63,10 @@ public class AdminSolutionController {
      */
     @GetMapping
     public ResponseEntity<?> register(@RequestBody SolutionRegisterRequest request) {
-        boolean isAdmin = loginService.isAdminLogin(request.getId(), request.getPassword());
 
-        if (isAdmin) {
-            var response = service.register(request);
-            log.info("Admin {} -> Solution {} Register", request.getId(), response.getId());
-            return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_SOLUTION, response);
-        }
-        log.info("Not Admin Request {}", request.getId());
+        var response = service.register(request);
+        log.info("Admin  -> Solution {} Register", response.getId());
+        return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_SOLUTION, response);
 
-        return ResponseDto.toResponseEntity(ResponseMessage.CREATE_FAIL_SOLUTION, null);
     }
-
 }

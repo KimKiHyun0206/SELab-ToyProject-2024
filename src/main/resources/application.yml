@@ -32,4 +32,4 @@ server:
   port: 8080 # 서버를 띄울 포트번호
   servlet:
     session:
-      timeout: 1m #테스트 편의성을 위해 1분으로 설정
+      timeout: 5m #테스트 편의성을 위해 1분으로 설정

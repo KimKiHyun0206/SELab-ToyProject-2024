@@ -37,7 +37,7 @@
             </tr>
             <tr>
                 <th>Name</th>
-                <td th:text="${UserInfo.name}">Null</td>
+                <td th:text="${UserInfo.name.getName()}">Null</td>
             </tr>
             <tr>
                 <th>Point</th>
@@ -45,7 +45,7 @@
             </tr>
             <tr>
                 <th>Email</th>
-                <td th:text="${UserInfo.email}">Null</td>
+                <td th:text="${UserInfo.email.getEmail()}">Null</td>
             </tr>
             <tr>
                 <th>RoleType</th>
