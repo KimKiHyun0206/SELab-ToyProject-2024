@@ -19,7 +19,7 @@ import java.util.List;
 
 @Slf4j
 @Controller
-@RequestMapping("/users/solutions")
+@RequestMapping("/solutions")
 @RequiredArgsConstructor
 public class SolutionController {
 
