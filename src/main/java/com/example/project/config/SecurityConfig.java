@@ -1,8 +1,10 @@
 package com.example.project.config;
 
+import com.example.project.config.JwtSecurityConfig;
 import com.example.project.jwt.component.JwtAccessDeniedHandler;
 import com.example.project.jwt.component.JwtAuthenticationEntryPoint;
 import com.example.project.jwt.component.TokenProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,23 +21,12 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 @EnableMethodSecurity
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
-    private final TokenProvider tokenProvider;
     private final CorsFilter corsFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
-
-    public SecurityConfig(
-        TokenProvider tokenProvider,
-        CorsFilter corsFilter,
-        JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-        JwtAccessDeniedHandler jwtAccessDeniedHandler
-    ) {
-        this.tokenProvider = tokenProvider;
-        this.corsFilter = corsFilter;
-        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
-        this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
-    }
+    private final JwtSecurityConfig jwtSecurityConfig;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -51,7 +42,7 @@ public class SecurityConfig {
 
             .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                 .requestMatchers("/api/hello", "/api/authenticate", "/api/signup").permitAll()
-                .requestMatchers(PathRequest.toH2Console()).permitAll()
+                //.requestMatchers(PathRequest.toH2Console()).permitAll()
                 .anyRequest().authenticated()
             )
 
@@ -65,7 +56,7 @@ public class SecurityConfig {
                 headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
             )
 
-            .with(new JwtSecurityConfig(tokenProvider), customizer -> {});
+            .with(jwtSecurityConfig, customizer -> {});
         return http.build();
     }
 }

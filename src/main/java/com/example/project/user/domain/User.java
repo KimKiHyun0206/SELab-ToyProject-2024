@@ -10,14 +10,12 @@ import com.example.project.user.domain.vo.RoleType;
 import com.example.project.user.dto.UserResponse;
 import com.example.project.user.dto.request.UserUpdateRequest;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 
 @Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor

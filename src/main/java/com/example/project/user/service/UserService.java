@@ -5,6 +5,7 @@ import com.example.project.error.exception.user.AlreadyExistUserEmailException;
 import com.example.project.error.exception.user.InvalidIdToFindUserException;
 import com.example.project.error.exception.user.InvalidLoginInfoException;
 import com.example.project.error.exception.user.LoginTokenNullException;
+import com.example.project.jwt.domain.Authority;
 import com.example.project.user.domain.User;
 import com.example.project.user.domain.vo.Email;
 import com.example.project.user.domain.vo.RoleType;
@@ -17,6 +18,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,7 +33,16 @@ public class UserService {
     public UserResponse register(UserRegisterRequest request) {
         duplicateValidationUserEmail(request.getEmail());
 
-        var response = userRepository.save(request.toEntity());
+        Authority authority = Authority.builder()
+                .authorityName("ROLE_USER")
+                .build();
+
+        User savedUser = request.toEntity();
+        savedUser.setAuthorities(Collections.singleton(authority));
+        savedUser.setActivated(true);
+
+
+        var response = userRepository.save(savedUser);
 
         return response.toResponseDto();
     }

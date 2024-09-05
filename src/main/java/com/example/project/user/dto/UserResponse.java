@@ -1,5 +1,6 @@
 package com.example.project.user.dto;
 
+import com.example.project.jwt.domain.Authority;
 import com.example.project.restrictions.ResponseDto;
 import com.example.project.user.domain.User;
 import com.example.project.user.domain.vo.Email;
@@ -9,6 +10,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -22,8 +25,11 @@ public class UserResponse implements ResponseDto<User> {
     private Email email;
     private RoleType roleType;
 
+    private Set<Authority> authorities;
+    private Boolean activated;
+
     @Builder
-    public UserResponse(Long id, String userId, String password, Name name, Long point, Email email, RoleType roleType) {
+    public UserResponse(Long id, String userId, String password, Name name, Long point, Email email, RoleType roleType, Set<Authority> authorities, Boolean activated) {
         this.id = id;
         this.userId = userId;
         this.password = password;
@@ -31,7 +37,11 @@ public class UserResponse implements ResponseDto<User> {
         this.point = point;
         this.email = email;
         this.roleType = roleType;
+        this.authorities = authorities;
+        this.activated = activated;
     }
+
+
 
     public User toEntity(){
         return new User(
@@ -42,8 +52,8 @@ public class UserResponse implements ResponseDto<User> {
                 this.point,
                 this.email,
                 this.roleType,
-                true,
-                null
+                this.activated,
+                this.authorities
         );
     }
 }
