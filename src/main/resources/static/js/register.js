@@ -73,15 +73,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     .then(data => {
                         if (data.success) { // 서버에서 성공 메시지를 반환해야 합니다
                             alert('회원가입이 완료되었습니다!');
-                            window.location.href = '/user/login'; // 로그인 페이지로 리디렉션
+                            window.location.href = '/users/login'; // 로그인 페이지로 리디렉션
                         } else {
                             alert(`회원가입 실패: ${data.message}`); // 서버에서 반환한 오류 메시지 표시
                         }
                     })
-                    // .catch(error => {
-                    //     console.error('서버 오류:', error);
-                    //     alert('서버 오류가 발생했습니다. 나중에 다시 시도해주세요.');
-                    // });
+                    .catch(error => {
+                        console.error('서버 오류:', error);
+                        alert('서버 오류가 발생했습니다. 나중에 다시 시도해주세요.');
+                    });
             }
         });
 

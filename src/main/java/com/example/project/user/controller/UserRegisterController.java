@@ -1,7 +1,6 @@
 package com.example.project.user.controller;
 
 import com.example.project.user.dto.UserResponse;
-import com.example.project.user.dto.login.LoginRequest;
 import com.example.project.user.dto.request.UserRegisterRequest;
 import com.example.project.user.service.CookieService;
 import com.example.project.user.service.SessionService;
@@ -11,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -25,7 +25,7 @@ public class UserRegisterController {
     private final CookieService cookieService;
 
     @PostMapping
-    public void register(
+    public ResponseEntity<UserResponse> register(
             @RequestBody UserRegisterRequest userRegisterRequest,
             HttpServletResponse response,
             HttpServletRequest request
@@ -40,6 +40,8 @@ public class UserRegisterController {
         sessionService.sessionRegistration(request, register);
 
         response.addCookie(cookie);
-        response.sendRedirect("http://localhost:8080/");
+
+        return ResponseEntity.ok().body(new UserResponse(true, "회원가입이 완료되었습니다."));
+
     }
 }
