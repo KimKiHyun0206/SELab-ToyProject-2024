@@ -69,14 +69,12 @@ public class TokenProvider implements InitializingBean {
             .map(SimpleGrantedAuthority::new)
             .collect(Collectors.toList());
 
-      log.info("User 객체 앞");
       User principal = new User(claims.getSubject(), "", authorities);
 
       return new UsernamePasswordAuthenticationToken(principal, token, authorities);
    }
 
    public boolean validateToken(String token) {
-      log.info("validateToken 진입");
       try {
          Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
          return true;

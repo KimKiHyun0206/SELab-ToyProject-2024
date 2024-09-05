@@ -10,11 +10,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 
-@RequiredArgsConstructor
-@Configuration
+//@RequiredArgsConstructor
+//@Configuration
 public class WebConfig implements WebMvcConfigurer {
-    @Bean
-    @ConditionalOnMissingBean(UrlBasedCorsConfigurationSource.class)
+    //@Bean
+    //@ConditionalOnMissingBean(UrlBasedCorsConfigurationSource.class)
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         var corsConfig = new CorsConfiguration();
 
