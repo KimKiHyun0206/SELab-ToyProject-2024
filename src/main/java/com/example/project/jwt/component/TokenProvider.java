@@ -76,7 +76,6 @@ public class TokenProvider implements InitializingBean {
    }
 
    public boolean validateToken(String token) {
-      log.info("validateToken 진입");
       try {
          Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
          return true;
