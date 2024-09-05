@@ -8,7 +8,6 @@ import com.example.project.user.domain.vo.RoleType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Getter
 @NoArgsConstructor
@@ -22,8 +21,11 @@ public class UserResponse implements ResponseDto<User> {
     private Email email;
     private RoleType roleType;
 
+    private boolean success;
+    private String message;
+
     @Builder
-    public UserResponse(Long id, String userId, String password, Name name, Long point, Email email, RoleType roleType) {
+    public UserResponse(Long id, String userId, String password, Name name, Long point, Email email, RoleType roleType, boolean success, String message) {
         this.id = id;
         this.userId = userId;
         this.password = password;
@@ -31,6 +33,11 @@ public class UserResponse implements ResponseDto<User> {
         this.point = point;
         this.email = email;
         this.roleType = roleType;
+    }
+
+    public UserResponse(boolean success, String message) {
+        this.success = success;
+        this.message = message;
     }
 
     public User toEntity(){
