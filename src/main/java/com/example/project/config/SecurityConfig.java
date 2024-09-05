@@ -49,7 +49,9 @@ public class SecurityConfig {
                         "/solutions",
                         "/solutions/list",
                         "/users/login",
-                        "/users/register"
+                        "/users/register",
+                        "/js/**",
+                        "/css/**"
                 ).permitAll()
                 //.requestMatchers(PathRequest.toH2Console()).permitAll()
                 .anyRequest().authenticated()
@@ -57,7 +59,7 @@ public class SecurityConfig {
 
             // 세션을 사용하지 않기 때문에 STATELESS로 설정
             .sessionManagement(sessionManagement ->
-                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
             )
 
             // enable h2-console
