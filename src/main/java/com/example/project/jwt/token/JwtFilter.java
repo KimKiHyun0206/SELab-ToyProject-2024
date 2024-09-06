@@ -1,4 +1,4 @@
-package com.example.project.jwt.component;
+package com.example.project.jwt.token;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,14 +20,13 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class JwtFilter extends GenericFilterBean {
-   public static final String AUTHORIZATION_HEADER = "Authorization";
    private final TokenProvider tokenProvider;
-
+   private final TokenResolver tokenResolver;
 
    @Override
    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
       HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-      String jwt = resolveToken(httpServletRequest);
+      String jwt = tokenResolver.resolveToken(httpServletRequest);
       String requestURI = httpServletRequest.getRequestURI();
 
       if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
@@ -39,15 +38,5 @@ public class JwtFilter extends GenericFilterBean {
       }
 
       filterChain.doFilter(servletRequest, servletResponse);
-   }
-
-   private String resolveToken(HttpServletRequest request) {
-      String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-
-      if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-         return bearerToken.substring(7);
-      }
-
-      return null;
    }
 }

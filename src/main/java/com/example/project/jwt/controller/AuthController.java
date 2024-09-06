@@ -1,9 +1,9 @@
 package com.example.project.jwt.controller;
 
-import com.example.project.jwt.component.JwtFilter;
-import com.example.project.jwt.component.TokenProvider;
+import com.example.project.jwt.token.JwtFilter;
+import com.example.project.jwt.token.TokenProvider;
 import com.example.project.jwt.dto.TokenDto;
-import com.example.project.jwt.dto.UserDto;
+import com.example.project.jwt.token.TokenResolver;
 import com.example.project.user.dto.UserResponse;
 import com.example.project.user.dto.login.LoginRequest;
 import com.example.project.user.dto.request.UserRegisterRequest;
@@ -46,7 +46,7 @@ public class AuthController {
         log.info("authrize jwt {}", jwt);
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+        httpHeaders.add(TokenResolver.AUTHORIZATION_HEADER, "Bearer " + jwt);
 
         return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
     }

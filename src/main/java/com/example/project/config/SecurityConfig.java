@@ -1,11 +1,8 @@
 package com.example.project.config;
 
-import com.example.project.config.JwtSecurityConfig;
-import com.example.project.jwt.component.JwtAccessDeniedHandler;
-import com.example.project.jwt.component.JwtAuthenticationEntryPoint;
-import com.example.project.jwt.component.TokenProvider;
+import com.example.project.jwt.handler.JwtAccessDeniedHandler;
+import com.example.project.jwt.handler.JwtAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
