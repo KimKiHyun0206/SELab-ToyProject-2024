@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\d~!@#$%^&*()+|=]{8,16}$/;
 
     if (registerForm) {
-        registerForm.addEventListener('submit', function(event) {
+        registerForm.addEventListener('submit', function (event) {
             event.preventDefault(); // 기본 폼 제출 방지
 
             // 폼 데이터 추출
@@ -62,20 +62,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     email: email
                 };
 
-                fetch('/api/users/register', {
+                fetch('/api/signup', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(data)
                 })
-                    .then(response => response.json()) // 응답을 JSON으로 파싱
-                    .then(data => {
-                        if (data.success) { // 서버에서 성공 메시지를 반환해야 합니다
+                    .then(response => {
+                        if (response.ok) {
                             alert('회원가입이 완료되었습니다!');
-                            window.location.href = '/users/login'; // 로그인 페이지로 리디렉션
+                            window.location.href = '/users/login';
                         } else {
-                            alert(`회원가입 실패: ${data.message}`); // 서버에서 반환한 오류 메시지 표시
+                            response.json().then(data => {
+                                alert(data.message || '회원가입 중 오류가 발생했습니다.');
+                            });
                         }
                     })
                     .catch(error => {
@@ -86,13 +87,24 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // 비밀번호 입력 시 실시간으로 유효성 검사
-        passwordInput.addEventListener('input', function() {
+        passwordInput.addEventListener('input', function () {
             if (PASSWORD_REGEX.test(passwordInput.value)) {
                 passwordHelp.style.color = 'green';
                 passwordHelp.textContent = '비밀번호 조건이 충족되었습니다.';
             } else {
                 passwordHelp.style.color = 'red';
                 passwordHelp.textContent = '비밀번호는 8~16자, 영문, 숫자, 특수문자(~!@#$%^&*()+|=)를 포함해야 합니다.';
+            }
+        });
+
+        // 비밀번호 확인 입력 시 실시간으로 일치 여부 검사
+        repeatPasswordInput.addEventListener('input', function () {
+            if (passwordInput.value === repeatPasswordInput.value) {
+                passwordHelp.style.color = 'green';
+                passwordHelp.textContent = '비밀번호가 일치합니다.';
+            } else {
+                passwordHelp.style.color = 'red';
+                passwordHelp.textContent = '비밀번호가 일치하지 않습니다.';
             }
         });
     }
