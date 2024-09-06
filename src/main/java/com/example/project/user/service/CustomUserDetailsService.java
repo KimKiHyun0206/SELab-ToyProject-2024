@@ -2,6 +2,7 @@ package com.example.project.user.service;
 
 import com.example.project.user.domain.User;
 import com.example.project.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,12 +15,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
    private final UserRepository userRepository;
 
-   public CustomUserDetailsService(UserRepository userRepository) {
-      this.userRepository = userRepository;
-   }
 
    @Override
    @Transactional
