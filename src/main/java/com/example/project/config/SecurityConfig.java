@@ -49,7 +49,8 @@ public class SecurityConfig {
                         "/users/register",
                         "/js/**",
                         "/css/**",
-                        "/api/users/login"
+                        "/api/users/login",
+                        "/api/authenticate"
                 ).permitAll()
                 //.requestMatchers(PathRequest.toH2Console()).permitAll()
                 .anyRequest().authenticated()
