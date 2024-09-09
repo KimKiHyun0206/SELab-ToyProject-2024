@@ -27,8 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class JWTRegisterController {
     private final UserService userService;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
     private final TokenProvider tokenProvider;
 
     @PostMapping("/signup")
@@ -37,14 +35,7 @@ public class JWTRegisterController {
     ) {
         UserResponse register = userService.register(userDto);
 
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(userDto.getUserId(), userDto.getPassword());
-
-
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String jwt = tokenProvider.createToken(authentication);
+        String jwt = tokenProvider.createToken(register.getId(),register.getRoleType().getRole());
         log.info("authrize jwt {}", jwt);
 
         HttpHeaders httpHeaders = new HttpHeaders();

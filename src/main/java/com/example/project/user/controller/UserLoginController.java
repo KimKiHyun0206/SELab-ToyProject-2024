@@ -32,6 +32,7 @@ import java.io.IOException;
 public class UserLoginController {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
+    private final LoginService loginService;
 
 
     @PostMapping("/login")
@@ -42,24 +43,15 @@ public class UserLoginController {
         log.info("jwtAuthLogin {}, {}", loginRequest.getUserId(), loginRequest.getPassword());
 
         try {
-            UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(loginRequest.getUserId(), loginRequest.getPassword());
 
+            String jwt = loginService.userLogin(loginRequest.getUserId(), loginRequest.getPassword());
+            log.info("authrize jwt {}", jwt);
 
-            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            httpServletResponse.setHeader(TokenResolver.AUTHORIZATION_HEADER, "Bearer " + jwt);
+            httpServletResponse.setStatus(HttpStatus.OK.value());
 
-            log.info(authentication.getName());
-
-            if(authentication.isAuthenticated()){
-                String jwt = tokenProvider.createToken(authentication);
-                log.info("authrize jwt {}", jwt);
-
-                httpServletResponse.setHeader(TokenResolver.AUTHORIZATION_HEADER, "Bearer " + jwt);
-                httpServletResponse.setStatus(HttpStatus.OK.value());
-            }
-        }catch (Exception e){
-            log.info(e.getMessage());
+        } catch (Exception e) {
+            log.info("로그인 예외 발생 {}", e.getMessage());
             httpServletResponse.setStatus(HttpStatus.BAD_REQUEST.value());
         }
     }

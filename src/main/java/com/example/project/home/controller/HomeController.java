@@ -1,5 +1,7 @@
 package com.example.project.home.controller;
 
+import com.example.project.jwt.repository.AuthorityRepository;
+import com.example.project.jwt.token.TokenResolver;
 import com.example.project.user.dto.UserResponse;
 import com.example.project.user.service.SessionService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,21 +14,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
-    private final SessionService sessionService;
+    private final TokenResolver tokenResolver;
+    private final AuthorityRepository authorityRepository;
 
     @RequestMapping
     public String home(
-            @CookieValue(value = "DigitalLoginCookie", required = false) String cookieValue,
             Model model,
             HttpServletRequest request
     ) {
-        if (cookieValue == null) {
-            return "non-authentication/main";
-        } else{
-            UserResponse userResponse = sessionService.getUser(request, cookieValue);
-            model.addAttribute("user",userResponse.getName().getName());
-            return "authentication/main";
-        }
+        String token = tokenResolver.resolveToken(request);
+        return null;
     }
 
     @RequestMapping(value = "/ranking")

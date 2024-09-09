@@ -76,13 +76,6 @@ public class UserService {
         return user.toResponseDto();
     }
 
-
-    @Transactional(readOnly = true)
-    public User findByIdFromLogin(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new InvalidLoginInfoException(ErrorMessage.INVALID_LOGIN_USER_INFORMATION_EXCEPTION, "잘못된 유저 로그인 정보입니다"));
-    }
-
     @Transactional(readOnly = true)
     public List<UserResponse> readAllUser() {
         return userRepository.findAll().stream()
