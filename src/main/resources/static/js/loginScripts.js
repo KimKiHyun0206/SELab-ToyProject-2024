@@ -20,5 +20,41 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!valid) {
             event.preventDefault();
         }
+
+        if (valid) {
+            const data = {
+                userId: userId,
+                password: password,
+            };
+
+            fetch('/api/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        const token = response.headers.get('Authorization');
+                        if (token) {
+                            localStorage.setItem('jwtToken', token);
+                            alert('로그인이 완료되었습니다.');
+                            window.location.href = '/authentication/user/main';
+                        } else {
+                            alert('로그인에 성공했지만 토큰을 가져오지 못했습니다.');
+                        }
+                    } else {
+                        response.json().then(data => {
+                            alert('로그인 정보가 일치하지 않습니다.');
+                            window.location.href = '/users/login';
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('서버 오류:', error);
+                    alert('서버 오류가 발생했습니다. 나중에 다시 시도해주세요.');
+                });
+        }
     });
 });
