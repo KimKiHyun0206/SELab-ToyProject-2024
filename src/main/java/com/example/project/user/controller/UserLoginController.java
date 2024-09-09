@@ -40,19 +40,27 @@ public class UserLoginController {
             HttpServletResponse httpServletResponse
     ) {
         log.info("jwtAuthLogin {}, {}", loginRequest.getUserId(), loginRequest.getPassword());
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(loginRequest.getUserId(), loginRequest.getPassword());
+
+        try {
+            UsernamePasswordAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUserId(), loginRequest.getPassword());
 
 
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        if(authentication.isAuthenticated()){
-            String jwt = tokenProvider.createToken(authentication);
-            log.info("authrize jwt {}", jwt);
+            log.info(authentication.getName());
 
-            httpServletResponse.setHeader(TokenResolver.AUTHORIZATION_HEADER, "Bearer " + jwt);
-            httpServletResponse.setStatus(HttpStatus.OK.value());
+            if(authentication.isAuthenticated()){
+                String jwt = tokenProvider.createToken(authentication);
+                log.info("authrize jwt {}", jwt);
+
+                httpServletResponse.setHeader(TokenResolver.AUTHORIZATION_HEADER, "Bearer " + jwt);
+                httpServletResponse.setStatus(HttpStatus.OK.value());
+            }
+        }catch (Exception e){
+            log.info(e.getMessage());
+            httpServletResponse.setStatus(HttpStatus.BAD_REQUEST.value());
         }
     }
 }

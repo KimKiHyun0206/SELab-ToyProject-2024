@@ -36,15 +36,14 @@ document.addEventListener('DOMContentLoaded', function() {
             })
                 .then(response => {
                     if (response.ok) {
-                        const token = response.headers.get('Authorization');
-                        if (token) {
-                            localStorage.setItem('jwtToken', token);
+                        const token = response.headers.get("Authorization");
+                        if (token !== null) {
                             alert('로그인이 완료되었습니다.');
-                            window.location.href = '/authentication/user/main';
+                            window.location.href = '';
                         } else {
                             alert('로그인에 성공했지만 토큰을 가져오지 못했습니다.');
                         }
-                    } else {
+                    } else if(!response.ok) {
                         response.json().then(data => {
                             alert('로그인 정보가 일치하지 않습니다.');
                             window.location.href = '/users/login';
