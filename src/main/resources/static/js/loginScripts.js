@@ -39,16 +39,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (response.ok) {
                     console.log('로그인 성공했습니다');
                     alert('로그인이 완료되었습니다.');
-                    window.location.href = '';
+                    window.location.replace("/");
                 } else if (!response.ok) {
                     alert('로그인 정보가 일치하지 않습니다.');
-                    window.location.href = '/users/login';
+                    window.location.replace("/users/login");
                 }
             }).catch(error => {
                 alert('서버 오류가 발생했습니다. 나중에 다시 시도해주세요.');
+                window.location.replace("/users/login");
             });
 
-            event.preventDefault();
         }
+        event.preventDefault();
     });
 });
