@@ -39,6 +39,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (response.ok) {
                     console.log('로그인 성공했습니다');
                     alert('로그인이 완료되었습니다.');
+
+                    const token = response.headers.get('Authorization');
+                    console.log(token)
+                    localStorage.setItem('Authorization', token);
+
                     window.location.replace("/");
                 } else if (!response.ok) {
                     alert('로그인 정보가 일치하지 않습니다.');
