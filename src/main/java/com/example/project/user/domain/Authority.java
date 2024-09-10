@@ -1,9 +1,7 @@
-package com.example.project.jwt.domain;
+package com.example.project.user.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.Set;
 
 @Entity
 @Table(name = "authority")

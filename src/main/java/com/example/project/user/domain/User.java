@@ -1,7 +1,6 @@
 package com.example.project.user.domain;
 
 import com.example.project.common.BaseEntity;
-import com.example.project.jwt.domain.Authority;
 import com.example.project.restrictions.Domain;
 import com.example.project.user.domain.converter.PasswordEncodeConverter;
 import com.example.project.user.domain.vo.Email;
@@ -94,5 +93,4 @@ public class User extends BaseEntity implements Domain<UserResponse> {
     public void addPoint() {
         this.point++;
     }
-
 }

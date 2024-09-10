@@ -1,4 +1,4 @@
-package com.example.project.jwt.token;
+package com.example.project.auth.token;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
@@ -19,4 +19,5 @@ public class TokenResolver {
 
         return null;
     }
+
 }

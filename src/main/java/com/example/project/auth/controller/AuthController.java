@@ -1,12 +1,11 @@
-package com.example.project.jwt.controller;
+package com.example.project.auth.controller;
 
-import com.example.project.jwt.token.JwtFilter;
-import com.example.project.jwt.token.TokenProvider;
-import com.example.project.jwt.dto.TokenDto;
-import com.example.project.jwt.token.TokenResolver;
+import com.example.project.auth.dto.TokenDto;
+import com.example.project.auth.token.TokenResolver;
 import com.example.project.user.dto.UserResponse;
 import com.example.project.user.dto.login.LoginRequest;
 import com.example.project.user.dto.request.UserRegisterRequest;
+import com.example.project.user.service.LoginService;
 import com.example.project.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -15,10 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -26,28 +21,22 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class AuthController {
-    private final TokenProvider tokenProvider;
     private final TokenResolver tokenResolver;
     private final UserService userService;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+
+    private final LoginService loginService;
 
 
     @PostMapping("/authenticate")
     public ResponseEntity<TokenDto> authorize(@Valid @RequestBody LoginRequest loginDto) {
+        String token = loginService.userLogin(loginDto.getUserId(), loginDto.getPassword());
 
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(loginDto.getUserId(), loginDto.getPassword());
-
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String jwt = tokenProvider.createToken(authentication);
-        log.info("authrize jwt {}", jwt);
+        log.info("jwt token -> {}", token);
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(TokenResolver.AUTHORIZATION_HEADER, "Bearer " + jwt);
+        httpHeaders.add(TokenResolver.AUTHORIZATION_HEADER, "Bearer " + token);
 
-        return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(new TokenDto(token), httpHeaders, HttpStatus.OK);
     }
 
     @GetMapping("/authenticate")

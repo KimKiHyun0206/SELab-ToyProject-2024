@@ -1,5 +1,7 @@
-package com.example.project.jwt.handler;
+package com.example.project.auth.handler;
 
+import com.example.project.auth.token.TokenProvider;
+import com.example.project.auth.token.TokenResolver;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +19,8 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
                         HttpServletResponse response,
                         AuthenticationException authException) throws IOException {
       // 유효한 자격증명을 제공하지 않고 접근하려 할때 401
-      log.info("유효한 자격증명이 없는 접근입니다");
+      String token = request.getHeader(TokenResolver.AUTHORIZATION_HEADER);
+      log.info("유효한 자격증명이 없는 접근입니다 token -> {}", token);
       response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
    }
 }

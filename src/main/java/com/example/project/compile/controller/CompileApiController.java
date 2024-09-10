@@ -6,6 +6,7 @@ import com.example.project.solution.dto.request.user.SolutionCompileRequest;
 import com.example.project.compile.service.CompileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -18,6 +19,7 @@ public class CompileApiController {
     private final CompileService compileService;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<?> compileCode(@RequestBody SolutionCompileRequest request) {
         try {
             String result = compileService.compileAndRun(request.getLanguage(), request.getCode());

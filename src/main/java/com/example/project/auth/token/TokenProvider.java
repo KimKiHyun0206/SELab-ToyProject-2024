@@ -1,5 +1,6 @@
-package com.example.project.jwt.token;
+package com.example.project.auth.token;
 
+import com.example.project.common.util.DateUtil;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 public class TokenProvider implements InitializingBean {
-    private static final String AUTHORITIES_KEY = "auth";
+    private static final String AUTHORITIES_KEY = "role";
     private final String secret;
     private final long tokenValidityInMilliseconds;
     private Key key;
@@ -40,19 +41,20 @@ public class TokenProvider implements InitializingBean {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String createToken(Authentication authentication) {
-        String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
+    public String createToken(Long id, String role) {
 
-        long now = (new Date()).getTime();
-        Date validity = new Date(now + this.tokenValidityInMilliseconds);
+        var claims = Jwts.claims().setSubject("Code-For-Code");
+        claims.put("userId",id);
+        claims.put(AUTHORITIES_KEY, role);
+        claims.put("random",Math.random()*1000);
 
+        var date = new Date();
         return Jwts.builder()
-                .setSubject(authentication.getName())
-                .claim(AUTHORITIES_KEY, authorities)
-                .signWith(key, SignatureAlgorithm.HS512)
-                .setExpiration(validity)
+                .setClaims(claims)
+                .setIssuedAt(date)
+                .signWith(SignatureAlgorithm.HS256, secret)
+                .setExpiration(DateUtil.getTokenValidTime(date, tokenValidityInMilliseconds))
+                //.setIssuer("/localhost:8080")
                 .compact();
     }
 
@@ -73,6 +75,24 @@ public class TokenProvider implements InitializingBean {
         User principal = new User(claims.getSubject(), "", authorities);
 
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+    }
+
+    /**
+     * @brief      * 토큰 파싱 (해석) / jjwt 라이브러리
+     * @param      * setSigningKey : jwt key
+     *             * parseClaimsJws : 파싱할 token
+     *             * Body : claims
+     *             * Subject : userId
+     * @return     * Long userId
+     */
+    public Long getUserToken(String token) {
+        var data = Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+
+        return Long.parseLong(data);
     }
 
     public boolean validateToken(String token) {

@@ -1,6 +1,6 @@
 package com.example.project.config;
 
-import com.example.project.jwt.token.JwtFilter;
+import com.example.project.auth.token.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

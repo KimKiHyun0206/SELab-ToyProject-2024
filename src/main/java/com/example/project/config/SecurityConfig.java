@@ -49,7 +49,7 @@ public class SecurityConfig {
                         "/users/register",
                         "/js/**",
                         "/css/**",
-                        "/api/users/**",
+                        "/api/users/login",
                         "/api/authenticate"
                 ).permitAll()
                 //.requestMatchers(PathRequest.toH2Console()).permitAll()
