@@ -20,15 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
     private final AuthTokenService authTokenService;
     private final UserService userService;
-    private final TokenResolver tokenResolver;
 
     @RequestMapping
     public String home(
-            @CookieValue(name = TokenResolver.AUTHORIZATION_HEADER, required = false) Cookie cookie,
+            @CookieValue(name = TokenResolver.AUTHORIZATION_HEADER, required = false) String token,
             Model model
     ) {
-        if(cookie != null){
-            String token = cookie.getValue();
+        if(token != null && authTokenService.isValidateToken(token)){
             Long userIdByToken = authTokenService.getUserIdByToken(token);
             UserResponse userResponse = userService.find(userIdByToken);
             log.info("home token -> {}",token);
@@ -40,9 +38,8 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/ranking")
-    public String ranking(@CookieValue(name = TokenResolver.AUTHORIZATION_HEADER, required = false) Cookie cookie) {
-        if(cookie != null){
-            String token = cookie.getValue();
+    public String ranking(@CookieValue(name = TokenResolver.AUTHORIZATION_HEADER, required = false) String token) {
+        if(token != null){
             log.info("home token -> {}",token);
             return "authentication/ranking";
         }

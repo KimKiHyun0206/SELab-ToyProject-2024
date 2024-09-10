@@ -29,18 +29,19 @@ public class SolutionController {
 
     private final UserSolutionService userSolutionService;
     private final UserAuthService userAuthService;
+    private final AuthTokenService authTokenService;
 
     @RequestMapping("/list")
     public String solutionList(
             @PageableDefault Pageable pageable,
             Model model,
-            @CookieValue(value = TokenResolver.AUTHORIZATION_HEADER, required = false) String cookieValue
+            @CookieValue(value = TokenResolver.AUTHORIZATION_HEADER, required = false) String cookie
     ) {
         List<SolutionListResponse> solutionList = userSolutionService.getSolutionList(pageable);
         model.addAttribute("solutionList", solutionList);
 
-        if(cookieValue != null){
-            UserResponse userResponse = userAuthService.getUserByToken(cookieValue);
+        if(cookie != null && authTokenService.isValidateToken(cookie)){
+            UserResponse userResponse = userAuthService.getUserByToken(cookie);
             model.addAttribute("User", userResponse);
             return "authentication/solution/solution_list";
         }
@@ -53,7 +54,7 @@ public class SolutionController {
     public String solvePage(
             @PathVariable(name = "id") Long id,
             Model model,
-            @CookieValue(value = TokenResolver.AUTHORIZATION_HEADER, required = false) String cookieValue
+            @CookieValue(value = TokenResolver.AUTHORIZATION_HEADER, required = false) String token
     ) {
         var response = userSolutionService.read(id);
         model.addAttribute("title", response.getTitle());
@@ -61,7 +62,7 @@ public class SolutionController {
         model.addAttribute("inExample", response.getInExample());
         model.addAttribute("outExample", response.getOutExample());
 
-        if (userAuthService.getUserByToken(cookieValue) != null) {
+        if (userAuthService.getUserByToken(token) != null) {
             return "authentication/solution/solve";
         }
         return "non-authentication/solution/solve";
