@@ -20,7 +20,7 @@ public class HomeController {
             HttpServletRequest request
     ) {
         String token = tokenResolver.resolveToken(request);
-        return null;
+        return "non-authentication/main";
     }
 
     @RequestMapping(value = "/ranking")
