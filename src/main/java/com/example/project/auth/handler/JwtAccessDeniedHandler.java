@@ -1,4 +1,4 @@
-package com.example.project.jwt.handler;
+package com.example.project.auth.handler;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

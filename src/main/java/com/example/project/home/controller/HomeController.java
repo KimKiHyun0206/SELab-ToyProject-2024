@@ -1,14 +1,11 @@
 package com.example.project.home.controller;
 
-import com.example.project.jwt.repository.AuthorityRepository;
-import com.example.project.jwt.token.TokenResolver;
-import com.example.project.user.dto.UserResponse;
-import com.example.project.user.service.SessionService;
+import com.example.project.user.repository.AuthorityRepository;
+import com.example.project.auth.token.TokenResolver;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller

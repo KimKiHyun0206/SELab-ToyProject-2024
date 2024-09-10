@@ -1,6 +1,6 @@
 package com.example.project.user.dto;
 
-import com.example.project.jwt.domain.Authority;
+import com.example.project.user.domain.Authority;
 import com.example.project.restrictions.ResponseDto;
 import com.example.project.user.domain.User;
 import com.example.project.user.domain.vo.Email;
@@ -9,7 +9,6 @@ import com.example.project.user.domain.vo.RoleType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Set;
 

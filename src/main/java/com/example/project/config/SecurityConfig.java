@@ -1,7 +1,7 @@
 package com.example.project.config;
 
-import com.example.project.jwt.handler.JwtAccessDeniedHandler;
-import com.example.project.jwt.handler.JwtAuthenticationEntryPoint;
+import com.example.project.auth.handler.JwtAccessDeniedHandler;
+import com.example.project.auth.handler.JwtAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

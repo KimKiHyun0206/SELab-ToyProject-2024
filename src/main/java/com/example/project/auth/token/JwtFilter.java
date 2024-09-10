@@ -1,4 +1,4 @@
-package com.example.project.jwt.token;
+package com.example.project.auth.token;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

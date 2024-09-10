@@ -1,4 +1,4 @@
-package com.example.project.jwt.dto;
+package com.example.project.user.dto;
 
 import lombok.*;
 

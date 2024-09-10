@@ -1,10 +1,7 @@
-package com.example.project.jwt.controller;
+package com.example.project.auth.controller;
 
-import com.example.project.jwt.service.AuthorityService;
-import com.example.project.jwt.token.JwtFilter;
-import com.example.project.jwt.token.TokenProvider;
-import com.example.project.jwt.dto.TokenDto;
-import com.example.project.jwt.token.TokenResolver;
+import com.example.project.auth.dto.TokenDto;
+import com.example.project.auth.token.TokenResolver;
 import com.example.project.user.dto.UserResponse;
 import com.example.project.user.dto.login.LoginRequest;
 import com.example.project.user.dto.request.UserRegisterRequest;
@@ -17,10 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -38,7 +31,7 @@ public class AuthController {
     public ResponseEntity<TokenDto> authorize(@Valid @RequestBody LoginRequest loginDto) {
         String token = loginService.userLogin(loginDto.getUserId(), loginDto.getPassword());
 
-        log.info("authrize jwt {}", token);
+        log.info("jwt token -> {}", token);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(TokenResolver.AUTHORIZATION_HEADER, "Bearer " + token);

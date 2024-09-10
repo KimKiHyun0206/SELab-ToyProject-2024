@@ -1,4 +1,4 @@
-package com.example.project.jwt.token;
+package com.example.project.auth.token;
 
 import com.example.project.common.util.DateUtil;
 import io.jsonwebtoken.*;
