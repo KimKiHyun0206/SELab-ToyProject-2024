@@ -93,5 +93,4 @@ public class User extends BaseEntity implements Domain<UserResponse> {
     public void addPoint() {
         this.point++;
     }
-
 }

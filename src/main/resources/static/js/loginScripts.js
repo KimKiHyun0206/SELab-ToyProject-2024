@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     const token = response.headers.get('Authorization');
                     console.log(token)
-                    localStorage.setItem('Authorization', token);
+                    sessionStorage.setItem('Authorization', token);
 
                     window.location.replace("/");
                 } else if (!response.ok) {

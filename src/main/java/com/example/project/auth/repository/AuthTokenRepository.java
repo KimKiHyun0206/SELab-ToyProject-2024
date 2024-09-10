@@ -7,4 +7,5 @@ public interface AuthTokenRepository extends JpaRepository<AuthToken, Long> {
     AuthToken findAuthTokenByToken(String token);
     boolean existsByToken(String token);
     void deleteAuthTokenByToken(String token);
+
 }

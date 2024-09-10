@@ -1,5 +1,6 @@
 package com.example.project.user.service;
 
+import com.example.project.auth.service.AuthTokenService;
 import com.example.project.error.dto.ErrorMessage;
 import com.example.project.error.exception.user.InvalidLoginUserIdException;
 import com.example.project.error.exception.user.InvalidLoginPasswordException;
@@ -23,6 +24,7 @@ public class LoginService {
     private final PasswordEncoder passwordEncoder;
 
     private final TokenProvider tokenProvider;
+    private final AuthTokenService authTokenService;
 
     @Transactional(readOnly = true)
     public UserResponse login(String id, String password) {
@@ -37,7 +39,7 @@ public class LoginService {
         } else throw new InvalidLoginPasswordException(ErrorMessage.INVALID_PASSWORD_TO_LOGIN, "PASSWORD가 일치하지 않습니다");
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public String userLogin(String id, String password){
         User user = userRepository.findByUserId(id).orElseThrow(
                 () -> {
@@ -49,7 +51,11 @@ public class LoginService {
             throw new InvalidLoginPasswordException(ErrorMessage.INVALID_PASSWORD_TO_LOGIN, "PASSWORD가 일치하지 않습니다");
         }
 
-        return tokenProvider.createToken(user.getId(), user.getRoleType().getRole());
+        String token = tokenProvider.createToken(user.getId(), user.getRoleType().getRole());
+
+        authTokenService.registerToken(user.getId(), token);
+
+        return token;
     }
 
     @Transactional(readOnly = true)

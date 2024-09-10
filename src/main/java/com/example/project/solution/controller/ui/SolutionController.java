@@ -1,9 +1,13 @@
 package com.example.project.solution.controller.ui;
 
+import com.example.project.auth.service.AuthTokenService;
+import com.example.project.auth.service.UserAuthService;
+import com.example.project.auth.token.TokenResolver;
 import com.example.project.solution.dto.response.SolutionListResponse;
 import com.example.project.solution.service.UserSolutionService;
 import com.example.project.user.dto.UserResponse;
 import com.example.project.user.service.SessionService;
+import com.example.project.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,21 +28,20 @@ import java.util.List;
 public class SolutionController {
 
     private final UserSolutionService userSolutionService;
-    private final SessionService sessionService;
+    private final UserAuthService userAuthService;
 
     @RequestMapping("/list")
     public String solutionList(
-            @PageableDefault(size = 10) Pageable pageable,
+            @PageableDefault Pageable pageable,
             Model model,
-            HttpServletRequest request,
-            @CookieValue(value = "DigitalLoginCookie", required = false) String cookieValue
+            @CookieValue(value = TokenResolver.AUTHORIZATION_HEADER, required = false) String cookieValue
     ) {
         List<SolutionListResponse> solutionList = userSolutionService.getSolutionList(pageable);
         model.addAttribute("solutionList", solutionList);
 
         if(cookieValue != null){
-            UserResponse user = sessionService.getUser(request, cookieValue);
-            model.addAttribute("User", user);
+            UserResponse userResponse = userAuthService.getUserByToken(cookieValue);
+            model.addAttribute("User", userResponse);
             return "authentication/solution/solution_list";
         }
 
@@ -50,8 +53,7 @@ public class SolutionController {
     public String solvePage(
             @PathVariable(name = "id") Long id,
             Model model,
-            HttpServletRequest request,
-            @CookieValue(value = "DigitalLoginCookie", required = false) String cookieValue
+            @CookieValue(value = TokenResolver.AUTHORIZATION_HEADER, required = false) String cookieValue
     ) {
         var response = userSolutionService.read(id);
         model.addAttribute("title", response.getTitle());
@@ -59,8 +61,7 @@ public class SolutionController {
         model.addAttribute("inExample", response.getInExample());
         model.addAttribute("outExample", response.getOutExample());
 
-        UserResponse userResponse = sessionService.getUser(request, cookieValue);
-        if (userResponse != null) {
+        if (userAuthService.getUserByToken(cookieValue) != null) {
             return "authentication/solution/solve";
         }
         return "non-authentication/solution/solve";

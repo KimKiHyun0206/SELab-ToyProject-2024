@@ -14,6 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthTokenService {
     private final AuthTokenRepository authTokenRepository;
 
+    @Transactional(readOnly = true)
+    public Long getUserIdByToken(String token){
+        AuthToken authToken = authTokenRepository.findAuthTokenByToken(token);
+        log.info("getUserIdByToken -> {}", authToken);
+        return authToken.getUserId();
+    }
+
     @Transactional
     public AuthTokenResponse registerToken(Long userId, String token){
         AuthToken saved = authTokenRepository.save(new AuthToken(userId,token));
@@ -22,7 +29,7 @@ public class AuthTokenService {
         return saved.toResponseDto();
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public boolean isValidateToken(String token){
         AuthToken foundAuthToken = authTokenRepository.findAuthTokenByToken(token);
 

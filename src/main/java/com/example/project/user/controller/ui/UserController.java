@@ -1,10 +1,13 @@
 package com.example.project.user.controller.ui;
 
+import com.example.project.auth.service.AuthTokenService;
+import com.example.project.auth.token.TokenResolver;
 import com.example.project.user.dto.UserResponse;
 import com.example.project.user.dto.login.LoginRequest;
 import com.example.project.user.dto.request.UserRegisterRequest;
 import com.example.project.user.dto.request.UserUpdateRequest;
 import com.example.project.user.service.SessionService;
+import com.example.project.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final SessionService sessionService;
+    private final AuthTokenService authTokenService;
+    private final UserService userService;
 
     @RequestMapping("/login")
     public String login(Model model) {
@@ -30,46 +34,36 @@ public class UserController {
     @RequestMapping("/info")
     public String info(
             Model model,
-            @CookieValue(value = "DigitalLoginCookie", required = false) String cookieValue,
-            HttpServletRequest request
+            @CookieValue(value = TokenResolver.AUTHORIZATION_HEADER, required = false) String cookie
     ) {
-        if (cookieValue == null) return "";
-
-        UserResponse userResponse = sessionService.getUser(request, cookieValue);
-        model.addAttribute("UserInfo", userResponse);
-        return "/authentication/user/info";
+        if(cookie != null & authTokenService.isValidateToken(cookie)){
+            Long userId = authTokenService.getUserIdByToken(cookie);
+            UserResponse userResponse = userService.find(userId);
+            model.addAttribute("UserInfo", userResponse);
+            return "/authentication/user/info";
+        }
+        return "/non-authentication/main";
     }
 
     @RequestMapping("/edit-info")
     public String editInfo(
             Model model,
-            @CookieValue(value = "DigitalLoginCookie", required = false) String cookieValue,
-            HttpServletRequest request
+            @CookieValue(value = TokenResolver.AUTHORIZATION_HEADER, required = false) String cookie
     ) {
-        if (cookieValue == null) return "";
+        if(cookie != null & authTokenService.isValidateToken(cookie)){
+            Long userId = authTokenService.getUserIdByToken(cookie);
+            UserResponse userResponse = userService.find(userId);
+            model.addAttribute("UserInfo", userResponse);
+            model.addAttribute("UpdateRequest", new UserUpdateRequest());
+            return "/authentication/user/info";
+        }
 
-        UserResponse userResponse = sessionService.getUser(request, cookieValue);
-        model.addAttribute("UserInfo", userResponse);
-        model.addAttribute("UpdateRequest", new UserUpdateRequest());
-
-        return "/authentication/user/edit_info";
+        return "/non-authentication/main";
     }
 
     @RequestMapping("/register")
     public String register(Model model) {
         model.addAttribute("request", new UserRegisterRequest());
         return "/non-authentication/user/register";
-    }
-
-    @GetMapping("/logout")
-    public String logout(
-            @CookieValue(value = "DigitalLoginCookie", required = false) String cookieValue,
-            HttpServletRequest request,
-            HttpServletResponse response
-    ) {
-        if (cookieValue != null) {
-            sessionService.deleteSession(request, cookieValue);
-        }
-        return "/non-authentication/main";
     }
 }

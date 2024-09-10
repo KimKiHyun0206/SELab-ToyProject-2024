@@ -46,6 +46,7 @@ public class TokenProvider implements InitializingBean {
         var claims = Jwts.claims().setSubject("Code-For-Code");
         claims.put("userId",id);
         claims.put(AUTHORITIES_KEY, role);
+        claims.put("random",Math.random()*1000);
 
         var date = new Date();
         return Jwts.builder()
