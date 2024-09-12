@@ -1,14 +1,10 @@
 package com.example.project.solution.controller.ui;
 
-import com.example.project.auth.service.AuthTokenService;
 import com.example.project.auth.service.UserAuthService;
-import com.example.project.auth.token.TokenResolver;
+import com.example.project.common.util.HeaderUtil;
 import com.example.project.solution.dto.response.SolutionListResponse;
 import com.example.project.solution.service.UserSolutionService;
 import com.example.project.user.dto.UserResponse;
-import com.example.project.user.service.SessionService;
-import com.example.project.user.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -34,7 +30,7 @@ public class SolutionController {
     public String solutionList(
             @PageableDefault Pageable pageable,
             Model model,
-            @CookieValue(value = TokenResolver.AUTHORIZATION_HEADER, required = false) String cookieValue
+            @CookieValue(value = HeaderUtil.AUTHORIZATION_HEADER, required = false) String cookieValue
     ) {
         List<SolutionListResponse> solutionList = userSolutionService.getSolutionList(pageable);
         model.addAttribute("solutionList", solutionList);
@@ -53,7 +49,7 @@ public class SolutionController {
     public String solvePage(
             @PathVariable(name = "id") Long id,
             Model model,
-            @CookieValue(value = TokenResolver.AUTHORIZATION_HEADER, required = false) String cookieValue
+            @CookieValue(value = HeaderUtil.AUTHORIZATION_HEADER, required = false) String cookieValue
     ) {
         var response = userSolutionService.read(id);
         model.addAttribute("title", response.getTitle());

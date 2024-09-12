@@ -1,20 +1,16 @@
 package com.example.project.user.controller.ui;
 
 import com.example.project.auth.service.AuthTokenService;
-import com.example.project.auth.token.TokenResolver;
+import com.example.project.common.util.HeaderUtil;
 import com.example.project.user.dto.UserResponse;
 import com.example.project.user.dto.login.LoginRequest;
 import com.example.project.user.dto.request.UserRegisterRequest;
 import com.example.project.user.dto.request.UserUpdateRequest;
-import com.example.project.user.service.SessionService;
 import com.example.project.user.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -34,7 +30,7 @@ public class UserController {
     @RequestMapping("/info")
     public String info(
             Model model,
-            @CookieValue(value = TokenResolver.AUTHORIZATION_HEADER, required = false) String cookie
+            @CookieValue(value = HeaderUtil.AUTHORIZATION_HEADER, required = false) String cookie
     ) {
         if(cookie != null & authTokenService.isValidateToken(cookie)){
             Long userId = authTokenService.getUserIdByToken(cookie);
@@ -48,7 +44,7 @@ public class UserController {
     @RequestMapping("/edit-info")
     public String editInfo(
             Model model,
-            @CookieValue(value = TokenResolver.AUTHORIZATION_HEADER, required = false) String cookie
+            @CookieValue(value = HeaderUtil.AUTHORIZATION_HEADER, required = false) String cookie
     ) {
         if(cookie != null & authTokenService.isValidateToken(cookie)){
             Long userId = authTokenService.getUserIdByToken(cookie);

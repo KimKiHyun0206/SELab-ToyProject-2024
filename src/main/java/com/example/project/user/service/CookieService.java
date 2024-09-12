@@ -1,6 +1,6 @@
 package com.example.project.user.service;
 
-import com.example.project.auth.token.TokenResolver;
+import com.example.project.common.util.HeaderUtil;
 import com.example.project.user.dto.login.LoginRequest;
 import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class CookieService {
     }
 
     public Cookie createJWTCookie(String token){
-        Cookie cookie = new Cookie(TokenResolver.AUTHORIZATION_HEADER, token);
+        Cookie cookie = new Cookie(HeaderUtil.AUTHORIZATION_HEADER, token);
 
         cookie.setDomain("localhost");
         cookie.setMaxAge(60 * 60); // 쿠키를 1시간 동안 저장
@@ -36,7 +36,7 @@ public class CookieService {
     }
 
     private Cookie getCookie(String encodedUserId) {
-        Cookie cookie = new Cookie(TokenResolver.AUTHORIZATION_HEADER, encodedUserId); // 인코딩된 사용자 ID 사용
+        Cookie cookie = new Cookie(HeaderUtil.AUTHORIZATION_HEADER, encodedUserId); // 인코딩된 사용자 ID 사용
         cookie.setDomain("localhost");
         cookie.setMaxAge(60 * 60); // 쿠키를 1시간 동안 저장
         cookie.setSecure(true); // HTTPS에서만 전송되도록 설정

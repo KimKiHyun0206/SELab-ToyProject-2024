@@ -2,11 +2,9 @@ package com.example.project.home.controller;
 
 import com.example.project.auth.service.AuthTokenService;
 import com.example.project.user.dto.UserResponse;
-import com.example.project.user.repository.AuthorityRepository;
-import com.example.project.auth.token.TokenResolver;
+import com.example.project.common.util.HeaderUtil;
 import com.example.project.user.service.UserService;
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -20,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
     private final AuthTokenService authTokenService;
     private final UserService userService;
-    private final TokenResolver tokenResolver;
+    private final HeaderUtil headerUtil;
 
     @RequestMapping
     public String home(
-            @CookieValue(name = TokenResolver.AUTHORIZATION_HEADER, required = false) Cookie cookie,
+            @CookieValue(name = HeaderUtil.AUTHORIZATION_HEADER, required = false) Cookie cookie,
             Model model
     ) {
         if(cookie != null){
@@ -40,7 +38,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/ranking")
-    public String ranking(@CookieValue(name = TokenResolver.AUTHORIZATION_HEADER, required = false) Cookie cookie) {
+    public String ranking(@CookieValue(name = HeaderUtil.AUTHORIZATION_HEADER, required = false) Cookie cookie) {
         if(cookie != null){
             String token = cookie.getValue();
             log.info("home token -> {}",token);

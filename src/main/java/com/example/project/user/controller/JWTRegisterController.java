@@ -1,7 +1,7 @@
 package com.example.project.user.controller;
 
 import com.example.project.auth.token.TokenProvider;
-import com.example.project.auth.token.TokenResolver;
+import com.example.project.common.util.HeaderUtil;
 import com.example.project.user.dto.UserResponse;
 import com.example.project.user.dto.request.UserRegisterRequest;
 import com.example.project.user.service.UserService;
@@ -34,7 +34,7 @@ public class JWTRegisterController {
         log.info("authrize jwt {}", jwt);
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(TokenResolver.AUTHORIZATION_HEADER, "Bearer " + jwt);
+        httpHeaders.add(HeaderUtil.AUTHORIZATION_HEADER, "Bearer " + jwt);
 
 
         return new ResponseEntity<>(register, httpHeaders, HttpStatus.OK);

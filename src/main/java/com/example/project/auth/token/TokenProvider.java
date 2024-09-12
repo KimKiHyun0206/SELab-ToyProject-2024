@@ -42,14 +42,11 @@ public class TokenProvider implements InitializingBean {
     }
 
     public String createToken(Long id, String role) {
-
-
-        var date = new Date();
         return Jwts.builder()
                 .setClaims(createClaims(id, role))
-                .setIssuedAt(date)
+                .setIssuedAt(DateUtil.getDate())
                 .signWith(SignatureAlgorithm.HS256, secret)
-                .setExpiration(DateUtil.getTokenValidTime(date, tokenValidityInMilliseconds))
+                .setExpiration(DateUtil.getTokenValidTime(DateUtil.getDate(), tokenValidityInMilliseconds))
                 //.setIssuer("/localhost:8080")
                 .compact();
     }
