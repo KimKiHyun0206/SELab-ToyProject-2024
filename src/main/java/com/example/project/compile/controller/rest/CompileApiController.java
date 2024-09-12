@@ -1,4 +1,4 @@
-package com.example.project.compile.controller;
+package com.example.project.compile.controller.rest;
 
 import com.example.project.common.dto.ResponseDto;
 import com.example.project.common.dto.ResponseMessage;

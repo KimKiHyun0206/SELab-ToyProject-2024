@@ -1,7 +1,7 @@
 package com.example.project.user.controller;
 
 import com.example.project.auth.service.AuthTokenService;
-import com.example.project.auth.token.TokenResolver;
+import com.example.project.common.util.HeaderUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class LogoutController {
 
     @PostMapping
     public void logout(
-            @CookieValue(value = TokenResolver.AUTHORIZATION_HEADER)Cookie cookie,
+            @CookieValue(value = HeaderUtil.AUTHORIZATION_HEADER)Cookie cookie,
             HttpServletResponse httpServletResponse
     ) throws IOException {
         log.info("logout by token -> {}", cookie.getValue());

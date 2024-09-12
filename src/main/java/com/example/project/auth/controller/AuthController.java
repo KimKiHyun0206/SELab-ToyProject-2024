@@ -1,7 +1,7 @@
 package com.example.project.auth.controller;
 
 import com.example.project.auth.dto.TokenDto;
-import com.example.project.auth.token.TokenResolver;
+import com.example.project.common.util.HeaderUtil;
 import com.example.project.user.dto.UserResponse;
 import com.example.project.user.dto.login.LoginRequest;
 import com.example.project.user.dto.request.UserRegisterRequest;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class AuthController {
-    private final TokenResolver tokenResolver;
+    private final HeaderUtil headerUtil;
     private final UserService userService;
 
     private final LoginService loginService;
@@ -34,17 +34,17 @@ public class AuthController {
         log.info("jwt token -> {}", token);
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(TokenResolver.AUTHORIZATION_HEADER, "Bearer " + token);
+        httpHeaders.add(HeaderUtil.AUTHORIZATION_HEADER, "Bearer " + token);
 
         return new ResponseEntity<>(new TokenDto(token), httpHeaders, HttpStatus.OK);
     }
 
     @GetMapping("/authenticate")
     public ResponseEntity<TokenDto> getToken(HttpServletRequest request){
-        String s = tokenResolver.resolveToken(request);
+        String s = headerUtil.resolveToken(request);
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(TokenResolver.AUTHORIZATION_HEADER, "Bearer " + s);
+        httpHeaders.add(HeaderUtil.AUTHORIZATION_HEADER, "Bearer " + s);
 
         return new ResponseEntity<>(new TokenDto(s), httpHeaders, HttpStatus.OK);
     }
