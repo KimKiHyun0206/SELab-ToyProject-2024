@@ -1,73 +1,89 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const loginForm = document.getElementById('loginForm');
+        const loginForm = document.getElementById('loginForm');
 
-    if (loginForm) {
-        loginForm.addEventListener('submit', function (event) {
-            const userId = document.getElementById('userId').value.trim();
-            const password = document.getElementById('password').value.trim();
-            let valid = true;
+        if (loginForm) {
+            loginForm.addEventListener('submit', function (event) {
+                    const userId = document.getElementById('userId').value.trim();
+                    const password = document.getElementById('password').value.trim();
+                    let valid = true;
 
-            console.log('아이디 확인');
-            if (userId === '') {
-                alert('아이디를 입력하세요.');
-                valid = false;
-            }
-
-            console.log('비밀번호 확인');
-            if (password === '') {
-                alert('비밀번호를 입력하세요.');
-                valid = false;
-            }
-
-            if (!valid) {
-                event.preventDefault();
-            } else {
-                const data = {
-                    userId: userId,
-                    password: password,
-                };
-
-                console.info('fetch 전');
-                fetch('/api/users/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                }).then(response => {
-                    if (response.ok) {
-                        // 응답이 성공적이면 JSON 데이터를 추출
-                        return response.json();
+                    const tokenValue = localStorage.getItem('Authorization');
+                    console.log(tokenValue);
+                    if (tokenValue) {
+                        fetch('/api/users/login/token', {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': tokenValue
+                            },
+                            body: null
+                        }).then(data => {
+                            console.log(data.status);
+                            if (data.status.valueOf() === 200) {
+                                console.log('토큰 로그인 성공했습니다');
+                                window.location.replace("/");
+                            }
+                        })
+                        event.preventDefault();
                     } else {
-                        throw new Error('로그인 정보가 일치하지 않습니다.');
+                        console.log('아이디 확인');
+                        if (userId === '') {
+                            alert('아이디를 입력하세요.');
+                            valid = false;
+                        }
+
+                        console.log('비밀번호 확인');
+                        if (password === '') {
+                            alert('비밀번호를 입력하세요.');
+                            valid = false;
+                        }
+
+                        if (!valid) {
+                            event.preventDefault();
+                        } else {
+                            const data = {
+                                userId: userId,
+                                password: password,
+                            };
+
+                            console.info('fetch 전');
+                            fetch('/api/users/login', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(data)
+                            }).then(data => {
+                                console.log('로그인 성공했습니다');
+                                alert('로그인이 완료되었습니다.');
+
+                                const token = data.headers.get("Authorization");  // JSON 응답에서 토큰 추출
+                                console.log(token);
+
+                                if (token) {
+                                    // 토큰을 로컬 스토리지에 저장
+                                    localStorage.setItem('Authorization', token);
+
+                                    // 메인 페이지로 이동
+                                    window.location.replace("/");
+                                } else {
+                                    alert('토큰을 받아올 수 없습니다.');
+                                }
+                            }).catch(error => {
+                                alert(error.message || '서버 오류가 발생했습니다. 나중에 다시 시도해주세요.');
+                                window.location.replace("/users/login");
+                            });
+                        }
                     }
-                }).then(data => {
-                    console.log('로그인 성공했습니다');
-                    alert('로그인이 완료되었습니다.');
-
-                    const token = data.token;  // JSON 응답에서 토큰 추출
-                    console.log(token);
-
-                    if (token) {
-                        // 토큰을 로컬 스토리지에 저장
-                        localStorage.setItem('Authorization', token);
-
-                        // 메인 페이지로 이동
-                        window.location.replace("/");
-                    } else {
-                        alert('토큰을 받아올 수 없습니다.');
-                    }
-                }).catch(error => {
-                    alert(error.message || '서버 오류가 발생했습니다. 나중에 다시 시도해주세요.');
-                    window.location.replace("/users/login");
-                });
-            }
-            event.preventDefault();
-        });
-    } else {
-        checkLoginStatus();
+                    event.preventDefault();
+                }
+            )
+            ;
+        } else {
+            checkLoginStatus();
+        }
     }
-});
+)
+;
 
 
 function checkLoginStatus() {
