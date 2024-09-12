@@ -22,7 +22,10 @@ public class CompileApiController {
     private final AuthTokenService authTokenService;
 
     @PostMapping
-    public ResponseEntity<?> compileCode(@RequestHeader("Authorization") String token, @RequestBody CompileRequest request) {
+    public ResponseEntity<?> compileCode(@RequestHeader("Authorization") String token,
+                                         @RequestBody CompileRequest request) {
+
+
         String jwt = token.replace("Bearer ", "");
 
         if (!authTokenService.isValidateToken(jwt)) {
