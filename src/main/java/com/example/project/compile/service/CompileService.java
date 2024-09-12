@@ -77,19 +77,23 @@ public class CompileService {
             throw new IOException(ErrorMessage.JAVA_FILE_RENAMING_FAILED.getMessage(), e);
         }
 
-        String command = String.format("javac %s", correctFilePath);
+        String command = String.format("javac -encoding UTF-8 %s", correctFilePath.toString().replace("\\", "/"));
+
+
+
         runCommand(command);
         return runJavaProgram(correctFilePath);
     }
 
     private String runJavaProgram(Path filePath) throws IOException, InterruptedException {
         String className = filePath.getFileName().toString().replace(".java", "");
-        String runCommand = String.format("java -cp %s %s", filePath.getParent(), className);
+        String runCommand = String.format("java -Dfile.encoding=UTF-8 -cp %s %s", filePath.getParent().toString().replace("\\", "/"), className);
         return runCommand(runCommand);
     }
 
+
     private String compilePython(Path filePath) throws IOException, InterruptedException {
-        String command = String.format("python %s", filePath);
+        String command = String.format(" python -X utf8 %s", filePath);
         return runCommand(command);
     }
 
@@ -114,6 +118,7 @@ public class CompileService {
         try {
             String content = Files.readString(filePath);
             return content.split("public class ")[1].split("\\s")[0].trim();
+
         } catch (Exception e) {
             throw new IOException(ErrorMessage.JAVA_CLASS_EXTRACTION_FAILED.getMessage(), e);
         }
