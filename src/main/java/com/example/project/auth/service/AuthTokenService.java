@@ -3,6 +3,7 @@ package com.example.project.auth.service;
 import com.example.project.auth.domain.AuthToken;
 import com.example.project.auth.dto.AuthTokenResponse;
 import com.example.project.auth.repository.AuthTokenRepository;
+import com.example.project.user.domain.vo.RoleType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,8 @@ public class AuthTokenService {
     }
 
     @Transactional
-    public AuthTokenResponse registerToken(Long userId, String token){
-        AuthToken saved = authTokenRepository.save(new AuthToken(userId,token));
+    public AuthTokenResponse registerUserToken(Long userId, String token){
+        AuthToken saved = authTokenRepository.save(new AuthToken(userId,token, RoleType.USER.getRole()));
         log.info("AuthToken Saved id:{}, userId:{}, token:{}",saved.getId(),saved.getUserId(),saved.getToken());
 
         return saved.toResponseDto();

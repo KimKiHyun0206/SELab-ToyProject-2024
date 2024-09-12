@@ -53,7 +53,7 @@ public class LoginService {
 
         String token = tokenProvider.createToken(user.getId(), user.getRoleType().getRole());
 
-        authTokenService.registerToken(user.getId(), token);
+        authTokenService.registerUserToken(user.getId(), token);
 
         return token;
     }
