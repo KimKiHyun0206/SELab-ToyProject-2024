@@ -1,4 +1,4 @@
-package com.example.project.board.controller;
+package com.example.project.board.controller.rest;
 
 import com.example.project.board.dto.BoardResponse;
 import com.example.project.board.dto.request.*;
