@@ -8,6 +8,7 @@ import com.example.project.compile.service.CompileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class CompileApiController {
     private final AuthTokenService authTokenService;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> compileCode(@RequestHeader("Authorization") String token, @RequestBody CompileRequest request) {
         String jwt = token.replace("Bearer ", "");
 
