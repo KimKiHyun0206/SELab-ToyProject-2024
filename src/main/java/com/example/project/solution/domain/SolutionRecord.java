@@ -20,6 +20,7 @@ public class SolutionRecord extends BaseEntity implements Domain<SolutionRecordR
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     private Long userId;
     private Long solutionId;
     private String code;

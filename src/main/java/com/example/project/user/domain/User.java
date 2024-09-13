@@ -25,7 +25,8 @@ public class User extends BaseEntity implements Domain<UserResponse> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private String userId;
 
     @Column
@@ -59,7 +60,7 @@ public class User extends BaseEntity implements Domain<UserResponse> {
 
 
     @Builder
-    public User(String email, String userId, String password, String name, Long point, RoleType roleType, Boolean activated, Set<Authority> authorities) {
+    public User(String email, User userId, String password, String name, Long point, RoleType roleType, Boolean activated, Set<Authority> authorities) {
         this.userId = userId;
         this.email = new Email(email);
         this.password = password;
