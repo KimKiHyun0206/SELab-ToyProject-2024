@@ -1,4 +1,4 @@
-package com.example.project.compile.controller;
+package com.example.project.compile.controller.rest;
 
 import com.example.project.auth.service.AuthTokenService;
 import com.example.project.common.dto.ResponseDto;
@@ -22,10 +22,7 @@ public class CompileApiController {
     private final AuthTokenService authTokenService;
 
     @PostMapping
-    public ResponseEntity<?> compileCode(@RequestHeader("Authorization") String token,
-                                         @RequestBody CompileRequest request) {
-
-
+    public ResponseEntity<?> compileCode(@RequestHeader("Authorization") String token, @RequestBody CompileRequest request) {
         String jwt = token.replace("Bearer ", "");
 
         if (!authTokenService.isValidateToken(jwt)) {
