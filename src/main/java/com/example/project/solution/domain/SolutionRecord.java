@@ -3,10 +3,7 @@ package com.example.project.solution.domain;
 import com.example.project.common.BaseEntity;
 import com.example.project.restrictions.Domain;
 import com.example.project.solution.dto.response.SolutionRecordResponse;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -20,7 +17,7 @@ public class SolutionRecord extends BaseEntity implements Domain<SolutionRecordR
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
+    @Column(name = "user_id")
     private Long userId;
     private Long solutionId;
     private String code;

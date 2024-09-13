@@ -2,7 +2,6 @@ package com.example.project.solution.dto.response;
 
 import com.example.project.restrictions.ResponseDto;
 import com.example.project.solution.domain.SolutionRecord;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
