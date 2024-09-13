@@ -9,6 +9,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -16,6 +18,7 @@ public class Solution extends BaseEntity implements Domain<SolutionResponse> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JoinColumn(name = "solution_id", nullable = false)
     private Long id;
 
     @Enumerated
@@ -25,6 +28,14 @@ public class Solution extends BaseEntity implements Domain<SolutionResponse> {
     private String inExample;
     private String outExample;
     private Long solved;
+
+    @ManyToMany
+    @JoinTable(
+            name = "solution_to_record",
+            joinColumns = {@JoinColumn(name = "id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "solution_id", referencedColumnName = "solution_id")}
+    )
+    Set<SolutionRecord> solutionRecords;
 
     public Solution(Difficulty difficulty, String title, String description, String inExample, String outExample, Long solved) {
         this.difficulty = difficulty;
