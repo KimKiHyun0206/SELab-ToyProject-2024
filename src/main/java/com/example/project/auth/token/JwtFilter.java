@@ -1,5 +1,6 @@
 package com.example.project.auth.token;
 
+import com.example.project.common.util.HeaderUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -21,12 +22,11 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtFilter extends GenericFilterBean {
    private final TokenProvider tokenProvider;
-   private final TokenResolver tokenResolver;
 
    @Override
    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
       HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-      String jwt = tokenResolver.resolveToken(httpServletRequest);
+      String jwt = HeaderUtil.resolveToken(httpServletRequest);
       String requestURI = httpServletRequest.getRequestURI();
 
       if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {

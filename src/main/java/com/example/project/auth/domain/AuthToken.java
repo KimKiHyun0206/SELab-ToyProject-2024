@@ -24,10 +24,13 @@ public class AuthToken extends BaseEntity implements Domain<AuthTokenResponse> {
 
     private String token;
 
+    private String role;
+
     @Builder
-    public AuthToken(Long userId, String token) {
+    public AuthToken(Long userId, String token, String role) {
         this.userId = userId;
         this.token = token;
+        this.role = role;
     }
 
     @Override
@@ -35,7 +38,8 @@ public class AuthToken extends BaseEntity implements Domain<AuthTokenResponse> {
         return new AuthTokenResponse(
                 this.id,
                 this.userId,
-                this.token
+                this.token,
+                this.role
         );
     }
 }

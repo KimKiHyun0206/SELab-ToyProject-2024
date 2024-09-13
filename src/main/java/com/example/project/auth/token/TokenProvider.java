@@ -42,20 +42,27 @@ public class TokenProvider implements InitializingBean {
     }
 
     public String createToken(Long id, String role) {
+        return Jwts.builder()
+                .setClaims(createClaims(id, role))
+                .setIssuedAt(DateUtil.getDate())
+                .signWith(SignatureAlgorithm.HS256, secret)
+                .setExpiration(DateUtil.getTokenValidTime(DateUtil.getDate(), tokenValidityInMilliseconds))
+                //.setIssuer("/localhost:8080")
+                .compact();
+    }
 
+    /**
+     * @implSpec JWT 토큰의 Claims를 생성해주는 메소드
+     * @param id userId 부분의 값
+     * @param role role 부분의 값
+     * */
+    private Claims createClaims(Long id, String role){
         var claims = Jwts.claims().setSubject("Code-For-Code");
-        claims.put("userId",id);
+        claims.put("userId",id);                                            //Long id : user의 PK
         claims.put(AUTHORITIES_KEY, role);
         claims.put("random",Math.random()*1000);
 
-        var date = new Date();
-        return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(date)
-                .signWith(SignatureAlgorithm.HS256, secret)
-                .setExpiration(DateUtil.getTokenValidTime(date, tokenValidityInMilliseconds))
-                //.setIssuer("/localhost:8080")
-                .compact();
+        return claims;
     }
 
     public Authentication getAuthentication(String token) {
