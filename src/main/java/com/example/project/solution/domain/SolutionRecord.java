@@ -19,7 +19,10 @@ public class SolutionRecord extends BaseEntity implements Domain<SolutionRecordR
 
     @Column(name = "user_id")
     private Long userId;
+
+    @Column(name = "solution_id")
     private Long solutionId;
+
     private String code;
     private Boolean successOrNot;
 
