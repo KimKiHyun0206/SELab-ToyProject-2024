@@ -53,7 +53,7 @@ public class User extends BaseEntity implements Domain<UserResponse> {
 
     @ManyToMany
     @JoinTable(
-            name = "solved_record",
+            name = "user_to_record",
             joinColumns = {@JoinColumn(name = "id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")}
     )
