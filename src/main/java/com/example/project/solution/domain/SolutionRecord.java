@@ -44,9 +44,9 @@ public class SolutionRecord extends BaseEntity implements Domain<SolutionRecordR
                 this.id,
                 this.userId,
                 this.solutionId,
+                this.codeLanguage,
                 this.code,
-                this.successOrNot,
-                this.codeLanguage
+                this.successOrNot
         );
     }
 }
