@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserLoginController {
     private final LoginService loginService;
     private final AuthTokenService authTokenService;
+    private final CookieService cookieService;
 
     @PostMapping("/login")
     public void login(
@@ -38,6 +39,7 @@ public class UserLoginController {
             log.info("authrize jwt {}", jwt);
 
             httpServletResponse.setHeader("Authorization", jwt);
+            httpServletResponse.addCookie(cookieService.createJWTCookie(jwt));
             httpServletResponse.setStatus(HttpStatus.OK.value());
 
         } catch (Exception e) {
@@ -54,6 +56,7 @@ public class UserLoginController {
         if(authTokenService.isValidateToken(token)){
             Long userIdByToken = authTokenService.getUserIdByToken(token);
             log.info("Login {}", userIdByToken);
+            response.addCookie(cookieService.createJWTCookie(token));
             response.setStatus(HttpStatus.OK.value());
         }else response.setStatus(HttpStatus.BAD_REQUEST.value());
     }
