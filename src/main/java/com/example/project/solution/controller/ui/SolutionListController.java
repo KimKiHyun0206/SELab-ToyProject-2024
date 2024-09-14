@@ -4,12 +4,10 @@ import com.example.project.auth.service.AuthTokenService;
 import com.example.project.auth.service.UserAuthService;
 import com.example.project.common.util.HeaderUtil;
 import com.example.project.solution.dto.response.list.NonAuthSolutionListResponse;
-import com.example.project.solution.dto.response.list.SolutionListResponse;
+import com.example.project.solution.dto.response.list.AuthSolutionListResponse;
 import com.example.project.solution.service.UserSolutionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -37,10 +35,10 @@ public class SolutionListController {
             Long userIdByToken = userAuthService.getUserIdByToken(cookie);
             log.info("token is validate -> user: {}", userIdByToken);
 
-            List<SolutionListResponse> solutionListResponses = userSolutionService.eachUserSolutionListRead(userIdByToken);
-            log.info("solutionListResponse size: {}", solutionListResponses.size());
+            List<AuthSolutionListResponse> authSolutionListRespons = userSolutionService.getAuthSolutionList(userIdByToken);
+            log.info("solutionListResponse size: {}", authSolutionListRespons.size());
 
-            model.addAttribute("SolutionList", solutionListResponses);
+            model.addAttribute("SolutionList", authSolutionListRespons);
             return "authentication/solution/solution_list";
         } else {
             log.info("token is not validate");

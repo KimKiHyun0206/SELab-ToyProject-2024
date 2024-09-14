@@ -1,7 +1,7 @@
 package com.example.project.solution.service;
 
 import com.example.project.solution.dto.response.list.NonAuthSolutionListResponse;
-import com.example.project.solution.dto.response.list.SolutionListResponse;
+import com.example.project.solution.dto.response.list.AuthSolutionListResponse;
 import com.example.project.solution.dto.response.SolutionResponse;
 import com.example.project.solution.domain.Solution;
 import com.example.project.error.exception.solution.SolutionException;
@@ -41,19 +41,11 @@ public class UserSolutionService {
     }
 
     @Transactional(readOnly = true)
-    public List<SolutionListResponse> eachUserSolutionListRead(Long userId){
+    public List<AuthSolutionListResponse> getAuthSolutionList(Long userId){
         log.info("eachUserSolutionListRead -> {}", userId);
         return recordRepository.eachUserSolutionResponse(userId);
     }
 
-    @Transactional(readOnly = true)
-    public List<SolutionListResponse> getSolutionList(Pageable pageable){
-        return solutionRepository
-                .findAll(pageable)
-                .stream()
-                .map(Solution::toListResponseDto)
-                .collect(Collectors.toList());
-    }
 
     @Transactional(readOnly = true)
     public List<NonAuthSolutionListResponse> getNonAuthSolutionList(){

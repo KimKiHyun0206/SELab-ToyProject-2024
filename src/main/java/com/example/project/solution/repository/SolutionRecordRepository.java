@@ -1,7 +1,7 @@
 package com.example.project.solution.repository;
 
 import com.example.project.solution.domain.SolutionRecord;
-import com.example.project.solution.dto.response.list.SolutionListResponse;
+import com.example.project.solution.dto.response.list.AuthSolutionListResponse;
 import com.example.project.solution.dto.response.SolutionRecordResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,9 +23,9 @@ public interface SolutionRecordRepository extends JpaRepository<SolutionRecord, 
             "JOIN Solution s ON s.id = sr.solutionId")
     List<SolutionRecordResponse> findSolutionRecord();
 
-    @Query("SELECT new com.example.project.solution.dto.response.list.SolutionListResponse(s.difficulty, s.title, s.solved, sr.successOrNot)" +
+    @Query("SELECT new com.example.project.solution.dto.response.list.AuthSolutionListResponse(s.difficulty, s.title, s.solved, sr.successOrNot)" +
             "FROM SolutionRecord sr " +
             "JOIN Solution s on s.id = sr.solutionId " +
             "WHERE sr.userId = :id")
-    List<SolutionListResponse> eachUserSolutionResponse(@Param("id") Long id);
+    List<AuthSolutionListResponse> eachUserSolutionResponse(@Param("id") Long id);
 }
