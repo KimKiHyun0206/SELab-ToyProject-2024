@@ -19,9 +19,8 @@ public class SolutionRecordController {
     private final SolutionRecordService solutionRecordService;
 
     @GetMapping
-    public ResponseEntity<List<SolutionRecordResponse>> findSolutionRecord(@RequestParam("id") Long id, @RequestParam("solutionId") Long solutionId) {
-        List<SolutionRecordResponse> response = solutionRecordService.findSolutionRecord(id, solutionId);
+    public ResponseEntity<List<SolutionRecordResponse>> findSolutionRecord() {
+        List<SolutionRecordResponse> response = solutionRecordService.findSolutionRecord();
         return ResponseEntity.ok(response);
     }
-
 }

@@ -43,7 +43,7 @@ public class SolutionRecordService {
     }
 
     @Transactional(readOnly = true)
-    public List<SolutionRecordResponse> findSolutionRecord(Long id, Long solutionId) {
-        return solutionRecordRepository.findSolutionRecord(id, solutionId);
+    public List<SolutionRecordResponse> findSolutionRecord() {
+        return solutionRecordRepository.findSolutionRecord();
     }
 }
