@@ -34,7 +34,6 @@
             <tr th:each="solution : ${solutionList}">
                 <td><a th:href="@{/solutions/solve/{id}(id=${solution.id})}" th:text="${solution.title}">문제 제목</a></td>
                 <td th:text="${solution.difficulty}">난이도</td>
-                <td th:text="${solution.solved}">푼 사람 수</td>
             </tr>
             </tbody>
         </table>

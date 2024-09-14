@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault(); // 기본 동작 막기
 
         // 문제 페이지로 바로 이동
-        window.location.href = '/users/solutions/list';
+        window.location.href = '/solutions/list';
     });
 
     // 간단한 애니메이션 예시: Hero 섹션의 제목에 페이드 인 애니메이션 적용
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // 문제 버튼 클릭 시 문제 페이지로 이동
-    const solutionButton = document.querySelector('a[th\\:href="@{/users/solution/list}"]');
+    const solutionButton = document.querySelector('a[th\\:href="@{/solution/list}"]');
     solutionButton.addEventListener('click', function(event) {
         event.preventDefault(); // 기본 동작 방지
         window.location.href = '/users/solutions/list'; // 문제 페이지로 이동

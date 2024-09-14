@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const solutionButton = document.querySelector('a[th\\:href="@{/users/solutions/list}"]');
     solutionButton.addEventListener('click', function(event) {
         event.preventDefault(); // 기본 동작 방지
-        window.location.href = '/users/solution/list'; // 문제 페이지로 이동
+        window.location.href = '/solution/list'; // 문제 페이지로 이동
     });
 
     // 랭킹 버튼 클릭 시 랭킹 페이지로 이동
