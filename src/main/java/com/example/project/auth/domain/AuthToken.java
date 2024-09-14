@@ -14,12 +14,11 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class AuthToken extends BaseEntity implements Domain<AuthTokenResponse> {
+public class AuthToken implements Domain<AuthTokenResponse> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Long userId;
 
     private String token;
