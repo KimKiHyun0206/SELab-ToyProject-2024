@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>코딩 테스트 웹사이트</title>
-    <link rel="stylesheet" href="/css/Clearstyles.css">
+    <link rel="stylesheet" th:href="@{/css/Clearstyles.css}">
 </head>
 <body>
 <header>
@@ -23,7 +23,7 @@
     <section class="hero">
         <h1>환영합니다, <span th:text="${user}">사용자</span>님!</h1>
         <p>다양한 코딩 테스트 문제를 풀고, 실력을 향상시키세요.</p>
-        <a th:href="@{/users/solutions/list}" class="btn">문제 풀기 시작하기</a>
+        <a th:href="@{/solutions/list}" class="btn">문제 풀기 시작하기</a>
     </section>
 
     <section class="features">
@@ -47,6 +47,6 @@
     <p>&copy; 2024 코딩 테스트 웹사이트.</p>
 </footer>
 
-<script src="/js/ClearScripts.js"></script>
+<script th:src="@{/js/ClearScripts.js}"></script>
 </body>
 </html>
