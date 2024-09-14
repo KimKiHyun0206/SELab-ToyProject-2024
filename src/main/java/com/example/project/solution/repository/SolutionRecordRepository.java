@@ -14,12 +14,12 @@ public interface SolutionRecordRepository extends JpaRepository<SolutionRecord, 
     List<SolutionRecord> findByUserId(Long userId);
     List<SolutionRecord> findByUserIdAndSolutionId(Long userId, Long solutionId);
 
-    @Query("SELECT new com.example.project.solution.dto.response" +
-            ".SolutionRecordResponse(sr.id, sr.userId, sr.solutionId, sr.code, sr.successOrNot) " +
+    @Query("SELECT new com.example.project.solution.dto.response.SolutionRecordResponse(sr.id, u.id, s.id, sr.code, sr.successOrNot) " +
             "FROM SolutionRecord sr " +
-            "JOIN User u ON sr.userId = u.id " +
-            "WHERE sr.userId = :id AND sr.solutionId = :solutionId")
-    List<SolutionRecordResponse> findSolutionRecord(@Param("id") Long id,
+            "JOIN User u ON u.id = sr.userId " +
+            "JOIN Solution s ON s.id = sr.solutionId")
+    List<SolutionRecordResponse> findSolutionRecord(@Param("userId") Long id,
                                                     @Param("solutionId") Long solutionId);
+
 
 }
