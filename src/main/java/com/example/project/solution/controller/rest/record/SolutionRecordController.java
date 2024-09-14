@@ -1,4 +1,4 @@
-package com.example.project.solution.controller.rest;
+package com.example.project.solution.controller.rest.record;
 
 
 import com.example.project.solution.dto.response.SolutionRecordResponse;
