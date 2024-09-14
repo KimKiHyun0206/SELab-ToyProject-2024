@@ -69,3 +69,6 @@ public class UserInfoController {
         response.sendRedirect("/localhost:8080/user/info");
     }
 }
+
+
+
