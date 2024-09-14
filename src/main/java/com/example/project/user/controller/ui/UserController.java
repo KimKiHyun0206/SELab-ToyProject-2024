@@ -11,12 +11,14 @@ import com.example.project.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+@Slf4j
 @Controller
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -36,7 +38,9 @@ public class UserController {
             Model model,
             @CookieValue(value = TokenResolver.AUTHORIZATION_HEADER, required = false) String cookie
     ) {
+        log.info("info entry -> token: {}", cookie);
         if(cookie != null & authTokenService.isValidateToken(cookie)){
+            log.info("token is validate");
             Long userId = authTokenService.getUserIdByToken(cookie);
             UserResponse userResponse = userService.find(userId);
             model.addAttribute("UserInfo", userResponse);
