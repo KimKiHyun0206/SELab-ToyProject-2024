@@ -18,7 +18,7 @@ public interface SolutionRecordRepository extends JpaRepository<SolutionRecord, 
             "FROM SolutionRecord sr " +
             "JOIN User u ON u.id = sr.userId " +
             "JOIN Solution s ON s.id = sr.solutionId")
-    List<SolutionRecordResponse> findSolutionRecord(@Param("userId") Long id,
+    List<SolutionRecordResponse> findSolutionRecord(@Param("id") Long id,
                                                     @Param("solutionId") Long solutionId);
 
 
