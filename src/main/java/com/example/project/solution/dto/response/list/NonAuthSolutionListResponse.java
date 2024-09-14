@@ -1,7 +1,6 @@
 package com.example.project.solution.dto.response.list;
 
 import com.example.project.solution.domain.vo.Difficulty;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
