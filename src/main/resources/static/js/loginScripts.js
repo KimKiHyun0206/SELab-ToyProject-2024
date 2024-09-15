@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const userId = document.getElementById('userId').value.trim();
             const password = document.getElementById('password').value.trim();
 
-            const token = localStorage.getItem('Authorization');
+            const token = localStorage.getItem('code-for-code-auth');
             console.log('저장된 토큰:', token);
 
             if (token) {
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     } else {
                         console.log('토큰 로그인 실패');
                         alert('토큰 인증에 실패했습니다. 다시 로그인 해주세요.');
-                        localStorage.removeItem('Authorization'); // 실패 시 토큰 제거
+                        localStorage.removeItem('code-for-code-auth'); // 실패 시 토큰 제거
                     }
                 } catch (error) {
                     console.error('토큰 로그인 에러:', error);
@@ -57,11 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
 
                     if (response.ok) {
-                        const token = response.headers.get("Authorization");
+                        const token = response.headers.get("code-for-code-auth");
                         console.log('서버로부터 받은 토큰:', token);
 
                         if (token) {
-                            localStorage.setItem('Authorization', token);
+                            localStorage.setItem('code-for-code-auth', token);
                             alert('로그인이 완료되었습니다.');
                             window.location.replace("/"); // 인증된 메인 페이지로 리다이렉트
                         } else {
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function checkLoginStatus() {
-    const token = localStorage.getItem('Authorization');
+    const token = localStorage.getItem('code-for-code-auth');
     if (!token) {
         alert('로그인이 필요합니다.');
         window.location.replace("/users/login");
@@ -92,7 +92,7 @@ function checkLoginStatus() {
 }
 
 async function fetchWithToken(url, options = {}) {
-    const token = localStorage.getItem('Authorization');
+    const token = localStorage.getItem('code-for-code-auth');
 
     if (!token) {
         alert('로그인이 필요합니다.');
@@ -102,7 +102,7 @@ async function fetchWithToken(url, options = {}) {
 
     const headers = {
         ...options.headers,
-        'Authorization': `Bearer ${token}`  // Bearer 형식 추가
+        'code-for-code-auth': `${token}`  // Bearer 형식 추가
     };
 
     try {
@@ -113,7 +113,7 @@ async function fetchWithToken(url, options = {}) {
 
         if (response.status === 401) {
             alert('인증 오류가 발생했습니다. 다시 로그인 해주세요.');
-            localStorage.removeItem('Authorization');
+            localStorage.removeItem('code-for-code-auth');
             window.location.replace("/users/login");
         }
         return response;
@@ -122,8 +122,3 @@ async function fetchWithToken(url, options = {}) {
         alert('서버 오류가 발생했습니다.');
     }
 }
-
-
-
-
-
