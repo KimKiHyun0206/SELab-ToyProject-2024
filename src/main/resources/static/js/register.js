@@ -71,8 +71,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
                     .then(response => {
                         if (response.ok) {
+                            localStorage.setItem('code-for-code-auth', response.headers.get("code-for-code-auth"));
                             alert('회원가입이 완료되었습니다!');
-                            window.location.href = '/users/login';
+                            window.location.href = '/';
                         } else {
                             response.json().then(data => {
                                 alert(data.message || '회원가입 중 오류가 발생했습니다.');
