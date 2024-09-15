@@ -52,6 +52,7 @@ public class UserResponse implements ResponseDto<User> {
                 this.email,
                 this.roleType,
                 this.activated,
+                null,
                 this.authorities
         );
     }

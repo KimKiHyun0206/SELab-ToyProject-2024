@@ -1,9 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // "유저 정보 수정하기" 버튼을 클릭했을 때의 이벤트 처리
-    const editButton = document.querySelector('button[th\\:action]');
-    editButton.addEventListener('click', function(event) {
-        event.preventDefault(); // 기본 동작 방지
-        const userId = event.target.getAttribute('th\\:action').split('/').pop();
-        window.location.href = `/edit/${userId}`; // 수정 페이지로 이동
+    const form = document.getElementById('editForm');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // 기본 폼 제출 방지
+        const userId = document.getElementById('userId').value;
+        if (userId) {
+            // userId 변수를 문자열이 아닌 실제 값으로 사용
+            window.location.href = `/edit-info/${userId}`;
+        } else {
+            alert('UserID가 없습니다.');
+        }
     });
 });
+
+

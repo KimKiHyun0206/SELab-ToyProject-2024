@@ -41,4 +41,9 @@ public class SolutionRecordService {
                 .map(SolutionRecord::toResponseDto)
                 .collect(Collectors.toList());
     }
+
+    @Transactional(readOnly = true)
+    public List<SolutionRecordResponse> findSolutionRecord() {
+        return solutionRecordRepository.findSolutionRecord();
+    }
 }

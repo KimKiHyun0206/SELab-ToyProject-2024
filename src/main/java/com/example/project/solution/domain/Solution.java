@@ -3,7 +3,7 @@ package com.example.project.solution.domain;
 import com.example.project.common.BaseEntity;
 import com.example.project.restrictions.Domain;
 import com.example.project.solution.domain.vo.Difficulty;
-import com.example.project.solution.dto.response.SolutionListResponse;
+import com.example.project.solution.dto.response.list.AuthSolutionListResponse;
 import com.example.project.solution.dto.response.SolutionResponse;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -16,6 +16,7 @@ public class Solution extends BaseEntity implements Domain<SolutionResponse> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JoinColumn(name = "solution_id", nullable = false)
     private Long id;
 
     @Enumerated
@@ -75,9 +76,8 @@ public class Solution extends BaseEntity implements Domain<SolutionResponse> {
                 .build();
     }
 
-    public SolutionListResponse toListResponseDto(){
-        return SolutionListResponse.builder()
-                .id(id)
+    public AuthSolutionListResponse toListResponseDto(){
+        return AuthSolutionListResponse.builder()
                 .difficulty(difficulty)
                 .title(title)
                 .solved(solved)

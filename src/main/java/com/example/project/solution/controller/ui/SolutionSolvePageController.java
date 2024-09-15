@@ -3,51 +3,24 @@ package com.example.project.solution.controller.ui;
 import com.example.project.auth.service.AuthTokenService;
 import com.example.project.auth.service.UserAuthService;
 import com.example.project.common.util.HeaderUtil;
-import com.example.project.solution.dto.response.SolutionListResponse;
 import com.example.project.solution.service.UserSolutionService;
-import com.example.project.user.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
-
 @Slf4j
 @Controller
 @RequestMapping("/solutions")
 @RequiredArgsConstructor
-public class SolutionController {
-
+public class SolutionSolvePageController {
     private final UserSolutionService userSolutionService;
-    private final UserAuthService userAuthService;
     private final AuthTokenService authTokenService;
 
-    @RequestMapping("/list")
-    public String solutionList(
-            @PageableDefault Pageable pageable,
-            Model model,
-            @CookieValue(value = HeaderUtil.AUTHORIZATION_HEADER, required = false) String cookie
-    ) {
-        List<SolutionListResponse> solutionList = userSolutionService.getSolutionList(pageable);
-        model.addAttribute("solutionList", solutionList);
-
-        if(cookie != null && authTokenService.isValidateToken(cookie)){
-            UserResponse userResponse = userAuthService.getUserByToken(cookie);
-            model.addAttribute("User", userResponse);
-            return "authentication/solution/solution_list";
-        }
-
-        return "non-authentication/solution/solution_list";
-
-    }
-
-    @RequestMapping("/solve/{id}")
+    @RequestMapping("/{id}")
     public String solvePage(
             @PathVariable(name = "id") Long id,
             Model model,
@@ -58,8 +31,7 @@ public class SolutionController {
         model.addAttribute("description", response.getDescription());
         model.addAttribute("inExample", response.getInExample());
         model.addAttribute("outExample", response.getOutExample());
-
-        if (userAuthService.getUserByToken(token) != null) {
+        if (authTokenService.isValidateToken(token)) {
             return "authentication/solution/solve";
         }
         return "non-authentication/solution/solve";

@@ -20,4 +20,12 @@ public class UserAuthService {
         log.info("UserAuthService.getUserByToken({}) -> 토큰이 유효하지 않아 User를 찾을 수 없습니다",token);
         return null;
     }
+
+    public Long getUserIdByToken(String token){
+        if(authTokenService.isValidateToken(token)){
+            return userService.find(authTokenService.getUserIdByToken(token)).getId();
+        }
+        log.info("UserAuthService.getUserByToken({}) -> 토큰이 유효하지 않아 User를 찾을 수 없습니다",token);
+        return null;
+    }
 }

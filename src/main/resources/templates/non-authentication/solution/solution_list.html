@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>문제 리스트</title>
-    <link rel="stylesheet" href="/css/nonSolutionList.css">
+    <link rel="stylesheet" th:href="@{/css/nonSolutionList.css}">
 </head>
 <body>
 <header>
@@ -34,7 +34,6 @@
             <tr th:each="solution : ${solutionList}">
                 <td><a th:href="@{/solutions/solve/{id}(id=${solution.id})}" th:text="${solution.title}">문제 제목</a></td>
                 <td th:text="${solution.difficulty}">난이도</td>
-                <td th:text="${solution.solved}">푼 사람 수</td>
             </tr>
             </tbody>
         </table>
@@ -45,6 +44,6 @@
     <p>&copy; 2024 코딩 테스트 웹사이트.</p>
 </footer>
 
-<script src="/js/nonSolutionList.js"></script>
+<script th:src="@{/js/nonSolutionList.js}"></script>
 </body>
 </html>

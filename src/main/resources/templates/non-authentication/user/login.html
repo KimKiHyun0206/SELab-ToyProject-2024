@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인 - 코딩 테스트 웹사이트</title>
-    <link rel="stylesheet" href="/css/loginStyles.css">
+    <link rel="stylesheet" th:href="@{/css/loginStyles.css}">
 </head>
 <body>
 <header>
@@ -14,7 +14,7 @@
             <li><a th:href="@{/}">홈</a></li>
             <li><a th:href="@{/users/login}" class="active">로그인</a></li>
             <li><a th:href="@{/users/register}">회원가입</a></li>
-            <li><a th:href="@{/users/solutions/list}">문제</a></li>
+            <li><a th:href="@{/solutions/list}">문제</a></li>
             <li><a th:href="@{/users/ranking}">랭킹</a></li>
         </ul>
     </nav>

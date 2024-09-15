@@ -2,11 +2,9 @@ package com.example.project.solution.domain;
 
 import com.example.project.common.BaseEntity;
 import com.example.project.restrictions.Domain;
+import com.example.project.solution.domain.vo.CodeLanguage;
 import com.example.project.solution.dto.response.SolutionRecordResponse;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -20,17 +18,24 @@ public class SolutionRecord extends BaseEntity implements Domain<SolutionRecordR
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "user_id")
     private Long userId;
+
+    @Column(name = "solution_id")
     private Long solutionId;
+
+    @Enumerated
+    private CodeLanguage codeLanguage;
     private String code;
     private Boolean successOrNot;
 
     @Builder
-    public SolutionRecord(Long userId, Long solutionId, String code, Boolean successOrNot) {
+    public SolutionRecord(Long userId, Long solutionId, String code, Boolean successOrNot, CodeLanguage codeLanguage) {
         this.userId = userId;
         this.solutionId = solutionId;
         this.code = code;
         this.successOrNot = successOrNot;
+        this.codeLanguage = codeLanguage;
     }
 
     @Override
@@ -39,6 +44,7 @@ public class SolutionRecord extends BaseEntity implements Domain<SolutionRecordR
                 this.id,
                 this.userId,
                 this.solutionId,
+                this.codeLanguage,
                 this.code,
                 this.successOrNot
         );

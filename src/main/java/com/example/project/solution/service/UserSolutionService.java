@@ -1,12 +1,14 @@
 package com.example.project.solution.service;
 
-import com.example.project.solution.dto.response.SolutionListResponse;
+import com.example.project.solution.dto.response.list.NonAuthSolutionListResponse;
+import com.example.project.solution.dto.response.list.AuthSolutionListResponse;
 import com.example.project.solution.dto.response.SolutionResponse;
-import com.example.project.solution.dto.request.user.SolutionFindRequest;
 import com.example.project.solution.domain.Solution;
 import com.example.project.error.exception.solution.SolutionException;
+import com.example.project.solution.repository.SolutionRecordRepository;
 import com.example.project.solution.repository.SolutionRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,11 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserSolutionService {
 
     private final SolutionRepository solutionRepository;
+    private final SolutionRecordRepository recordRepository;
 
     @Transactional(readOnly = true)
     public List<SolutionResponse> readAll(Pageable pageable) {
@@ -37,20 +41,15 @@ public class UserSolutionService {
     }
 
     @Transactional(readOnly = true)
-    public List<SolutionListResponse> getSolutionList(Pageable pageable){
-        return solutionRepository
-                .findAll(pageable)
-                .stream()
-                .map(Solution::toListResponseDto)
-                .collect(Collectors.toList());
+    public List<AuthSolutionListResponse> getAuthSolutionList(Long userId){
+        log.info("eachUserSolutionListRead -> {}", userId);
+        return recordRepository.eachUserSolutionResponse(userId);
     }
 
-   /* @Transactional(readOnly = true)
-    public Page<SolutionResponse> findByDifficulty(DifficultyFindRequest request){
-        return solutionRepository
-                .findByDifficulty(request.getDifficulty())
-                .map(SolutionResponse::from);
-    }*/
 
-    //TODO 컴파일 부분 만들기
+    @Transactional(readOnly = true)
+    public List<NonAuthSolutionListResponse> getNonAuthSolutionList(){
+        log.info("getNonAuthSolutionList entry");
+        return solutionRepository.getSolutions();
+    }
 }

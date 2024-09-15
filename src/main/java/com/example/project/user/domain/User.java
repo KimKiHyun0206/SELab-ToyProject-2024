@@ -2,6 +2,7 @@ package com.example.project.user.domain;
 
 import com.example.project.common.BaseEntity;
 import com.example.project.restrictions.Domain;
+import com.example.project.solution.domain.SolutionRecord;
 import com.example.project.user.domain.converter.PasswordEncodeConverter;
 import com.example.project.user.domain.vo.Email;
 import com.example.project.user.domain.vo.Name;
@@ -25,7 +26,7 @@ public class User extends BaseEntity implements Domain<UserResponse> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private String userId;
 
     @Column
@@ -49,6 +50,14 @@ public class User extends BaseEntity implements Domain<UserResponse> {
 
     @Column
     private Boolean activated;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_to_record",
+            joinColumns = {@JoinColumn(name = "id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")}
+    )
+    private Set<SolutionRecord> solutionRecords;
 
     @ManyToMany
     @JoinTable(
