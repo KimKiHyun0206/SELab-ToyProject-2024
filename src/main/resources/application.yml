@@ -2,16 +2,15 @@ spring:
   sql:
     init:
       mode: always  # 매번 data.sql을 실행하도록 한다
-      data-locations: sql/data.sql #List 형태로 뒤에 ,를 붙이며 추가 가능함
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
   datasource:
-    url: jdbc:mysql://coder-b2b-rds.c38u2e64od9k.ap-northeast-2.rds.amazonaws.com:3306/quiz_db
+    url: jdbc:mysql://code-for-code-rds.c38u2e64od9k.ap-northeast-2.rds.amazonaws.com:3306/quiz_db
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: letmein
-    password: letmein0
+    username: admin
+    password: adminusr
     hikari:
       minimum-idle: 10
       maximum-pool-size: 20
