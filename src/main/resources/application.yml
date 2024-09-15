@@ -2,6 +2,7 @@ spring:
   sql:
     init:
       mode: always  # 매번 data.sql을 실행하도록 한다
+      data-locations: sql/data.sql #List 형태로 뒤에 ,를 붙이며 추가 가능함
   servlet:
     multipart:
       max-file-size: 10MB
