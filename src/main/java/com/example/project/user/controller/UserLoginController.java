@@ -1,6 +1,7 @@
 package com.example.project.user.controller;
 
 import com.example.project.auth.service.AuthTokenService;
+import com.example.project.common.util.HeaderUtil;
 import com.example.project.user.dto.login.LoginRequest;
 import com.example.project.user.service.CookieService;
 import com.example.project.user.service.LoginService;
@@ -32,7 +33,7 @@ public class UserLoginController {
             String jwt = loginService.userLogin(loginRequest.getUserId(), loginRequest.getPassword());
             log.info("authrize jwt {}", jwt);
 
-            httpServletResponse.setHeader("Authorization", jwt);
+            httpServletResponse.setHeader(HeaderUtil.AUTHORIZATION_HEADER, jwt);
             httpServletResponse.addCookie(cookieService.createJWTCookie(jwt));
             httpServletResponse.setStatus(HttpStatus.OK.value());
 
@@ -44,7 +45,7 @@ public class UserLoginController {
 
     @PostMapping("/login/token")
     public void tokenLogin(HttpServletRequest request, HttpServletResponse response) {
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader(HeaderUtil.AUTHORIZATION_HEADER);
         log.info("token login tryed {}", token);
 
         if(authTokenService.isValidateToken(token)){
