@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserSolutionService {
-
     private final SolutionRepository solutionRepository;
     private final SolutionRecordRepository recordRepository;
 
@@ -35,20 +34,21 @@ public class UserSolutionService {
 
     @Transactional(readOnly = true)
     public SolutionResponse read(Long id) {
-        Solution solution = solutionRepository.findById(id).orElseThrow(SolutionException::new);
-
-        return solution.toResponseDto();
+        return solutionRepository
+                .findById(id)
+                .orElseThrow(SolutionException::new)
+                .toResponseDto();
     }
 
     @Transactional(readOnly = true)
-    public List<AuthSolutionListResponse> getAuthSolutionList(Long userId){
+    public List<AuthSolutionListResponse> getAuthSolutionList(Long userId) {
         log.info("eachUserSolutionListRead -> {}", userId);
         return recordRepository.eachUserSolutionResponse(userId);
     }
 
 
     @Transactional(readOnly = true)
-    public List<NonAuthSolutionListResponse> getNonAuthSolutionList(){
+    public List<NonAuthSolutionListResponse> getNonAuthSolutionList() {
         log.info("getNonAuthSolutionList entry");
         return solutionRepository.getSolutions();
     }

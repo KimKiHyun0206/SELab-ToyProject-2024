@@ -13,12 +13,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class Solution extends BaseEntity implements Domain<SolutionResponse> {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JoinColumn(name = "solution_id", nullable = false)
     private Long id;
-
     @Enumerated
     private Difficulty difficulty;
     private String title;
@@ -44,27 +42,12 @@ public class Solution extends BaseEntity implements Domain<SolutionResponse> {
         this.outExample = outExample;
     }
 
-    public void updateDifficulty(Difficulty difficulty) {
-        this.difficulty = difficulty;
-    }
-
-    public void updateContext(String title, String description) {
-        this.title = title;
-        this.description = description;
-    }
-
-    public void updateExample(String inExample, String outExample) {
-        this.inExample = inExample;
-        this.outExample = outExample;
-    }
-
-
     public void increaseSolved() {
         this.solved++;
     }
 
     @Override
-    public SolutionResponse toResponseDto(){
+    public SolutionResponse toResponseDto() {
         return SolutionResponse.builder()
                 .id(id)
                 .difficulty(difficulty)
@@ -76,7 +59,7 @@ public class Solution extends BaseEntity implements Domain<SolutionResponse> {
                 .build();
     }
 
-    public AuthSolutionListResponse toListResponseDto(){
+    public AuthSolutionListResponse toListResponseDto() {
         return AuthSolutionListResponse.builder()
                 .difficulty(difficulty)
                 .title(title)

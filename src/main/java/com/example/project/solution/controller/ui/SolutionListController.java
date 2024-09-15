@@ -39,7 +39,7 @@ public class SolutionListController {
             log.info("solutionListResponse size: {}", authSolutionListRespons.size());
 
             model.addAttribute("SolutionList", authSolutionListRespons);
-            return "authentication/solution/solution_list";
+            return "auth/solution/solution_list";
         } else {
             log.info("token is not validate");
 
@@ -47,7 +47,7 @@ public class SolutionListController {
             log.info("solutionListResponse size: {}", nonAuthSolutionList.size());
 
             model.addAttribute("SolutionList", nonAuthSolutionList);
-            return "non-authentication/solution/solution_list";
+            return "non-auth/solution/solution_list";
         }
     }
 }

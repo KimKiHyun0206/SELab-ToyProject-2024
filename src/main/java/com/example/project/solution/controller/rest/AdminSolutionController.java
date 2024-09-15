@@ -7,9 +7,6 @@ import com.example.project.solution.dto.request.admin.SolutionDeleteRequest;
 import com.example.project.solution.dto.request.admin.SolutionRegisterRequest;
 import com.example.project.solution.dto.request.admin.SolutionUpdateRequest;
 import com.example.project.solution.service.AdminSolutionService;
-import com.example.project.user.domain.vo.RoleType;
-import com.example.project.user.dto.UserResponse;
-import com.example.project.user.dto.login.LoginRequest;
 import com.example.project.user.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,9 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/api/solutions/admin")
 @RequiredArgsConstructor
 public class AdminSolutionController {
-
     private final AdminSolutionService service;
-    private final LoginService loginService;
 
     /**
      * @param request : Solution 을 Update 할 수 있도록 정보를 가진 dto
@@ -32,12 +27,10 @@ public class AdminSolutionController {
      */
     @PatchMapping
     public ResponseEntity<?> update(@RequestBody SolutionUpdateRequest request) {
-
         var response = service.updateAll(request);
 
         log.info("Admin  -> Solution {} Update", request.getSolutionId());
         return ResponseDto.toResponseEntity(ResponseMessage.UPDATE_SUCCESS_SOLUTION, response);
-
     }
 
     /**
@@ -46,15 +39,12 @@ public class AdminSolutionController {
      */
     @DeleteMapping
     public ResponseEntity<?> delete(@RequestBody SolutionDeleteRequest request) {
-
         SolutionResponse response = service.delete(request);
         if (response != null) {
             return ResponseDto.toResponseEntity(ResponseMessage.DELETE_SUCCESS_SOLUTION, response);
         }
-
         log.info("Admin  -> Solution {} Delete", request.getSolutionId());
         return ResponseDto.toResponseEntity(ResponseMessage.DELETE_FAIL_SOLUTION, null);
-
     }
 
     /**
@@ -63,10 +53,8 @@ public class AdminSolutionController {
      */
     @GetMapping
     public ResponseEntity<?> register(@RequestBody SolutionRegisterRequest request) {
-
         var response = service.register(request);
         log.info("Admin  -> Solution {} Register", response.getId());
         return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_SOLUTION, response);
-
     }
 }

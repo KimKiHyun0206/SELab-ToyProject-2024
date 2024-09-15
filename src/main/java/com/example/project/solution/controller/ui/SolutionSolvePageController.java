@@ -1,7 +1,6 @@
 package com.example.project.solution.controller.ui;
 
 import com.example.project.auth.service.AuthTokenService;
-import com.example.project.auth.service.UserAuthService;
 import com.example.project.common.util.HeaderUtil;
 import com.example.project.solution.service.UserSolutionService;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +31,8 @@ public class SolutionSolvePageController {
         model.addAttribute("inExample", response.getInExample());
         model.addAttribute("outExample", response.getOutExample());
         if (authTokenService.isValidateToken(token)) {
-            return "authentication/solution/solve";
+            return "auth/solution/solve";
         }
-        return "non-authentication/solution/solve";
+        return "non-auth/solution/solve";
     }
 }

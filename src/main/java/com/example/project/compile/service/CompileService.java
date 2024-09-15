@@ -1,6 +1,7 @@
 package com.example.project.compile.service;
 
 import com.example.project.error.dto.ErrorMessage;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -9,12 +10,15 @@ import java.util.UUID;
 
 @Service
 public class CompileService {
+    private final String code_dir;
 
-    private static final String CODE_DIR = "/home/ubuntu/code/";
+    public CompileService(@Value("${compile.url}") String codeDir) {
+        this.code_dir = codeDir;
+    }
 
     public String compileAndRun(String language, String code) throws IOException, InterruptedException {
         try {
-            Path codePath = Paths.get(CODE_DIR);
+            Path codePath = Paths.get(code_dir);
             if (!Files.exists(codePath)) {
                 Files.createDirectories(codePath);
             }
@@ -34,6 +38,7 @@ public class CompileService {
 
     private String executeCode(String language, Path filePath, Path codePath) throws IOException, InterruptedException {
         try {
+            //TODO Enum 사용하기
             return switch (language.toLowerCase()) {
                 case "c" -> compileAndRun(filePath, "gcc", codePath.resolve("output").toString(), "");
                 case "java" -> compileJava(filePath);
@@ -132,11 +137,11 @@ public class CompileService {
     }
 
     private String generateFileName(String language) {
-        String extension = getExtension(language);
-        return UUID.randomUUID().toString() + extension;
+        return UUID.randomUUID() + getExtension(language);
     }
 
     private String getExtension(String language) {
+        //TODO ENUM
         return switch (language.toLowerCase()) {
             case "c" -> ".c";
             case "java" -> ".java";

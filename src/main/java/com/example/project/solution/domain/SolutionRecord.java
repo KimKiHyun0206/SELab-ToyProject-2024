@@ -13,17 +13,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SolutionRecord extends BaseEntity implements Domain<SolutionRecordResponse> {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(name = "user_id")
     private Long userId;
-
     @Column(name = "solution_id")
     private Long solutionId;
-
     @Enumerated
     private CodeLanguage codeLanguage;
     private String code;

@@ -2,7 +2,6 @@ package com.example.project.common.dto;
 
 import lombok.Data;
 import org.springframework.http.ResponseEntity;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -23,5 +22,4 @@ public class ResponseDto<T> {
                 .status(message.getStatus())
                 .body(new ResponseDto<>(message, data));
     }
-
 }

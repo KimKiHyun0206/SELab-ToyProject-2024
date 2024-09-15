@@ -1,6 +1,5 @@
 package com.example.project.solution.controller.rest.record;
 
-
 import com.example.project.solution.dto.response.SolutionRecordResponse;
 import com.example.project.solution.service.SolutionRecordService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,6 @@ import java.util.List;
 @RequestMapping("/api/solutionRecord")
 @RequiredArgsConstructor
 public class SolutionRecordController {
-
     private final SolutionRecordService solutionRecordService;
 
     @GetMapping

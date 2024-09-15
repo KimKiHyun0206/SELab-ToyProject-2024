@@ -9,10 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
-
-    //@Query("select a from board where a.solutionId = ?")
-    //public Page<Board> findBySolutionId(Long solutionId);
-
     Optional<Board> findByTitle(String title);
     List<Board> findBoardsBySolutionId(Long SolutionId);
 }

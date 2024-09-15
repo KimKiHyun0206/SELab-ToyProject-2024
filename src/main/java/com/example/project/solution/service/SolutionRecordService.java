@@ -18,14 +18,14 @@ public class SolutionRecordService {
     private final SolutionRecordRepository solutionRecordRepository;
 
     @Transactional
-    public SolutionRecordResponse register(SolutionRecordRegisterRequest request){
-        SolutionRecord save = solutionRecordRepository.save(request.toEntity());
-
-        return save.toResponseDto();
+    public SolutionRecordResponse register(SolutionRecordRegisterRequest request) {
+        return solutionRecordRepository
+                .save(request.toEntity())
+                .toResponseDto();
     }
 
     @Transactional(readOnly = true)
-    public List<SolutionRecordResponse> getByUserId(Long userId){
+    public List<SolutionRecordResponse> getByUserId(Long userId) {
         return solutionRecordRepository
                 .findByUserId(userId)
                 .stream()
@@ -34,7 +34,7 @@ public class SolutionRecordService {
     }
 
     @Transactional(readOnly = true)
-    public List<SolutionRecordResponse> getByUserIdAndSolutionId(Long userId, Long solutionId){
+    public List<SolutionRecordResponse> getByUserIdAndSolutionId(Long userId, Long solutionId) {
         return solutionRecordRepository
                 .findByUserIdAndSolutionId(userId, solutionId)
                 .stream()

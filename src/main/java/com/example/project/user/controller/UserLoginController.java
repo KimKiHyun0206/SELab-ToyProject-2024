@@ -48,11 +48,11 @@ public class UserLoginController {
         String token = request.getHeader(HeaderUtil.AUTHORIZATION_HEADER);
         log.info("token login tryed {}", token);
 
-        if(authTokenService.isValidateToken(token)){
+        if (authTokenService.isValidateToken(token)) {
             Long userIdByToken = authTokenService.getUserIdByToken(token);
             log.info("Login {}", userIdByToken);
             response.addCookie(cookieService.createJWTCookie(token));
             response.setStatus(HttpStatus.OK.value());
-        }else response.setStatus(HttpStatus.BAD_REQUEST.value());
+        } else response.setStatus(HttpStatus.BAD_REQUEST.value());
     }
 }

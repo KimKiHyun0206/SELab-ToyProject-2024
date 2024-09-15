@@ -8,18 +8,17 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
 @Entity
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Comment extends BaseEntity implements Domain<CommentResponse> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Long boardId;
     private Long userId;
     private String comment;
@@ -29,7 +28,6 @@ public class Comment extends BaseEntity implements Domain<CommentResponse> {
         this.userId = userId;
         this.comment = comment;
     }
-
 
     @Override
     public CommentResponse toResponseDto() {

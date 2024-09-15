@@ -28,18 +28,9 @@ public class UserService {
     public UserResponse register(UserRegisterRequest request) {
         duplicateValidationUserEmail(request.getEmail());
 
-        Authority authority = Authority.builder()
-                .authorityName("ROLE_USER")
-                .build();
-
-        User savedUser = request.toEntity();
-        savedUser.setAuthorities(Collections.singleton(authority));
-        savedUser.setActivated(true);
-
-
-        var response = userRepository.save(savedUser);
-
-        return response.toResponseDto();
+        return userRepository
+                .save(request.toEntity())
+                .toResponseDto();
     }
 
 
@@ -51,14 +42,12 @@ public class UserService {
                 });
     }
 
-
     @Transactional(readOnly = true)
     public UserResponse find(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new InvalidIdToFindUserException(ErrorMessage.USER_NOT_FOUND_ERROR, "유저를 찾을 수 없습니다"))
                 .toResponseDto();
     }
-
 
     @Transactional
     public UserResponse updateUser(UserUpdateRequest request) {
@@ -77,5 +66,4 @@ public class UserService {
                 .map(User::toResponseDto)
                 .collect(Collectors.toList());
     }
-
 }

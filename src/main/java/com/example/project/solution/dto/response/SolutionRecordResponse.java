@@ -16,7 +16,7 @@ public class SolutionRecordResponse implements ResponseDto<SolutionRecord> {
     private Boolean successOrNot;
 
     @Builder
-    public SolutionRecordResponse(Long id, Long userId, Long solutionId,CodeLanguage codeLanguage, String code, Boolean successOrNot) {
+    public SolutionRecordResponse(Long id, Long userId, Long solutionId, CodeLanguage codeLanguage, String code, Boolean successOrNot) {
         this.id = id;
         this.userId = userId;
         this.solutionId = solutionId;

@@ -22,7 +22,7 @@ public class UserRegisterRequest implements RegisterRequest<User> {
     private String email;
 
     @Override
-    public User toEntity(){
+    public User toEntity() {
         return User.builder()
                 .email(email)
                 .userId(userId)
@@ -33,7 +33,8 @@ public class UserRegisterRequest implements RegisterRequest<User> {
                 .build();
     }
 
-    private void matchingPassword(){
-        if(!this.password.equals(this.repeatPassword)) throw new InvalidPasswordMatchException(ErrorMessage.INVALID_PASSWORD_MATCH_TO_REGISTER_EXCEPTION, "회원가입을 하기 위한 비밀번호가 일치하지 않습니다");
+    private void matchingPassword() {
+        if (!this.password.equals(this.repeatPassword))
+            throw new InvalidPasswordMatchException(ErrorMessage.INVALID_PASSWORD_MATCH_TO_REGISTER_EXCEPTION, "회원가입을 하기 위한 비밀번호가 일치하지 않습니다");
     }
 }

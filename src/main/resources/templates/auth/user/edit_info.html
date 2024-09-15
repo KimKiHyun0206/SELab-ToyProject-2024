@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Info</title>
-    <link rel="stylesheet" th:href="@{/css/editInfo.css}">
+    <link rel="stylesheet" th:href="@{/css/edit_info.css}">
 </head>
 <body>
 <header>
@@ -25,19 +25,23 @@
         <form th:action="@{/api/users/info/edit/${UserInfo.id}}" th:object="${UpdateRequest}" method="post">
             <div class="form-group">
                 <label for="userId">UserID</label>
-                <input type="text" th:field="${UpdateRequest.userId}" th:placeholder="${UserInfo.userId}" id="userId" required>
+                <input type="text" th:field="${UpdateRequest.userId}" th:placeholder="${UserInfo.userId}" id="userId"
+                       required>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" th:field="${UpdateRequest.password}" th:placeholder="${UserInfo.password}" id="password" required>
+                <input type="password" th:field="${UpdateRequest.password}" th:placeholder="${UserInfo.password}"
+                       id="password" required>
             </div>
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" th:field="${UpdateRequest.name}" th:placeholder="${UserInfo.name}" id="name" required>
+                <input type="text" th:field="${UpdateRequest.name}" th:placeholder="${UserInfo.name}" id="name"
+                       required>
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" th:field="${UpdateRequest.email}" th:placeholder="${UserInfo.email}" id="email" required>
+                <input type="email" th:field="${UpdateRequest.email}" th:placeholder="${UserInfo.email}" id="email"
+                       required>
             </div>
             <input type="submit" value="정보 수정">
         </form>
@@ -48,7 +52,7 @@
     <p>&copy; 2024 코딩 테스트 웹사이트.</p>
 </footer>
 
-<script th:src="@{/js/editInfo.js}"></script>
+<script th:src="@{/js/edit_info.js}"></script>
 </body>
 </html>
 

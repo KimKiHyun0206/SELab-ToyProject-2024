@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.io.IOException;
 
 @Slf4j
@@ -29,6 +28,5 @@ public class LogoutController {
         log.info("logout by token -> {}", cookie.getValue());
         authTokenService.deleteToken(cookie.getValue());
         httpServletResponse.setStatus(HttpStatus.NO_CONTENT.value());
-        httpServletResponse.sendRedirect("/localhost:8080");
     }
 }

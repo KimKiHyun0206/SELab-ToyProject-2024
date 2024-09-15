@@ -15,7 +15,6 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @RequestMapping("/api/compile")
 public class CompileApiController {
-
     private final CompileService compileService;
 
     @PostMapping
@@ -35,4 +34,3 @@ public class CompileApiController {
         }
     }
 }
-

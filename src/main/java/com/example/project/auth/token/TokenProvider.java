@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -52,21 +51,21 @@ public class TokenProvider implements InitializingBean {
     }
 
     /**
-     * @implSpec JWT 토큰의 Claims를 생성해주는 메소드
-     * @param id userId 부분의 값
+     * @param id   userId 부분의 값
      * @param role role 부분의 값
-     * */
-    private Claims createClaims(Long id, String role){
+     * @implSpec JWT 토큰의 Claims를 생성해주는 메소드
+     */
+    private Claims createClaims(Long id, String role) {
         var claims = Jwts.claims().setSubject("Code-For-Code");
-        claims.put("userId",id);                                            //Long id : user의 PK
+        claims.put("userId", id);                                            //Long id : user의 PK
         claims.put(AUTHORITIES_KEY, role);
-        claims.put("random",Math.random()*1000);
+        claims.put("random", Math.random() * 1000);
 
         return claims;
     }
 
     public Authentication getAuthentication(String token) {
-        log.info("JWT Token {}",token);
+        log.info("JWT Token {}", token);
         Claims claims = Jwts
                 .parserBuilder()
                 .setSigningKey(key)
@@ -85,12 +84,12 @@ public class TokenProvider implements InitializingBean {
     }
 
     /**
-     * @brief      * 토큰 파싱 (해석) / jjwt 라이브러리
-     * @param      * setSigningKey : jwt key
-     *             * parseClaimsJws : 파싱할 token
-     *             * Body : claims
-     *             * Subject : userId
-     * @return     * Long userId
+     * @param * setSigningKey : jwt key
+     *          * parseClaimsJws : 파싱할 token
+     *          * Body : claims
+     *          * Subject : userId
+     * @return * Long userId
+     * @brief * 토큰 파싱 (해석) / jjwt 라이브러리
      */
     public Long getUserToken(String token) {
         var data = Jwts.parser()
