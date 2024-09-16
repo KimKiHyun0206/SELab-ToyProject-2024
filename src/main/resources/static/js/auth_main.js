@@ -3,9 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const startButton = document.querySelector('.btn');
     startButton.addEventListener('click', function (event) {
         event.preventDefault(); // 기본 동작 막기
-
-        // 문제 페이지로 바로 이동
-        window.location.href = '/solutions/list';
+        window.location.href = '/solutions/list'; // 문제 페이지로 이동
     });
 
     // 간단한 애니메이션 예시: Hero 섹션의 제목에 페이드 인 애니메이션 적용
@@ -52,18 +50,38 @@ document.addEventListener('DOMContentLoaded', function () {
     const myPageButton = document.querySelector('a[th\\:href="@{/users/info}"]');
     myPageButton.addEventListener('click', function (event) {
         event.preventDefault(); // 기본 동작 방지
+        const token = localStorage.getItem('code-for-code-auth');
         window.location.href = '/users/info'; // 마이페이지로 이동
     });
 
     // 로그아웃 버튼 클릭 시 로그아웃 요청
-    const logoutButton = document.querySelector('a[th\\:href="@{/users/logout}"]');
-    logoutButton.addEventListener('click', function (event) {
+    const logoutButton = document.querySelector('a[th\\:href="@{api/users/logout}"]');
+    logoutButton.addEventListener('click', async function (event) {
         event.preventDefault(); // 기본 동작 방지
 
         // 로그아웃 확인 메시지
-        const confirmLogout = confirm('정말 로그아웃 하시겠습니까?');
-        if (confirmLogout) {
-            window.location.href = '/users/logout'; // 로그아웃 요청
+        const token = localStorage.getItem('code-for-code-auth');
+        if (token) {
+            try {
+                const response = await fetch('/api/users/logout', {
+                    method: 'DELETE',
+                    headers: {
+                        'code-for-code-auth': `${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    localStorage.removeItem('code-for-code-auth');
+                    alert('성공적으로 로그아웃되었습니다.');
+                    window.location.href = '/';
+                } else {
+                    alert('로그아웃에 실패했습니다. 다시 시도해주세요.');
+                }
+            } catch (error) {
+                console.error('로그아웃 에러:', error);
+                alert('서버 오류가 발생했습니다.');
+            }
         }
     });
+
 });

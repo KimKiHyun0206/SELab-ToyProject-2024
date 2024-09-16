@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const response = await fetch('/api/users/login/token', {
                         method: 'POST',
                         headers: {
-                            'code-for-code-auth': `${token}`  // Bearer 형식으로 전송
+                            'code-for-code-auth': `${token}`
                         }
                     });
 
