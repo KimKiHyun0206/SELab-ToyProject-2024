@@ -1,13 +1,13 @@
-package com.example.project.solution_record.dto;
+package com.example.project.record.dto;
 
-import com.example.project.solution_record.domain.vo.CodeLanguage;
-import com.example.project.solution_record.domain.SolutionRecord;
+import com.example.project.record.domain.vo.CodeLanguage;
+import com.example.project.record.domain.Record;
 import com.example.project.restrictions.ResponseDto;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class SolutionRecordResponse implements ResponseDto<SolutionRecord> {
+public class RecordResponse implements ResponseDto<Record> {
     private Long id;
     private Long userId;
     private Long solutionId;
@@ -16,7 +16,7 @@ public class SolutionRecordResponse implements ResponseDto<SolutionRecord> {
     private Boolean successOrNot;
 
     @Builder
-    public SolutionRecordResponse(Long id, Long userId, Long solutionId, CodeLanguage codeLanguage, String code, Boolean successOrNot) {
+    public RecordResponse(Long id, Long userId, Long solutionId, CodeLanguage codeLanguage, String code, Boolean successOrNot) {
         this.id = id;
         this.userId = userId;
         this.solutionId = solutionId;
@@ -26,8 +26,8 @@ public class SolutionRecordResponse implements ResponseDto<SolutionRecord> {
     }
 
     @Override
-    public SolutionRecord toEntity() {
-        return new SolutionRecord(
+    public Record toEntity() {
+        return new Record(
                 this.id,
                 this.userId,
                 this.solutionId,

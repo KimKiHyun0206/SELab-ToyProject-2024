@@ -1,9 +1,9 @@
-package com.example.project.solution_record.domain;
+package com.example.project.record.domain;
 
 import com.example.project.common.BaseEntity;
 import com.example.project.restrictions.Domain;
-import com.example.project.solution_record.domain.vo.CodeLanguage;
-import com.example.project.solution_record.dto.SolutionRecordResponse;
+import com.example.project.record.domain.vo.CodeLanguage;
+import com.example.project.record.dto.RecordResponse;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class SolutionRecord extends BaseEntity implements Domain<SolutionRecordResponse> {
+public class Record extends BaseEntity implements Domain<RecordResponse> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,7 +26,7 @@ public class SolutionRecord extends BaseEntity implements Domain<SolutionRecordR
     private Boolean successOrNot;
 
     @Builder
-    public SolutionRecord(Long userId, Long solutionId, String code, Boolean successOrNot, CodeLanguage codeLanguage) {
+    public Record(Long userId, Long solutionId, String code, Boolean successOrNot, CodeLanguage codeLanguage) {
         this.userId = userId;
         this.solutionId = solutionId;
         this.code = code;
@@ -35,8 +35,8 @@ public class SolutionRecord extends BaseEntity implements Domain<SolutionRecordR
     }
 
     @Override
-    public SolutionRecordResponse toResponseDto() {
-        return new SolutionRecordResponse(
+    public RecordResponse toResponseDto() {
+        return new RecordResponse(
                 this.id,
                 this.userId,
                 this.solutionId,

@@ -5,7 +5,7 @@ import com.example.project.solution.dto.response.list.AuthSolutionListResponse;
 import com.example.project.solution.dto.response.SolutionResponse;
 import com.example.project.solution.domain.Solution;
 import com.example.project.error.exception.solution.SolutionException;
-import com.example.project.solution_record.repository.SolutionRecordRepository;
+import com.example.project.record.repository.RecordRepository;
 import com.example.project.solution.repository.SolutionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserSolutionService {
     private final SolutionRepository solutionRepository;
-    private final SolutionRecordRepository recordRepository;
+    private final RecordRepository recordRepository;
 
     @Transactional(readOnly = true)
     public List<SolutionResponse> readAll(Pageable pageable) {
