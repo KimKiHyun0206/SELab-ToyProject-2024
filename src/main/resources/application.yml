@@ -21,8 +21,6 @@ spring:
     generate-ddl: true  # JPA에서 DDL을 생성하도록 설정함  실제 운영에서 false로 변경해야함
     show-sql: true # 실행 창에서 SQL을 보여주도록 설정함
     defer-datasource-initialization: true # data.sql을 시작할 때 실행하도록 한다
-
-
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -48,3 +46,5 @@ jwt:
   #echo 'silvernine-tech-spring-boot-jwt-tutorial-secret-silvernine-tech-spring-boot-jwt-tutorial-secret'|base64
   secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK # 나중에 바꿔야함
   token-validity-in-seconds: 86400
+compile:
+  url: /home/ubuntu/code/

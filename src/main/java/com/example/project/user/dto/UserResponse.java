@@ -1,6 +1,5 @@
 package com.example.project.user.dto;
 
-import com.example.project.user.domain.Authority;
 import com.example.project.restrictions.ResponseDto;
 import com.example.project.user.domain.User;
 import com.example.project.user.domain.vo.Email;
@@ -10,12 +9,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
-
 @Getter
 @NoArgsConstructor
 public class UserResponse implements ResponseDto<User> {
-
     private Long id;
     private String userId;
     private String password;
@@ -23,12 +19,10 @@ public class UserResponse implements ResponseDto<User> {
     private Long point;
     private Email email;
     private RoleType roleType;
-
-    private Set<Authority> authorities;
     private Boolean activated;
 
     @Builder
-    public UserResponse(Long id, String userId, String password, Name name, Long point, Email email, RoleType roleType, Set<Authority> authorities, Boolean activated) {
+    public UserResponse(Long id, String userId, String password, Name name, Long point, Email email, RoleType roleType, Boolean activated) {
         this.id = id;
         this.userId = userId;
         this.password = password;
@@ -36,13 +30,10 @@ public class UserResponse implements ResponseDto<User> {
         this.point = point;
         this.email = email;
         this.roleType = roleType;
-        this.authorities = authorities;
         this.activated = activated;
     }
 
-
-
-    public User toEntity(){
+    public User toEntity() {
         return new User(
                 this.id,
                 this.userId,
@@ -51,9 +42,7 @@ public class UserResponse implements ResponseDto<User> {
                 this.point,
                 this.email,
                 this.roleType,
-                this.activated,
-                null,
-                this.authorities
+                this.activated
         );
     }
 }

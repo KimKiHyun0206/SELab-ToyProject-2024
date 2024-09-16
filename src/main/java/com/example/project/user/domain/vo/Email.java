@@ -4,6 +4,7 @@ import com.example.project.error.dto.ErrorMessage;
 import com.example.project.error.exception.user.InvalidEmailException;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
+
 import java.util.regex.Pattern;
 
 @Getter
@@ -20,7 +21,7 @@ public class Email {
     }
 
     private void validateEmail(String email) {
-        if(!Pattern.matches(EMAIL_REGEX, email)){
+        if (!Pattern.matches(EMAIL_REGEX, email)) {
             throw new InvalidEmailException(ErrorMessage.INVALID_EMAIL_REGEX_EXCEPTION, "유효한 이메일 형식이 아닙니다");
         }
         this.email = email;

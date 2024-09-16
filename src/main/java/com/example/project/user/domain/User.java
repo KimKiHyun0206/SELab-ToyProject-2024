@@ -2,7 +2,6 @@ package com.example.project.user.domain;
 
 import com.example.project.common.BaseEntity;
 import com.example.project.restrictions.Domain;
-import com.example.project.solution.domain.SolutionRecord;
 import com.example.project.user.domain.converter.PasswordEncodeConverter;
 import com.example.project.user.domain.vo.Email;
 import com.example.project.user.domain.vo.Name;
@@ -12,10 +11,7 @@ import com.example.project.user.dto.request.UserUpdateRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Set;
-
 @Getter
-@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -51,24 +47,8 @@ public class User extends BaseEntity implements Domain<UserResponse> {
     @Column
     private Boolean activated;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_to_record",
-            joinColumns = {@JoinColumn(name = "id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")}
-    )
-    private Set<SolutionRecord> solutionRecords;
-
-    @ManyToMany
-    @JoinTable(
-            name = "user_authority",
-            joinColumns = {@JoinColumn(name = "id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
-    private Set<Authority> authorities;
-
-
     @Builder
-    public User(String email, String userId, String password, String name, Long point, RoleType roleType, Boolean activated, Set<Authority> authorities) {
+    public User(String email, String userId, String password, String name, Long point, RoleType roleType, Boolean activated) {
         this.userId = userId;
         this.email = new Email(email);
         this.password = password;
@@ -76,7 +56,6 @@ public class User extends BaseEntity implements Domain<UserResponse> {
         this.point = point;
         this.roleType = roleType;
         this.activated = activated;
-        this.authorities = authorities;
     }
 
     @Override

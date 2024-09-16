@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/users")
 public class UserApiController {
-    private final UserService memberService;
+    private final UserService userService;
 
     /**
      * @param email : 회원가입 중복확인을 위한 email String
@@ -22,42 +22,37 @@ public class UserApiController {
      */
     @GetMapping("/email-check")
     public ResponseEntity<?> checkEmailForSignUp(@RequestParam String email) {
-        memberService.duplicateValidationUserEmail(email);    //실패시 AlreadyExistUserEmailException 발생
+        userService.duplicateValidationUserEmail(email);    //실패시 AlreadyExistUserEmailException 발생
 
         return ResponseDto.toResponseEntity(ResponseMessage.SUCCESS_SIGN_UP_EMAIL_CHECK, true);
     }
 
     /**
      * @param request : 회원가입 유저 정보 Dto
-     * TODO 이후 토큰이 있는 상태라면 진행이 불가능하도록 추가 예정,
      * @return UserResponse : User 정보 ResponseDto
      */
     @PostMapping("/signup")
     public ResponseEntity<?> joinMember(@RequestBody @Valid UserRegisterRequest request) {
-        var response = memberService.register(request);
+        var response = userService.register(request);
 
         return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_USER, response);
     }
 
     /**
-     * @param detail 유저에 대한 자세한 정보를 가진다
+     * @param detail  유저에 대한 자세한 정보를 가진다
      * @param request 요청에 대한 정보를 가진다
-     *
      * @return UserResponse : User 정보 ResponseDto
-     * */
+     */
     @PatchMapping("/edit")
     public ResponseEntity<?> editMember(@RequestBody @Valid UserUpdateRequest request) {
-        var response = memberService.updateUser(request);
+        var response = userService.updateUser(request);
 
         return ResponseDto.toResponseEntity(ResponseMessage.SUCCESS_UPDATE_USER, response);
     }
 
-    /**
-     * TODO 일반 유저권한으로는 모든 멤버 조회 불가하도록 추가 예정
-     */
     @GetMapping
     public ResponseEntity<?> searchAllMember() {
-        var response = memberService.readAllUser();
+        var response = userService.readAllUser();
 
         return ResponseDto.toResponseEntity(ResponseMessage.SUCCESS_SEARCH_ALL_USER, response);
     }

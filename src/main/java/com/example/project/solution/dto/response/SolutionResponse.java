@@ -15,6 +15,7 @@ public class SolutionResponse implements ResponseDto<Solution> {
     private String inExample;
     private String outExample;
     private Long solved;
+
     @Builder
     public SolutionResponse(Long id, Difficulty difficulty, String title, String description, String inExample, String outExample, Long solved) {
         this.id = id;

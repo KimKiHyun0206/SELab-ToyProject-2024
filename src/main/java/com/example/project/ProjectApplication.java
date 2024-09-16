@@ -17,14 +17,12 @@ import java.util.TimeZone;
 @SpringBootApplication
 @RequiredArgsConstructor
 public class ProjectApplication implements ApplicationListener<ApplicationReadyEvent> {
-
     private final Environment environment;
 
     public static void main(String[] args) {
         init();
         SpringApplication.run(ProjectApplication.class, args);
     }
-
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {

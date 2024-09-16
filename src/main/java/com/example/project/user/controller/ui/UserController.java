@@ -19,14 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
-
     private final AuthTokenService authTokenService;
     private final UserService userService;
 
     @RequestMapping("/login")
     public String login(Model model) {
         model.addAttribute("LoginRequest", new LoginRequest());
-        return "/non-authentication/user/login";
+        return "/non-auth/user/login";
     }
 
     @RequestMapping("/info")
@@ -35,14 +34,14 @@ public class UserController {
             @CookieValue(value = HeaderUtil.AUTHORIZATION_HEADER, required = false) String cookie
     ) {
         log.info("info entry -> token: {}", cookie);
-        if(cookie != null & authTokenService.isValidateToken(cookie)){
+        if (cookie != null & authTokenService.isValidateToken(cookie)) {
             log.info("token is validate");
             Long userId = authTokenService.getUserIdByToken(cookie);
             UserResponse userResponse = userService.find(userId);
             model.addAttribute("UserInfo", userResponse);
-            return "/authentication/user/info";
+            return "/auth/user/info";
         }
-        return "/non-authentication/main";
+        return "/non-auth/main";
     }
 
     @RequestMapping("/edit-info")
@@ -50,20 +49,20 @@ public class UserController {
             Model model,
             @CookieValue(value = HeaderUtil.AUTHORIZATION_HEADER, required = false) String cookie
     ) {
-        if(cookie != null & authTokenService.isValidateToken(cookie)){
+        if (cookie != null & authTokenService.isValidateToken(cookie)) {
             Long userId = authTokenService.getUserIdByToken(cookie);
             UserResponse userResponse = userService.find(userId);
             model.addAttribute("UserInfo", userResponse);
             model.addAttribute("UpdateRequest", new UserUpdateRequest());
-            return "/authentication/user/info";
+            return "/auth/user/info";
         }
 
-        return "/non-authentication/main";
+        return "/non-auth/main";
     }
 
     @RequestMapping("/register")
     public String register(Model model) {
         model.addAttribute("request", new UserRegisterRequest());
-        return "/non-authentication/user/register";
+        return "/non-auth/user/register";
     }
 }

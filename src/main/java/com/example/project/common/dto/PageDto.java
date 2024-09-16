@@ -22,7 +22,6 @@ public class PageDto<T> {
                 data.getPageable().getPageSize(),
                 data.getTotalElements()
         );
-
         return ResponseEntity.ok(response);
     }
 }

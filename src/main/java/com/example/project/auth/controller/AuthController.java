@@ -19,13 +19,10 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/auth")
 public class AuthController {
-    private final HeaderUtil headerUtil;
     private final UserService userService;
-
     private final LoginService loginService;
-
 
     @PostMapping("/authenticate")
     public ResponseEntity<TokenDto> authorize(@Valid @RequestBody LoginRequest loginDto) {
@@ -40,19 +37,17 @@ public class AuthController {
     }
 
     @GetMapping("/authenticate")
-    public ResponseEntity<TokenDto> getToken(HttpServletRequest request){
-        String s = headerUtil.resolveToken(request);
+    public ResponseEntity<TokenDto> getToken(HttpServletRequest request) {
+        String token = HeaderUtil.resolveToken(request);
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(HeaderUtil.AUTHORIZATION_HEADER, "Bearer " + s);
+        httpHeaders.add(HeaderUtil.AUTHORIZATION_HEADER, token);
 
-        return new ResponseEntity<>(new TokenDto(s), httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(new TokenDto(token), httpHeaders, HttpStatus.OK);
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<UserResponse> signup(
-            @Valid @RequestBody UserRegisterRequest userDto
-    ) {
+    public ResponseEntity<UserResponse> signup(@Valid @RequestBody UserRegisterRequest userDto) {
         return ResponseEntity.ok(userService.register(userDto));
     }
 }

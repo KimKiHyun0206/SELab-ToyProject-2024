@@ -23,25 +23,23 @@ public class HomeController {
             @CookieValue(name = HeaderUtil.AUTHORIZATION_HEADER, required = false) String token,
             Model model
     ) {
-        if(token != null && authTokenService.isValidateToken(token)){
+        if (token != null && authTokenService.isValidateToken(token)) {
             Long userIdByToken = authTokenService.getUserIdByToken(token);
             UserResponse userResponse = userService.find(userIdByToken);
-            log.info("home token -> {}",token);
-            model.addAttribute("user",userResponse.getName().getName());
-            return "authentication/main";
+            log.info("home token -> {}", token);
+            model.addAttribute("user", userResponse.getName().getName());
+            return "auth/main";
         }
-
-        return "non-authentication/main";
+        return "non-auth/main";
     }
 
     @RequestMapping(value = "/ranking")
     public String ranking(@CookieValue(name = HeaderUtil.AUTHORIZATION_HEADER, required = false) String token) {
-        if(token != null){
-            log.info("home token -> {}",token);
-            return "authentication/ranking";
+        if (token != null) {
+            log.info("home token -> {}", token);
+            return "auth/ranking";
         }
-
-        return "non-authentication/ranking";
+        return "non-auth/ranking";
     }
 
 }

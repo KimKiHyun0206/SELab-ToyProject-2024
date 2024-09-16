@@ -21,14 +21,14 @@ public class UserLogoutController {
     private final CookieService cookieService;
 
     @DeleteMapping("/logout")
-    public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+    public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         String token = HeaderUtil.resolveToken(httpServletRequest);
 
-        if(authTokenService.isValidateToken(token)){
+        if (authTokenService.isValidateToken(token)) {
             authTokenService.deleteToken(token);
             httpServletResponse.addCookie(cookieService.deleteCookie());
             httpServletResponse.setStatus(HttpStatus.NO_CONTENT.value());
-        }else {
+        } else {
             httpServletResponse.setStatus(HttpStatus.BAD_REQUEST.value());
         }
     }

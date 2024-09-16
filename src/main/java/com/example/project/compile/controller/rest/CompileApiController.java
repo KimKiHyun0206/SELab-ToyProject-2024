@@ -18,7 +18,6 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @RequestMapping("/api/compile")
 public class CompileApiController {
-
     private final CompileService compileService;
     private final AuthTokenService authTokenService;
 
@@ -46,4 +45,3 @@ public class CompileApiController {
         }
     }
 }
-

@@ -15,34 +15,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/api/solutions/user")
 @RequiredArgsConstructor
 public class UserSolutionController {
-
     private final UserSolutionService service;
-
-    /*@GetMapping("/difficulty")
-    public ResponseEntity<?> findByDifficulty
-            (
-                    @RequestBody DifficultyFindRequest request,
-                    @PageableDefault(sort = "solved", direction = Sort.Direction.DESC) Pageable pageable
-            ) {
-        var byDifficulty = service.findByDifficulty(request);
-
-        return PageDto.ok(byDifficulty);
-    }*/
-
-    /**
-     * @param request : 컴파일할 코드를 가진 dto
-     * TODO 컴파일 부분을 완성하여 리턴값을 가져올 수 있도록 해야한다
-     * */
-    @PostMapping
-    public ResponseEntity<?> compile(@RequestBody SolutionCompileRequest request){
-        return null;
-    }
 
     /**
      * @return SolutionResponse : 찾은 문제에 대한 정보를 가진 dto
-     * */
+     */
     @GetMapping("/{id}")
-    public ResponseEntity<?> findSolution(@PathVariable Long id){
+    public ResponseEntity<?> findSolution(@PathVariable Long id) {
         var response = service.read(id);
 
         return ResponseDto.toResponseEntity(ResponseMessage.READ_SUCCESS_SOLUTION, response);

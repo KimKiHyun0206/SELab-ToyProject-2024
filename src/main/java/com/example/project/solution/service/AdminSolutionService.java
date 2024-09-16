@@ -7,7 +7,6 @@ import com.example.project.solution.dto.request.admin.SolutionUpdateRequest;
 import com.example.project.solution.domain.Solution;
 import com.example.project.error.exception.solution.SolutionException;
 import com.example.project.solution.repository.SolutionRepository;
-import com.example.project.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,19 +19,18 @@ public class AdminSolutionService {
 
     @Transactional
     public SolutionResponse register(SolutionRegisterRequest request) {
-        Solution savedSolution = solutionRepository.save(request.toEntity());
-        return savedSolution.toResponseDto();
+        return solutionRepository
+                .save(request.toEntity())
+                .toResponseDto();
     }
 
     @Transactional
     public SolutionResponse delete(SolutionDeleteRequest request) {
-
         if (solutionRepository.existsById(request.getSolutionId())) {
             Solution solution = solutionRepository.findById(request.getSolutionId()).orElseThrow(SolutionException::new);
             solutionRepository.deleteById(request.getSolutionId());
             return solution.toResponseDto();
         }
-
         return null;
     }
 
@@ -49,7 +47,6 @@ public class AdminSolutionService {
                 request.getInExample(),
                 request.getOutExample()
         );
-
         return solution.toResponseDto();
     }
 }

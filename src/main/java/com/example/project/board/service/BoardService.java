@@ -75,14 +75,6 @@ public class BoardService {
                 .collect(Collectors.toList());
     }
 
-    /*
-    @Transactional(readOnly = true)
-    public Page<BoardResponse> readSolutionBoard(Pageable pageable, BoardReadAllRequest request){
-        return repository
-                .findBySolutionId(request.getSolutionId())
-                .map(BoardResponse::from);
-    }*/
-
     @Transactional
     public BoardResponse delete(BoardDeleteRequest request) {
         Board board = boardRepository
