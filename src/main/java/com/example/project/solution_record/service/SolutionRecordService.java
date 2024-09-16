@@ -1,9 +1,9 @@
-package com.example.project.solution.service;
+package com.example.project.solution_record.service;
 
-import com.example.project.solution.domain.SolutionRecord;
-import com.example.project.solution.dto.response.SolutionRecordResponse;
-import com.example.project.solution.dto.request.record.SolutionRecordRegisterRequest;
-import com.example.project.solution.repository.SolutionRecordRepository;
+import com.example.project.solution_record.dto.SolutionRecordRegisterRequest;
+import com.example.project.solution_record.repository.SolutionRecordRepository;
+import com.example.project.solution_record.domain.SolutionRecord;
+import com.example.project.solution_record.dto.SolutionRecordResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

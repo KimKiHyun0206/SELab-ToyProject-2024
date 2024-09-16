@@ -1,8 +1,8 @@
-package com.example.project.solution.dto.response;
+package com.example.project.solution_record.dto;
 
+import com.example.project.solution_record.domain.vo.CodeLanguage;
+import com.example.project.solution_record.domain.SolutionRecord;
 import com.example.project.restrictions.ResponseDto;
-import com.example.project.solution.domain.SolutionRecord;
-import com.example.project.solution.domain.vo.CodeLanguage;
 import lombok.Builder;
 import lombok.Data;
 

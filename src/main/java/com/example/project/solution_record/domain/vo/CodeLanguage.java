@@ -1,4 +1,4 @@
-package com.example.project.solution.domain.vo;
+package com.example.project.solution_record.domain.vo;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

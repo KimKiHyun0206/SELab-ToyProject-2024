@@ -1,9 +1,9 @@
-package com.example.project.solution.domain;
+package com.example.project.solution_record.domain;
 
 import com.example.project.common.BaseEntity;
 import com.example.project.restrictions.Domain;
-import com.example.project.solution.domain.vo.CodeLanguage;
-import com.example.project.solution.dto.response.SolutionRecordResponse;
+import com.example.project.solution_record.domain.vo.CodeLanguage;
+import com.example.project.solution_record.dto.SolutionRecordResponse;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,7 +1,7 @@
-package com.example.project.solution.controller.rest.record;
+package com.example.project.solution_record.controller;
 
-import com.example.project.solution.dto.response.SolutionRecordResponse;
-import com.example.project.solution.service.SolutionRecordService;
+import com.example.project.solution_record.dto.SolutionRecordResponse;
+import com.example.project.solution_record.service.SolutionRecordService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

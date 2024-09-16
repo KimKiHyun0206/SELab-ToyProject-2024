@@ -1,7 +1,7 @@
-package com.example.project.solution.dto.request.record;
+package com.example.project.solution_record.dto;
 
 import com.example.project.restrictions.RegisterRequest;
-import com.example.project.solution.domain.SolutionRecord;
+import com.example.project.solution_record.domain.SolutionRecord;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
