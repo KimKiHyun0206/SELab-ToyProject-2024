@@ -1,4 +1,4 @@
-package com.example.project.user.controller.rest;
+package com.example.project.user.controller;
 
 import com.example.project.auth.service.AuthTokenService;
 import com.example.project.common.util.HeaderUtil;
@@ -23,9 +23,12 @@ public class UserLogoutController {
     @DeleteMapping("/logout")
     public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         String token = HeaderUtil.resolveToken(httpServletRequest);
+        log.info("logout enrty -> token: {}", token);
 
         if (authTokenService.isValidateToken(token)) {
+            log.info("token is validate");
             authTokenService.deleteToken(token);
+            log.info("token is deleted");
             httpServletResponse.addCookie(cookieService.deleteCookie());
             httpServletResponse.setStatus(HttpStatus.NO_CONTENT.value());
         } else {
