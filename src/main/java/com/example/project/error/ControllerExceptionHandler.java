@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @Slf4j
 @ControllerAdvice
-public class ViewExceptionHandler {
+public class ControllerExceptionHandler {
     @ExceptionHandler(ViewException.class)
     protected String handleBusinessException(BusinessException e) {
         log.error("[ERROR] ViewException -> {}", e.getErrorMessage().getMessage());
