@@ -48,7 +48,8 @@ public class SecurityConfig {
                         "/js/**",
                         "/css/**",
                         "/api/**",
-                        "/api/users/jwt/signup"
+                        "/api/users/jwt/signup",
+                        "/api/users/logout"
 
                 ).permitAll()
                 //.requestMatchers(PathRequest.toH2Console()).permitAll()
