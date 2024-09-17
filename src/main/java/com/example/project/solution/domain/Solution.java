@@ -21,7 +21,10 @@ public class Solution extends BaseEntity implements Domain<SolutionResponse> {
     private Difficulty difficulty;
     private String title;
     private String description;
+
+    @Convert(converter = StringListConverter.class)
     private String inExample;
+    @Convert(converter = StringListConverter.class)
     private String outExample;
     private Long solved;
 
