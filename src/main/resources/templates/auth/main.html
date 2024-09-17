@@ -14,7 +14,7 @@
             <li><a th:href="@{/solutions/list}">문제</a></li>
             <li><a th:href="@{/users/ranking}">랭킹</a></li>
             <li><a th:href="@{/users/info}">마이페이지</a></li>
-            <li><a th:href="@{/api/users/logout}">로그아웃</a></li>
+            <li><a href="/api/users/logout" id="logoutButton">Logout</a></li>
         </ul>
     </nav>
 </header>
@@ -23,7 +23,7 @@
     <section class="hero">
         <h1>환영합니다, <span th:text="${user}">사용자</span>님!</h1>
         <p>다양한 코딩 테스트 문제를 풀고, 실력을 향상시키세요.</p>
-        <a th:href="@{/solutions/list}" class="btn">문제 풀기 시작하기</a>
+        <a th:href="@{api/solutions/list}" class="btn">문제 풀기 시작하기</a>
     </section>
 
     <section class="features">

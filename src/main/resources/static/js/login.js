@@ -102,7 +102,7 @@ async function fetchWithToken(url, options = {}) {
 
     const headers = {
         ...options.headers,
-        'code-for-code-auth': `${token}`  // Bearer 형식 추가
+        'code-for-code-auth': `${token}`
     };
 
     try {

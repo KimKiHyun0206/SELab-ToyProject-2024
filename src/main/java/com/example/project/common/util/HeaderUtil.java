@@ -14,6 +14,6 @@ public class HeaderUtil {
     public static String resolveToken(HttpServletRequest request) {
         String token = request.getHeader(AUTHORIZATION_HEADER);
         log.info("Resolve Token -> {}", token);
-        return token;
+        return request.getHeader("code-for-code-auth");
     }
 }

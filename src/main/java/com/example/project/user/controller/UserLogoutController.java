@@ -32,6 +32,7 @@ public class UserLogoutController {
             httpServletResponse.addCookie(cookieService.deleteCookie());
             httpServletResponse.setStatus(HttpStatus.NO_CONTENT.value());
         } else {
+            log.info("Invalid token");
             httpServletResponse.setStatus(HttpStatus.BAD_REQUEST.value());
         }
     }
