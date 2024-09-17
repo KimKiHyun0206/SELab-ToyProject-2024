@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const userId = document.getElementById('userId').value;
         if (userId) {
             // userId 변수를 문자열이 아닌 실제 값으로 사용
-            window.location.href = `/edit-info/${userId}`;
+            window.location.href = `/edit/${userId}`;
         } else {
             alert('UserID가 없습니다.');
         }

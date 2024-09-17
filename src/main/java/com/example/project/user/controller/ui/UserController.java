@@ -19,45 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
-    private final AuthTokenService authTokenService;
-    private final UserService userService;
 
     @RequestMapping("/login")
     public String login(Model model) {
         model.addAttribute("LoginRequest", new LoginRequest());
         return "/non-auth/user/login";
-    }
-
-    @RequestMapping("/info")
-    public String info(
-            Model model,
-            @CookieValue(value = HeaderUtil.AUTHORIZATION_HEADER, required = false) String cookie
-    ) {
-        log.info("info entry -> token: {}", cookie);
-        if (cookie != null & authTokenService.isValidateToken(cookie)) {
-            log.info("token is validate");
-            Long userId = authTokenService.getUserIdByToken(cookie);
-            UserResponse userResponse = userService.find(userId);
-            model.addAttribute("UserInfo", userResponse);
-            return "/auth/user/info";
-        }
-        return "/non-auth/main";
-    }
-
-    @RequestMapping("/edit-info")
-    public String editInfo(
-            Model model,
-            @CookieValue(value = HeaderUtil.AUTHORIZATION_HEADER, required = false) String cookie
-    ) {
-        if (cookie != null & authTokenService.isValidateToken(cookie)) {
-            Long userId = authTokenService.getUserIdByToken(cookie);
-            UserResponse userResponse = userService.find(userId);
-            model.addAttribute("UserInfo", userResponse);
-            model.addAttribute("UpdateRequest", new UserUpdateRequest());
-            return "/auth/user/info";
-        }
-
-        return "/non-auth/main";
     }
 
     @RequestMapping("/register")
