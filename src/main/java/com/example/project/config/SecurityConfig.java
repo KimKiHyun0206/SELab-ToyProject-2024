@@ -2,6 +2,7 @@ package com.example.project.config;
 
 import com.example.project.auth.handler.JwtAccessDeniedHandler;
 import com.example.project.auth.handler.JwtAuthenticationEntryPoint;
+import com.example.project.user.domain.vo.RoleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,44 +29,47 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            // token을 사용하는 방식이기 때문에 csrf를 disable합니다.
-            .csrf(AbstractHttpConfigurer::disable)
+                // token을 사용하는 방식이기 때문에 csrf를 disable합니다.
+                .csrf(AbstractHttpConfigurer::disable)
 
-            .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
-            .exceptionHandling(exceptionHandling -> exceptionHandling
-                .accessDeniedHandler(jwtAccessDeniedHandler)
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-            )
+                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .accessDeniedHandler(jwtAccessDeniedHandler)
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                )
 
-            .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                .requestMatchers(
-                        "/api/hello",
-                        "/",
-                        "/solutions",
-                        "/solutions/list",
-                        "/users/login",
-                        "/users/register",
-                        "/js/**",
-                        "/css/**",
-                        "/api/**",
-                        "/api/users/jwt/signup"
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+                        .requestMatchers(
+                                "/api/hello",
+                                "/",
+                                "/solutions",
+                                "/solutions/list",
+                                "/users/login",
+                                "/users/register",
+                                "/js/**",
+                                "/css/**",
+                                "/api/**",
+                                "/api/users/jwt/signup",
+                                "/error/**"
 
-                ).permitAll()
-                //.requestMatchers(PathRequest.toH2Console()).permitAll()
-                .anyRequest().authenticated()
-            )
+                        ).permitAll()
+                        //.requestMatchers("/users/info").hasRole(RoleType.ADMIN.getRole())
+                        //.requestMatchers("/admin").hasRole(RoleType.USER.getRole())
+                        .anyRequest().authenticated()
+                )
 
-            // 세션을 사용하지 않기 때문에 STATELESS로 설정
-            .sessionManagement(sessionManagement ->
-                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-            )
+                // 세션을 사용하지 않기 때문에 STATELESS로 설정
+                .sessionManagement(sessionManagement ->
+                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                )
 
-            // enable h2-console
-            .headers(headers ->
-                headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
-            )
+                // enable h2-console
+                .headers(headers ->
+                        headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
+                )
 
-            .with(jwtSecurityConfig, customizer -> {});
+                .with(jwtSecurityConfig, customizer -> {
+                });
         return http.build();
     }
 }
