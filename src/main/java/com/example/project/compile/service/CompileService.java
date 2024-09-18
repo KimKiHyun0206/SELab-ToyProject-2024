@@ -1,11 +1,10 @@
 package com.example.project.compile.service;
 
-import com.example.project.compile.domain.Language;
+import com.example.project.compile.domain.CompileLanguage;
 import com.example.project.error.dto.ErrorMessage;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Service
@@ -20,7 +19,7 @@ public class CompileService {
     }
 
     public String compileAndRun(String languageStr, String code) throws IOException, InterruptedException {
-        Language language = Language.fromString(languageStr);
+        CompileLanguage language = CompileLanguage.getByLanguageName(languageStr);
         Path filePath = null;
         try {
             filePath = fileService.createCodeFile(code, language);
@@ -32,17 +31,17 @@ public class CompileService {
         }
     }
 
-    private String executeCode(Language language, Path filePath) throws IOException, InterruptedException {
+    private String executeCode(CompileLanguage compileLanguage, Path filePath) throws IOException {
         String result;
         try {
-            String command = String.format(language.getCompileCommand(), filePath.toString(), "output");
+            String command = String.format(compileLanguage.getCompileCommand(), filePath.toString(), "output");
             result = commandExecutorService.runCommand(command);
 
-            if (language == Language.C || language == Language.CPP) {
+            if (compileLanguage == CompileLanguage.C || compileLanguage == CompileLanguage.CPP) {
                 String outputFileName = filePath.getParent().resolve("output").toString();
                 result = commandExecutorService.runCommand(outputFileName);
-            } else if (language == Language.JAVA) {
-                String className = extractClassName(filePath);
+            } else if (compileLanguage == CompileLanguage.JAVA) {
+                String className = fileService.extractClassNameFromFile(filePath);
                 command = String.format("java -Dfile.encoding=UTF-8 -cp %s %s", filePath.getParent(), className);
                 result = commandExecutorService.runCommand(command);
             }
@@ -50,11 +49,5 @@ public class CompileService {
             throw new IOException(ErrorMessage.GENERAL_COMPILE_ERROR.getMessage(), e);
         }
         return result;
-    }
-
-
-    private String extractClassName(Path filePath) throws IOException {
-        String content = Files.readString(filePath);
-        return content.split("public class ")[1].split("\\s")[0].trim();
     }
 }
