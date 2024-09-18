@@ -43,9 +43,7 @@ public class AdminSolutionService {
         solution.update(
                 request.getDifficulty(),
                 request.getTitle(),
-                request.getDescription(),
-                request.getInExample(),
-                request.getOutExample()
+                request.getDescription()
         );
         return solution.toResponseDto();
     }
