@@ -9,6 +9,4 @@ public class SolutionUpdateRequest {
     private Difficulty difficulty;
     private String title;
     private String description;
-    private String inExample;
-    private String outExample;
 }
