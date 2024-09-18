@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     email: email
                 };
 
-                fetch('/api/users/jwt/signup', {
+                fetch('/api/users/signup', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
