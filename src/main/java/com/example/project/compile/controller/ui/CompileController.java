@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/compile")
 public class CompileController {
     @RequestMapping
-    public String CompilePage() {
+    public String compilePage() {
         return "compile/compile";
     }
 }

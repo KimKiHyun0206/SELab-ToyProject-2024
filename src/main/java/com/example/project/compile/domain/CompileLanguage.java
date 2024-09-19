@@ -2,8 +2,10 @@ package com.example.project.compile.domain;
 
 import com.example.project.error.dto.ErrorMessage;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@RequiredArgsConstructor
 public enum CompileLanguage {
     C(".c", "gcc %s -o %s"),
     CPP(".cpp", "g++ %s -o %s"),
@@ -14,19 +16,7 @@ public enum CompileLanguage {
     private final String extension;
     private final String compileCommand;
 
-    CompileLanguage(String extension, String compileCommand) {
-        this.extension = extension;
-        this.compileCommand = compileCommand;
-    }
-
-    public String getExtension() {
-        return extension;
-    }
-
-    public String getCompileCommand() {
-        return compileCommand;
-    }
-
+    //Enum을 사용했으면 Switch문을 사용하지 말아주세요
     public static CompileLanguage getByLanguageName(String language) {
         return switch (language.toLowerCase()) {
             case "c" -> C;
