@@ -13,14 +13,14 @@ import java.util.UUID;
 @Service
 public class FileService {
 
-    private final String code_dir;
+    private final String codeDir;
 
-    public FileService(@Value("${compile.url}") String codeDir) {
-        code_dir = codeDir;
+    public FileService(@Value("${compile.url}") String codeDirectory) {
+        codeDir = codeDirectory;
     }
 
     public Path createCodeFile(String code, CompileLanguage compileLanguage) throws IOException {
-        Path codePath = Paths.get(code_dir);
+        Path codePath = Paths.get(codeDir);
         if (!Files.exists(codePath)) {
             Files.createDirectories(codePath);
         }
