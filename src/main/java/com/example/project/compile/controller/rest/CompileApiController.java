@@ -28,9 +28,11 @@ public class CompileApiController {
     @PostMapping
     public ResponseEntity<?> compileCode(@RequestBody CompileRequest request, HttpServletRequest httpServletRequest) throws IOException {
 
-        if (authTokenService.isValidateToken(HeaderUtil.resolveToken(httpServletRequest))) {
+        String token = HeaderUtil.resolveToken(httpServletRequest);
+
+        if (authTokenService.isValidateToken(token)) {
             try {
-                String result = compileService.compileAndRun(request.getLanguage(), request.getCode());
+                String result = compileService.compileAndRun(request.getLanguage(), request.getCode(), token);
                 return ResponseDto.toResponseEntity(ResponseMessage.COMPILE_SUCCESS, result);
             } catch (IllegalArgumentException e) {
                 return ResponseDto.toResponseEntity(ResponseMessage.INVALID_LANGUAGE, e.getMessage());
