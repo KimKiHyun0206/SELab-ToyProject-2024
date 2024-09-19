@@ -1,9 +1,11 @@
 package com.example.project.common.dto;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Getter
+@RequiredArgsConstructor
 public enum ResponseMessage {
 
     SUCCESS(HttpStatus.OK,"SUCCESS"),
@@ -46,15 +48,6 @@ public enum ResponseMessage {
     GENERAL_COMPILE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "컴파일 과정에서 일반 오류 발생"),
     ;
 
-    public final static String SUCCESS_MESSAGE = "SUCCESS";
-    private final static String NOT_FOUND_MESSAGE = "NOT FOUND";
-
-
     private final HttpStatus status;
     private final String message;
-
-    ResponseMessage(HttpStatus status, String message) {
-        this.status = status;
-        this.message = message;
-    }
 }
