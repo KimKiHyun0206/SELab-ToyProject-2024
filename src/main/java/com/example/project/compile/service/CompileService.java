@@ -18,9 +18,8 @@ public class CompileService {
     private final FileService fileService;
     private final CommandExecutorService commandExecutorService;
 
-
     public String compileAndRun(String language, String code, String codeDir) throws IOException {
-        CompileLanguage compileLanguage = CompileLanguage.getByLanguageName(language);
+        CompileLanguage compileLanguage = CompileLanguage.JAVA.getByLanguageName(language);
         Path filePath = null;
         try {
             filePath = fileService.createCodeFile(code, compileLanguage, codeDir);
