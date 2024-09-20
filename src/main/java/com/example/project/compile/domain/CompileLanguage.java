@@ -7,24 +7,24 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum CompileLanguage {
-    C(".c", "gcc %s -o %s"),
-    CPP(".cpp", "g++ %s -o %s"),
-    JAVA(".java", "javac -encoding UTF-8 %s"),
-    PYTHON(".py", "python -X utf8 %s"),
-    JAVASCRIPT(".js", "node %s");
+    C(".c", "gcc %s -o %s", new String[]{"c"}),
+    CPP(".cpp", "g++ %s -o %s", new String[]{"cpp"}),
+    JAVA(".java", "javac -encoding UTF-8 %s", new String[]{"java"}),
+    PYTHON(".py", "python -X utf8 %s", new String[]{"python"}),
+    JAVASCRIPT(".js", "node %s", new String[]{"js"});
 
     private final String extension;
     private final String compileCommand;
+    private final String[] languageNames;
 
-    //Enum을 사용했으면 Switch문을 사용하지 말아주세요
-    public static CompileLanguage getByLanguageName(String language) {
-        return switch (language.toLowerCase()) {
-            case "c" -> C;
-            case "cpp", "c++" -> CPP;
-            case "java" -> JAVA;
-            case "python" -> PYTHON;
-            case "javascript", "js" -> JAVASCRIPT;
-            default -> throw new IllegalArgumentException(ErrorMessage.UNSUPPORTED_LANGUAGE.getMessage());
-        };
+    public static CompileLanguage getByLanguageName(String compileLanguage) {
+        for (CompileLanguage language : CompileLanguage.values()) {
+            for (String name : language.languageNames) {
+                if (name.equalsIgnoreCase(compileLanguage)) {
+                    return language;
+                }
+            }
+        }
+        throw new IllegalArgumentException(ErrorMessage.UNSUPPORTED_LANGUAGE.getMessage());
     }
 }
