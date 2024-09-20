@@ -1,7 +1,6 @@
 package com.example.project.error.dto;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Getter
@@ -58,11 +57,8 @@ public enum ErrorMessage {
     UNSUPPORTED_LANGUAGE(HttpStatus.BAD_REQUEST, "지원하지 않는 언어입니다."),
     EXECUTION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "코드 실행에 실패했습니다."),
     GENERAL_COMPILE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "컴파일 과정에서 오류가 발생했습니다."),
-    CODE_DIRECTORY_CREATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "코드 디렉토리 생성에 실패했습니다."),
-    CODE_WRITE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "코드 파일 작성에 실패했습니다."),
-    COMPILATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "컴파일에 실패했습니다."),
-    JAVA_CLASS_EXTRACTION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "Java 클래스 이름 추출에 실패했습니다."),
-    JAVA_FILE_RENAMING_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "Java 파일 이름 변경에 실패했습니다."),
+    INVALID_PATH_EXCEPTION(HttpStatus.BAD_REQUEST, "유효하지 않은 경로입니다."),
+    ACCESS_PERMISSION_EXCEPTION(HttpStatus.FORBIDDEN, "접근 권한이 없습니다."),
 
     //UTIL
     NOT_FOUND_CLIENT_ID_HEADER(HttpStatus.BAD_REQUEST,"헤더에서 클라이언트의 ID를 찾을 수 없습니다")
@@ -76,14 +72,6 @@ public enum ErrorMessage {
     ErrorMessage(HttpStatus status, String message) {
         this.status = status;
         this.message = message;
-    }
-
-    public HttpStatus getStatus() {
-        return status;
-    }
-
-    public String getMessage() {
-        return message;
     }
 
 }
