@@ -41,11 +41,7 @@ public enum ResponseMessage {
     DELETE_FAIL_SOLUTION(HttpStatus.NOT_FOUND, "해당 문제를 삭제하는데 실패했습니다"),
 
     //Compile
-    COMPILE_SUCCESS(HttpStatus.OK, "컴파일 및 실행 성공"),
-    INVALID_LANGUAGE(HttpStatus.BAD_REQUEST, "잘못된 언어 요청"),
-    IO_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "입출력 오류 발생"),
-    EXECUTION_INTERRUPTED(HttpStatus.INTERNAL_SERVER_ERROR, "코드 실행 중단됨"),
-    GENERAL_COMPILE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "컴파일 과정에서 일반 오류 발생"),
+    COMPILE_SUCCESS(HttpStatus.OK, "컴파일 및 실행 성공")
     ;
 
     private final HttpStatus status;
