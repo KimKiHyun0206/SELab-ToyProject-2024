@@ -17,7 +17,7 @@ public enum CompileLanguage {
     private final String compileCommand;
     private final String[] languageNames;
 
-    public static CompileLanguage getByLanguageName(String compileLanguage) {
+    public CompileLanguage getByLanguageName(String compileLanguage) {
         for (CompileLanguage language : CompileLanguage.values()) {
             for (String name : language.languageNames) {
                 if (name.equalsIgnoreCase(compileLanguage)) {
