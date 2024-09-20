@@ -30,6 +30,8 @@ public class CommandExecutorService {
             while ((line = reader.readLine()) != null) {
                 output.append(line).append(System.lineSeparator());
             }
+        } catch (IOException e) {
+            throw new IOException(ErrorMessage.EXECUTION_FAILED.getMessage() + "\n" + e.getMessage());
         }
         return output.toString();
     }
