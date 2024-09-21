@@ -40,12 +40,55 @@
             });
         }
     </script>
+    <script>
+        function mypage() {
+            console.info("실행됨");
+            const mypageButton = document.getElementById('mypage-button');
+            if (mypageButton) {
+                mypageButton.addEventListener('click', async function (event) {
+                    event.preventDefault(); // 기본 동작 방지
+
+                    const token = localStorage.getItem('code-for-code-auth');
+
+                    if (token) {
+                        try {
+                            const response = await fetch('/users/info', {
+                                method: 'GET',
+                                headers: {
+                                    'code-for-code-auth': `${token}`
+                                }
+                            });
+
+                            if (response.ok) {
+                                window.location.href = '/users/info';
+                            } else {
+                                alert('마이페이지 접근 오류. 다시 시도해주세요.');
+                                mypageButton.disabled = false;
+                            }
+                        } catch (error) {
+                            console.error('마이페이지 에러:', error);
+                            alert('서버 오류가 발생했습니다.');
+                            mypageButton.disabled = false;
+                        }
+                    } else {
+                        alert('마이페이지에 접근할 수 없습니다.');
+                        mypageButton.disabled = false;
+                    }
+                }, { once: true });
+            }
+        }
+
+        window.onload = function() {
+            mypage();
+        };
+
+    </script>
     <nav>
         <ul>
             <li><a th:href="@{/}">홈</a></li>
             <li><a th:href="@{/solutions/list}">문제</a></li>
             <li><a th:href="@{/users/ranking}">랭킹</a></li>
-            <li><a th:href="@{/users/info}">마이페이지</a></li>
+            <li><button id="mypage-button">마이페이지</button></li>
             <li><button onclick="logout()">로그아웃</button></li>
         </ul>
     </nav>
