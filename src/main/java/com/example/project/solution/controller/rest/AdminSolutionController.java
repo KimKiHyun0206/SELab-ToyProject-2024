@@ -2,12 +2,12 @@ package com.example.project.solution.controller.rest;
 
 import com.example.project.common.dto.ResponseDto;
 import com.example.project.common.dto.ResponseMessage;
+import com.example.project.solution.domain.Example;
 import com.example.project.solution.dto.response.SolutionResponse;
 import com.example.project.solution.dto.request.admin.SolutionDeleteRequest;
 import com.example.project.solution.dto.request.admin.SolutionRegisterRequest;
 import com.example.project.solution.dto.request.admin.SolutionUpdateRequest;
 import com.example.project.solution.service.AdminSolutionService;
-import com.example.project.user.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -56,5 +56,19 @@ public class AdminSolutionController {
         var response = service.register(request);
         log.info("Admin  -> Solution {} Register", response.getId());
         return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_SOLUTION, response);
+    }
+
+    @PostMapping("/{solutionId}/examples")
+    public ResponseEntity<?> addExampleToSolution(@PathVariable Long solutionId, @RequestBody Example example) {
+        service.addExampleToSolution(solutionId, example);
+        log.info("Example added to Solution {}", solutionId);
+        return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_EXAMPLE, null);
+    }
+
+    @DeleteMapping("/{solutionId}/examples/{exampleId}")
+    public ResponseEntity<?> removeExampleFromSolution(@PathVariable Long solutionId, @PathVariable Long exampleId) {
+        service.removeExampleFromSolution(solutionId, exampleId);
+        log.info("Example removed from Solution {}", solutionId);
+        return ResponseDto.toResponseEntity(ResponseMessage.DELETE_SUCCESS_SOLUTION, null);
     }
 }
