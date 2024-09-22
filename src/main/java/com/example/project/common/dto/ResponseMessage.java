@@ -35,6 +35,9 @@ public enum ResponseMessage {
     DELETE_SUCCESS_SOLUTION(HttpStatus.OK,"해당 문제 삭제 성공 했습니다."),
     DELETE_FAIL_SOLUTION(HttpStatus.NOT_FOUND, "해당 문제를 삭제하는데 실패했습니다"),
 
+    //EXAMPLE
+    CREATE_SUCCESS_EXAMPLE(HttpStatus.CREATED,"예제 생성 성공 했습니다."),
+    DELETE_SUCCESS_EXAMPLE(HttpStatus.OK,"예제 삭제 성공 했습니다."),
     //Compile
     COMPILE_SUCCESS(HttpStatus.OK, "컴파일 및 실행 성공"),
     INVALID_LANGUAGE(HttpStatus.BAD_REQUEST, "잘못된 언어 요청"),
