@@ -20,21 +20,16 @@ public enum VariableType {
     }),
     STRING(".*", value -> value);
 
-    private final Pattern pattern;
+    private final String pattern;
     private final Converter converter;
 
-    VariableType(String regex, Converter converter) {
-        this.pattern = Pattern.compile(regex);
-        this.converter = converter;
-    }
-
     VariableType(String regex, Converter converter, int flags) {
-        this.pattern = Pattern.compile(regex, flags);
+        this.pattern = String.valueOf(Pattern.compile(regex, flags));
         this.converter = converter;
     }
 
     public boolean matches(String value) {
-        return pattern.matcher(value).matches();
+        return Pattern.matches(pattern,value);
     }
 
     public Object convert(String value) {
