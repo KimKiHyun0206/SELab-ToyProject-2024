@@ -1,5 +1,6 @@
 package com.example.project.solution.service;
 
+import com.example.project.error.exception.example.ExampleNotFindByIdException;
 import com.example.project.solution.domain.Example;
 import com.example.project.solution.domain.vo.Difficulty;
 import com.example.project.solution.domain.vo.VariableType;
@@ -81,7 +82,7 @@ public class AdminSolutionService {
                 .orElseThrow(SolutionException::new);
 
         Example example = exampleRepository.findById(exampleId)
-                .orElseThrow(() -> new RuntimeException("Example not found"));
+                .orElseThrow(ExampleNotFindByIdException::new);
 
         solution.removeExample(example);
         exampleRepository.delete(example);
