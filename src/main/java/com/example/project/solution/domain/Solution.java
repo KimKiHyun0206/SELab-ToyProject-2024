@@ -9,40 +9,40 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
+@Table(name = "solution")
 @NoArgsConstructor
 public class Solution extends BaseEntity implements Domain<SolutionResponse> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JoinColumn(name = "solution_id", nullable = false)
     private Long id;
+
     @Enumerated
     private Difficulty difficulty;
+
     private String title;
     private String description;
 
-    @Convert(converter = StringListConverter.class)
-    private String inExample;
-    @Convert(converter = StringListConverter.class)
-    private String outExample;
+    @OneToMany(mappedBy = "solution", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Example> examples = new ArrayList<>();
+
     private Long solved;
 
-    public Solution(Difficulty difficulty, String title, String description, String inExample, String outExample, Long solved) {
+    public Solution(Difficulty difficulty, String title, String description, Long solved) {
         this.difficulty = difficulty;
         this.title = title;
         this.description = description;
-        this.inExample = inExample;
-        this.outExample = outExample;
         this.solved = solved;
     }
 
-    public void update(Difficulty difficulty, String title, String description, String inExample, String outExample) {
+    public void update(Difficulty difficulty, String title, String description) {
         this.difficulty = difficulty;
         this.title = title;
         this.description = description;
-        this.inExample = inExample;
-        this.outExample = outExample;
     }
 
     public void increaseSolved() {
@@ -56,8 +56,6 @@ public class Solution extends BaseEntity implements Domain<SolutionResponse> {
                 .difficulty(difficulty)
                 .title(title)
                 .description(description)
-                .inExample(inExample)
-                .outExample(outExample)
                 .solved(solved)
                 .build();
     }
@@ -68,5 +66,13 @@ public class Solution extends BaseEntity implements Domain<SolutionResponse> {
                 .title(title)
                 .solved(solved)
                 .build();
+    }
+
+    public void addExample(Example example) {
+        examples.add(example);
+    }
+
+    public void removeExample(Example example) {
+        examples.remove(example);
     }
 }

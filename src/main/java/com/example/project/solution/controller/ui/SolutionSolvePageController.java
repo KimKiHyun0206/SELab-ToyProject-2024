@@ -28,8 +28,6 @@ public class SolutionSolvePageController {
         var response = userSolutionService.read(id);
         model.addAttribute("title", response.getTitle());
         model.addAttribute("description", response.getDescription());
-        model.addAttribute("inExample", response.getInExample());
-        model.addAttribute("outExample", response.getOutExample());
         if (authTokenService.isValidateToken(token)) {
             return "auth/solution/solve";
         }

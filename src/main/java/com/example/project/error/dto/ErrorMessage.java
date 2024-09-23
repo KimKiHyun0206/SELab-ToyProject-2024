@@ -48,6 +48,8 @@ public enum ErrorMessage {
     BOARD_NOT_EXIST(HttpStatus.NOT_FOUND, "Board 가 존재하지 않습니다"),
     ID_NOT_MATCH_TO_DELETE_BOARD(HttpStatus.BAD_REQUEST, "작성자와 요청자 ID가 일치하지 않아 삭제하지 못했습니다"),
 
+    //EXAMPLE
+    EXAMPLE_NOT_FIND_BY_ID(HttpStatus.NOT_FOUND, "요청한 ID로 EXAMPLE을 찾을 수 없습니다"),
 
     //COMMENT
     ID_NOT_MATCH_TO_DELETE_COMMENT(HttpStatus.BAD_REQUEST, "작성자와 요청자의 ID가 일치하지 않아 삭제하지 못했습니다"),
@@ -65,7 +67,6 @@ public enum ErrorMessage {
 
     //UTIL
     NOT_FOUND_CLIENT_ID_HEADER(HttpStatus.BAD_REQUEST,"헤더에서 클라이언트의 ID를 찾을 수 없습니다")
-
     ;
 
 
