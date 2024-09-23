@@ -1,7 +1,6 @@
 package com.example.project.error.dto;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Getter
@@ -54,7 +53,7 @@ public enum ErrorMessage {
 
     //COMMENT
     ID_NOT_MATCH_TO_DELETE_COMMENT(HttpStatus.BAD_REQUEST, "작성자와 요청자의 ID가 일치하지 않아 삭제하지 못했습니다"),
-    NOT_EXIST_COMMENT_INFO_EXCEPTION(HttpStatus.BAD_REQUEST, "요청한 Comment를 찾을 수 없습니다"),
+    NOT_EXIST_COMMENT_EXCEPTION(HttpStatus.BAD_REQUEST, "요청한 Comment를 찾을 수 없습니다"),
 
     //Compile
     UNSUPPORTED_LANGUAGE(HttpStatus.BAD_REQUEST, "지원하지 않는 언어입니다."),

@@ -5,15 +5,7 @@ import com.example.project.error.dto.ErrorMessage;
 
 public class AlreadyExistUserEmailException extends BusinessException {
 
-    public AlreadyExistUserEmailException(ErrorMessage message) {
-        super(message);
-    }
-
-    public AlreadyExistUserEmailException(ErrorMessage message, String reason) {
-        super(message, reason);
-    }
-
-    public AlreadyExistUserEmailException(String reason) {
-        super(reason);
+    public AlreadyExistUserEmailException(String duplicateEmail) {
+        super(ErrorMessage.ALREADY_EXIST_MEMBER_EMAIL_EXCEPTION, "중복된 이메일 : " + duplicateEmail);
     }
 }

@@ -37,15 +37,13 @@ public class UserService {
     @Transactional(readOnly = true)
     public void duplicateValidationUserEmail(String email) {
         userRepository.findByEmail(new Email(email))
-                .ifPresent(member -> {
-                    throw new AlreadyExistUserEmailException(ErrorMessage.ALREADY_EXIST_MEMBER_EMAIL_EXCEPTION, "이미 존재하는 이메일 정보입니다");
-                });
+                .ifPresent(user -> {throw new AlreadyExistUserEmailException(email);});
     }
 
     @Transactional(readOnly = true)
     public UserResponse find(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new InvalidIdToFindUserException(ErrorMessage.USER_NOT_FOUND_ERROR, "유저를 찾을 수 없습니다"))
+                .orElseThrow(InvalidIdToFindUserException::new)
                 .toResponseDto();
     }
 
@@ -53,7 +51,7 @@ public class UserService {
     public UserResponse updateUser(UserUpdateRequest request) {
         User user = userRepository
                 .findByUserId(request.getUserId())
-                .orElseThrow(() -> new InvalidIdToFindUserException(ErrorMessage.USER_NOT_FOUND_ERROR, "유저를 찾을 수 없습니다"));
+                .orElseThrow(InvalidIdToFindUserException::new);
 
         user.updateUser(request);
 

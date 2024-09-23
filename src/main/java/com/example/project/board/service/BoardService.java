@@ -34,7 +34,7 @@ public class BoardService {
     @Transactional(readOnly = true)
     public void duplicateValidationBoardTitle(String title) {
         boardRepository.findByTitle(title).ifPresent(board -> {
-            throw new AlreadyExistBoardNameException(ErrorMessage.DUPLICATE_BOARD_NAME_DUPLICATE, "중복된 이름을 가진 Board가 있습니다");
+            throw new AlreadyExistBoardNameException();
         });
     }
 
@@ -59,7 +59,7 @@ public class BoardService {
 
         Board board = boardRepository
                 .findById(request.getBoardId())
-                .orElseThrow(() -> new InvalidBoardIdException(ErrorMessage.BOARD_NOT_FOUND_ERROR, "Board 가 존재하지 않습니다"));
+                .orElseThrow(InvalidBoardIdException::new);
 
 
         return board.toResponseDto();
@@ -79,13 +79,12 @@ public class BoardService {
     public BoardResponse delete(BoardDeleteRequest request) {
         Board board = boardRepository
                 .findById(request.getBoardId())
-                .orElseThrow(() -> new NotExistBoardException(ErrorMessage.BOARD_NOT_FOUND_ERROR, "Board 가 존재하지 않습니다"));
+                .orElseThrow(NotExistBoardException::new);
 
         if (board.getUserId().equals(request.getUserId())) {
             boardRepository.delete(board);
             return board.toResponseDto();
-        } else
-            throw new BoardIdNotMatchException(ErrorMessage.ID_NOT_MATCH_TO_DELETE_BOARD, "작성자 ID와 요청자 ID가 달라서 삭제할 수 없습니다");
+        } else throw new BoardIdNotMatchException();
     }
 
     @Transactional(readOnly = true)

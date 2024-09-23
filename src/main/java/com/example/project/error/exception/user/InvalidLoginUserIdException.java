@@ -4,15 +4,7 @@ import com.example.project.error.dto.ErrorMessage;
 import com.example.project.error.exception.BusinessException;
 
 public class InvalidLoginUserIdException extends BusinessException {
-    public InvalidLoginUserIdException(ErrorMessage message) {
-        super(message);
-    }
-
-    public InvalidLoginUserIdException(ErrorMessage message, String reason) {
-        super(message, reason);
-    }
-
-    public InvalidLoginUserIdException(String reason) {
-        super(reason);
+    public InvalidLoginUserIdException() {
+        super(ErrorMessage.INVALID_ID_TO_LOGIN);
     }
 }

@@ -4,15 +4,7 @@ import com.example.project.error.dto.ErrorMessage;
 import com.example.project.error.exception.BusinessException;
 
 public class PasswordNotMatchToRegisterException extends BusinessException {
-    public PasswordNotMatchToRegisterException(ErrorMessage message) {
-        super(message);
-    }
-
-    public PasswordNotMatchToRegisterException(ErrorMessage message, String reason) {
-        super(message, reason);
-    }
-
-    public PasswordNotMatchToRegisterException(String reason) {
-        super(reason);
+    public PasswordNotMatchToRegisterException() {
+        super(ErrorMessage.INVALID_PASSWORD_MATCH_TO_REGISTER_EXCEPTION);
     }
 }

@@ -8,9 +8,11 @@ import com.example.project.comment.repository.CommentRepository;
 import com.example.project.error.dto.ErrorMessage;
 import com.example.project.error.exception.comment.CommentIdNotMatchException;
 import com.example.project.error.exception.comment.InvalidCommentException;
+import com.example.project.error.exception.comment.NotExistCommentException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -27,9 +29,10 @@ public class CommentService {
 
     @Transactional(readOnly = true)
     public CommentResponse get(Long id) {
-        return commentRepository.findById(id).orElseThrow(
-                () -> new InvalidCommentException(ErrorMessage.NOT_EXIST_COMMENT_INFO_EXCEPTION, "요청한 Comment를 찾지 못했습니다")
-        ).toResponseDto();
+        return commentRepository
+                .findById(id)
+                .orElseThrow(InvalidCommentException::new)
+                .toResponseDto();
     }
 
     @Transactional(readOnly = true)
@@ -45,13 +48,11 @@ public class CommentService {
     public void delete(CommentDeleteRequest request) {
         Comment comment = commentRepository
                 .findById(request.getId())
-                .orElseThrow(
-                        () -> new InvalidCommentException(ErrorMessage.NOT_EXIST_COMMENT_INFO_EXCEPTION, "요청한 Comment를 찾지 못했습니다")
-                );
+                .orElseThrow(NotExistCommentException::new);
 
         if (comment.getUserId().equals(request.getUserId())) {
             commentRepository.delete(comment);
         } else
-            throw new CommentIdNotMatchException(ErrorMessage.ID_NOT_MATCH_TO_DELETE_COMMENT, "요청자와 작성자의 Id가 일치하지 않습니다");
+            throw new CommentIdNotMatchException();
     }
 }

@@ -4,15 +4,7 @@ import com.example.project.error.dto.ErrorMessage;
 import com.example.project.error.exception.BusinessException;
 
 public class BoardIdNotMatchException extends BusinessException {
-    public BoardIdNotMatchException(ErrorMessage message) {
-        super(message);
-    }
-
-    public BoardIdNotMatchException(ErrorMessage message, String reason) {
-        super(message, reason);
-    }
-
-    public BoardIdNotMatchException(String reason) {
-        super(reason);
+    public BoardIdNotMatchException() {
+        super(ErrorMessage.ID_NOT_MATCH_TO_DELETE_BOARD);
     }
 }
