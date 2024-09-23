@@ -4,15 +4,7 @@ import com.example.project.error.exception.BusinessException;
 import com.example.project.error.dto.ErrorMessage;
 
 public class InvalidNameException extends BusinessException {
-    public InvalidNameException(ErrorMessage message) {
-        super(message);
-    }
-
-    public InvalidNameException(ErrorMessage message, String reason) {
-        super(message, reason);
-    }
-
-    public InvalidNameException(String reason) {
-        super(reason);
+    public InvalidNameException() {
+        super(ErrorMessage.INVALID_NAME_REGEX_EXCEPTION);
     }
 }

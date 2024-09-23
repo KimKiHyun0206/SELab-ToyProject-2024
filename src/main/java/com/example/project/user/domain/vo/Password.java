@@ -17,7 +17,7 @@ public class Password {
 
     private void validatePassword(String password) {
         if (!Pattern.matches(PASSWORD_REGEX, password)) {
-            throw new InvalidPasswordException(ErrorMessage.INVALID_PASSWORD_REGEX_EXCEPTION, "유효한 비밀번호 형식이 아닙니다");
+            throw new InvalidPasswordException();
         }
         this.password = password;
     }

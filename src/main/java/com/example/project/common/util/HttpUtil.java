@@ -39,13 +39,13 @@ public class HttpUtil {
      */
     public static String getClientIdFromCookie(HttpServletRequest request) {
         if (request.getCookies() == null) {
-            throw new NotFoundClientIdHeaderException(ErrorMessage.NOT_FOUND_CLIENT_ID_HEADER);
+            throw new NotFoundClientIdHeaderException();
         }
 
         return Arrays.stream(request.getCookies())
                 .filter(cookie -> "client-id".equals(cookie.getName()))
                 .map(Cookie::getValue)
                 .findFirst()
-                .orElseThrow(() -> new NotFoundClientIdHeaderException(ErrorMessage.NOT_FOUND_CLIENT_ID_HEADER));
+                .orElseThrow(NotFoundClientIdHeaderException::new);
     }
 }

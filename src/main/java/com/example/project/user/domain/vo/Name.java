@@ -22,7 +22,7 @@ public class Name {
 
     private void validateEmail(String name) {
         if (!Pattern.matches(NAME_REGEX, name)) {
-            throw new InvalidNameException(ErrorMessage.INVALID_NAME_REGEX_EXCEPTION, "유효한 이름이 아닙니다");
+            throw new InvalidNameException();
         }
         this.name = name;
     }

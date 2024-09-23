@@ -25,27 +25,23 @@ public class LoginService {
 
     @Transactional(readOnly = true)
     public UserResponse login(String id, String password) {
-        User user = userRepository.findByUserId(id).orElseThrow(
-                () -> {
-                    throw new InvalidLoginUserIdException(ErrorMessage.INVALID_ID_TO_LOGIN, "ID로 유저를 찾을 수 없습니다");
-                }
-        );
+        User user = userRepository
+                .findByUserId(id)
+                .orElseThrow(InvalidLoginUserIdException::new);
 
         if (passwordEncoder.matches(password, user.getPassword())) {
             return user.toResponseDto();
-        } else throw new InvalidLoginPasswordException(ErrorMessage.INVALID_PASSWORD_TO_LOGIN, "PASSWORD가 일치하지 않습니다");
+        } else throw new InvalidLoginPasswordException();
     }
 
     @Transactional
     public String userLogin(String id, String password) {
-        User user = userRepository.findByUserId(id).orElseThrow(
-                () -> {
-                    throw new InvalidLoginUserIdException(ErrorMessage.INVALID_ID_TO_LOGIN, "ID로 유저를 찾을 수 없습니다");
-                }
-        );
+        User user = userRepository
+                .findByUserId(id)
+                .orElseThrow(InvalidLoginUserIdException::new);
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new InvalidLoginPasswordException(ErrorMessage.INVALID_PASSWORD_TO_LOGIN, "PASSWORD가 일치하지 않습니다");
+            throw new InvalidLoginPasswordException();
         }
 
         String token = tokenProvider.createToken(user.getId(), user.getRoleType().getRole());
