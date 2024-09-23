@@ -1,13 +1,13 @@
 package com.example.project.solution.service;
 
+import com.example.project.solution.dto.request.admin.ExampleDeleteRequest;
+import com.example.project.solution.dto.request.admin.ExampleRegisterRequest;
 import com.example.project.error.exception.example.ExampleNotFindByIdException;
 import com.example.project.solution.domain.Example;
 import com.example.project.solution.domain.vo.Difficulty;
 import com.example.project.solution.domain.vo.VariableType;
+import com.example.project.solution.dto.request.admin.*;
 import com.example.project.solution.dto.response.SolutionResponse;
-import com.example.project.solution.dto.request.admin.SolutionDeleteRequest;
-import com.example.project.solution.dto.request.admin.SolutionRegisterRequest;
-import com.example.project.solution.dto.request.admin.SolutionUpdateRequest;
 import com.example.project.solution.domain.Solution;
 import com.example.project.error.exception.solution.SolutionException;
 import com.example.project.solution.repository.ExampleRepository;
@@ -67,17 +67,19 @@ public class AdminSolutionService {
     }
 
     @Transactional
-    public void addExampleToSolution(Long solutionId, Example example) {
-        Solution solution = solutionRepository.findById(solutionId)
+    public void addExampleToSolution(ExampleRegisterRequest request) {
+        Solution solution = solutionRepository.findById(request.getSolutionId())
                 .orElseThrow(SolutionException::new);
 
-        solution.addExample(example);
+        Example example = request.toEntity(solution);
         exampleRepository.save(example);
-        solutionRepository.save(solution);
     }
 
     @Transactional
-    public void removeExampleFromSolution(Long solutionId, Long exampleId) {
+    public void removeExampleFromSolution(ExampleDeleteRequest request) {
+        Long solutionId = request.getSolutionId();
+        Long exampleId = request.getExampleId();
+
         Solution solution = solutionRepository.findById(solutionId)
                 .orElseThrow(SolutionException::new);
 
@@ -86,7 +88,6 @@ public class AdminSolutionService {
 
         solution.removeExample(example);
         exampleRepository.delete(example);
-        solutionRepository.save(solution);
     }
 
     public String inExampleConvert(String inExample) {
