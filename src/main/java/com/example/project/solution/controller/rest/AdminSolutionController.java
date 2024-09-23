@@ -1,12 +1,11 @@
 package com.example.project.solution.controller.rest;
 
+import com.example.project.solution.dto.request.admin.ExampleDeleteRequest;
+import com.example.project.solution.dto.request.admin.ExampleRegisterRequest;
 import com.example.project.common.dto.ResponseDto;
 import com.example.project.common.dto.ResponseMessage;
-import com.example.project.solution.domain.Example;
+import com.example.project.solution.dto.request.admin.*;
 import com.example.project.solution.dto.response.SolutionResponse;
-import com.example.project.solution.dto.request.admin.SolutionDeleteRequest;
-import com.example.project.solution.dto.request.admin.SolutionRegisterRequest;
-import com.example.project.solution.dto.request.admin.SolutionUpdateRequest;
 import com.example.project.solution.service.AdminSolutionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -59,16 +58,21 @@ public class AdminSolutionController {
     }
 
     @PostMapping("/{solutionId}/examples")
-    public ResponseEntity<?> addExampleToSolution(@PathVariable Long solutionId, @RequestBody Example example) {
-        service.addExampleToSolution(solutionId, example);
-        log.info("Example added to Solution {}", solutionId);
+    public ResponseEntity<?> addExampleToSolution(@PathVariable Long solutionId, @RequestBody ExampleRegisterRequest request) {
+        request.setSolutionId(solutionId);
+        service.addExampleToSolution(request);
+        log.info("InputExample {}", solutionId);
         return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_EXAMPLE, null);
     }
 
     @DeleteMapping("/{solutionId}/examples/{exampleId}")
     public ResponseEntity<?> removeExampleFromSolution(@PathVariable Long solutionId, @PathVariable Long exampleId) {
-        service.removeExampleFromSolution(solutionId, exampleId);
-        log.info("Example removed from Solution {}", solutionId);
+        ExampleDeleteRequest request = new ExampleDeleteRequest();
+        request.setSolutionId(solutionId);
+        request.setExampleId(exampleId);
+
+        service.removeExampleFromSolution(request);
+        log.info("RemoveExample {}", solutionId);
         return ResponseDto.toResponseEntity(ResponseMessage.DELETE_SUCCESS_SOLUTION, null);
     }
 }
