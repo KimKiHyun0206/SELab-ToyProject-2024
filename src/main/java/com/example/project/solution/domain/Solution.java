@@ -14,11 +14,11 @@ import java.util.List;
 
 @Entity
 @Getter
+@Table(name = "solution")
 @NoArgsConstructor
 public class Solution extends BaseEntity implements Domain<SolutionResponse> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JoinColumn(name = "solution_id", nullable = false)
     private Long id;
 
     @Enumerated
