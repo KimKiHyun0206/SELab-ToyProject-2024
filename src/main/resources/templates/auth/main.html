@@ -8,81 +8,8 @@
 </head>
 <body>
 <header>
-    <script>
-        function logout() {
-            console.info("실행됨");
-            document.addEventListener('click', async function (event) {
-                event.preventDefault();
-                const token = localStorage.getItem('code-for-code-auth');
-                if (token) {
-                    try {
-                        const response = await fetch('/api/users/logout', {
-                            method: 'DELETE',
-                            headers: {
-                                'code-for-code-auth': `${token}`
-                            }
-                        });
-
-                        if (response.ok) {
-                            localStorage.removeItem('code-for-code-auth');
-                            alert('성공적으로 로그아웃되었습니다.');
-                            window.location.href = '/';
-                        } else {
-                            alert('로그아웃에 실패했습니다. 다시 시도해주세요.');
-                        }
-                    } catch (error) {
-                        console.error('로그아웃 에러:', error);
-                        alert('서버 오류가 발생했습니다.');
-                    }
-                } else {
-                    alert('로그아웃할 수 있는 토큰이 없습니다.');
-                }
-            });
-        }
-    </script>
-    <script>
-        function mypage() {
-            console.info("실행됨");
-            const mypageButton = document.getElementById('mypage-button');
-            if (mypageButton) {
-                mypageButton.addEventListener('click', async function (event) {
-                    event.preventDefault(); // 기본 동작 방지
-
-                    const token = localStorage.getItem('code-for-code-auth');
-
-                    if (token) {
-                        try {
-                            const response = await fetch('/users/info', {
-                                method: 'GET',
-                                headers: {
-                                    'code-for-code-auth': `${token}`
-                                }
-                            });
-
-                            if (response.ok) {
-                                window.location.href = '/users/info';
-                            } else {
-                                alert('마이페이지 접근 오류. 다시 시도해주세요.');
-                                mypageButton.disabled = false;
-                            }
-                        } catch (error) {
-                            console.error('마이페이지 에러:', error);
-                            alert('서버 오류가 발생했습니다.');
-                            mypageButton.disabled = false;
-                        }
-                    } else {
-                        alert('마이페이지에 접근할 수 없습니다.');
-                        mypageButton.disabled = false;
-                    }
-                }, { once: true });
-            }
-        }
-
-        window.onload = function() {
-            mypage();
-        };
-
-    </script>
+    <script src="/js/logout.js"></script>
+    <script src="/js/mypage.js"></script>
     <nav>
         <ul>
             <li><a th:href="@{/}">홈</a></li>
@@ -98,7 +25,7 @@
     <section class="hero">
         <h1>환영합니다, <span th:text="${user}">사용자</span>님!</h1>
         <p>다양한 코딩 테스트 문제를 풀고, 실력을 향상시키세요.</p>
-        <a th:href="@{api/solutions/list}" class="btn">문제 풀기 시작하기</a>
+        <a th:href="@{solutions/list}" class="btn">문제 풀기 시작하기</a>
     </section>
 
     <section class="features">

@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (userId) {
             try {
                 const response = await fetch(`/edit-info/${userId}`, {
-                    method: 'POST',
+                    method: 'GET',
                     headers: {
                         'code-for-code-auth': `${token}`
                     }
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (response.ok) {
                     // 성공적으로 요청이 완료된 경우
-                    window.location.href = `/edit-info/${userId}`; // 해당 페이지로 이동
+                    window.location.href = `/edit-info/'${userId}`; // 해당 페이지로 이동
                 } else {
                     alert('페이지를 로드하는데 실패했습니다.');
                 }
