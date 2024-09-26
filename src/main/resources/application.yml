@@ -17,7 +17,7 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: create-drop # 추후 DDL이 만들어진다면 unknown으로 설정 / 실제 운영에서는 validation으로 변경해야 함
+      ddl-auto: update # 추후 DDL이 만들어진다면 unknown으로 설정 / 실제 운영에서는 validation으로 변경해야 함
     generate-ddl: true  # JPA에서 DDL을 생성하도록 설정함  실제 운영에서 false로 변경해야함
     show-sql: true # 실행 창에서 SQL을 보여주도록 설정함
     defer-datasource-initialization: true # data.sql을 시작할 때 실행하도록 한다
