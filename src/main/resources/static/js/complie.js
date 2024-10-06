@@ -1,29 +1,31 @@
-function compileCode() {
+async function compileCode() {
     const language = document.getElementById("language").value;
     const code = document.getElementById("code").value;
 
-    const requestData = {
-        language: language,
-        code: code
-    };
+    const token = localStorage.getItem('code-for-code-auth');
+    console.log('저장된 토큰:', token);
 
-    fetch('/api/compile', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8'
-        },
-        body: JSON.stringify(requestData)
-    })
-        .then(response => {
+    if (token) {
+        try {
+            const response = await fetch('/api/compile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8',
+                    'code-for-code-auth': `${token}`
+                },
+                body: JSON.stringify({language, code})
+            });
+
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                const errorData = await response.json();
+                throw new Error(errorData.message || `Server error: ${response.statusText}`);
             }
-            return response.json();
-        })
-        .then(data => {
-            document.getElementById('output').textContent = data.data || 'No output';
-        })
-        .catch(error => {
-            document.getElementById('output').textContent = 'Error: ' + error.message;
-        });
+
+            const data = await response.json();
+
+            outputElement.textContent = data.data || 'No output';
+        } catch (error) {
+            outputElement.textContent = `Error: ${error.message}`;
+        }
+    }
 }

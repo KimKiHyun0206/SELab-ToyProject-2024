@@ -1,11 +1,15 @@
 package com.example.project.common.dto;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Getter
+@RequiredArgsConstructor
 public enum ResponseMessage {
+
     SUCCESS(HttpStatus.OK,"SUCCESS"),
+
 
     //User
     SUCCESS_SIGN_UP_EMAIL_CHECK(HttpStatus.OK, "중복되지 않은 이메일"),
@@ -14,6 +18,7 @@ public enum ResponseMessage {
     SUCCESS_SEARCH_ALL_USER(HttpStatus.OK, "모든 회원 조회 성공"),
     SUCCESS_UPDATE_USER(HttpStatus.OK, "회원 정보 변경 성공"),
     SUCCESS_USER_INFO_FETCH(HttpStatus.OK, "토큰을 통한 회원 정보 가져오기 성공"),
+
 
     //BOARD
     CREATE_SUCCESS_BOARD(HttpStatus.CREATED,"Board를 생성 했습니다."),
@@ -36,22 +41,9 @@ public enum ResponseMessage {
     DELETE_FAIL_SOLUTION(HttpStatus.NOT_FOUND, "해당 문제를 삭제하는데 실패했습니다"),
 
     //Compile
-    COMPILE_SUCCESS(HttpStatus.OK, "컴파일 및 실행 성공"),
-    INVALID_LANGUAGE(HttpStatus.BAD_REQUEST, "잘못된 언어 요청"),
-    IO_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "입출력 오류 발생"),
-    EXECUTION_INTERRUPTED(HttpStatus.INTERNAL_SERVER_ERROR, "코드 실행 중단됨"),
-    GENERAL_COMPILE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "컴파일 과정에서 일반 오류 발생"),
-
+    COMPILE_SUCCESS(HttpStatus.OK, "컴파일 및 실행 성공")
     ;
-
-    public final static String SUCCESS_MESSAGE = "SUCCESS";
-    private final static String NOT_FOUND_MESSAGE = "NOT FOUND";
 
     private final HttpStatus status;
     private final String message;
-
-    ResponseMessage(HttpStatus status, String message) {
-        this.status = status;
-        this.message = message;
-    }
 }
